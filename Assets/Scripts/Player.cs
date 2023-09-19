@@ -3,16 +3,54 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    private float moveSpeed = 7f,
-                  rotateSpeed = 10f,
-                  playerRadius = .7f,
-                  playerHeight = 2f;
-
+    private float moveSpeed = 7f;
     [SerializeField]
     private GameInput gameInput;
+    [SerializeField]
+    private LayerMask counterlayerMask;
+    private readonly float rotateSpeed = 10f,
+     playerRadius = .7f,
+     interactDistance = 2f,
+     playerHeight = 2f;
+
     private bool isWalking;
+    private Vector3 lastInteractDir;
 
     private void Update()
+    {
+        HandleMovement();
+        HandleInteractions();
+    }
+
+    public bool IsWalking()
+    {
+        return isWalking;
+    }
+
+    private void HandleInteractions()
+    {
+        var inputVector = gameInput.GetMovementVectorNormalized();
+        Vector3 moveDir = new(inputVector.x, 0f, inputVector.y);
+        if (moveDir != Vector3.zero)
+        {
+            lastInteractDir = moveDir;
+        }
+
+        if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit raycastHit, interactDistance, counterlayerMask))
+        {
+            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
+            {
+                clearCounter.Interact();
+            }
+        }
+        else
+        {
+            print("-");
+        }
+
+    }
+
+    private void HandleMovement()
     {
         var inputVector = gameInput.GetMovementVectorNormalized();
         Vector3 moveDir = new(inputVector.x, 0f, inputVector.y);
@@ -50,10 +88,5 @@ public class Player : MonoBehaviour
 
         isWalking = moveDir != Vector3.zero;
         transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
-    }
-
-    public bool IsWalking()
-    {
-        return isWalking;
     }
 }
