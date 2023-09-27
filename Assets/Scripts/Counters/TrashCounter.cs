@@ -7,4 +7,9 @@ public class TrashCounter : BaseCounter
             player.GetKitchenObject().DestroySelf();
         }
     }
+
+    public override void InteractAlternate(Player player)
+    {
+        //Do nothing
+    }
 }
