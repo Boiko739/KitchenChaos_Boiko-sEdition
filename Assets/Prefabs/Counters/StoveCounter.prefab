@@ -63,14 +63,57 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5220305274835918574, guid: 93af8b85a17635f40a5b76ed82a86c18,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4589716710238282922, guid: 93af8b85a17635f40a5b76ed82a86c18,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2963732614615025618}
   m_SourcePrefab: {fileID: 100100000, guid: 93af8b85a17635f40a5b76ed82a86c18, type: 3}
+--- !u!1 &242280769478550453 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 17251720544094567, guid: 93af8b85a17635f40a5b76ed82a86c18,
+    type: 3}
+  m_PrefabInstance: {fileID: 243629007791647442}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4382134711268118136 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4589716710238282922, guid: 93af8b85a17635f40a5b76ed82a86c18,
+    type: 3}
+  m_PrefabInstance: {fileID: 243629007791647442}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2963732614615025618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4382134711268118136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e4739430a5d8c44c8df070935780920, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseCounter: {fileID: 5126163375615750959}
+  visualGameObjectArray:
+  - {fileID: 5409866277753173052}
+  - {fileID: 242280769478550453}
 --- !u!4 &4382134711268118137 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4589716710238282923, guid: 93af8b85a17635f40a5b76ed82a86c18,
+    type: 3}
+  m_PrefabInstance: {fileID: 243629007791647442}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5409866277753173052 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5220305274835918574, guid: 93af8b85a17635f40a5b76ed82a86c18,
     type: 3}
   m_PrefabInstance: {fileID: 243629007791647442}
   m_PrefabAsset: {fileID: 0}
@@ -202,6 +245,7 @@ MonoBehaviour:
   counterTopPoint: {fileID: 2106754782685464426}
   fryingRecipeSOArray:
   - {fileID: 11400000, guid: 755b42818b92cb64684c467ca2e6d891, type: 2}
+  burningRecipeSOArray:
   - {fileID: 11400000, guid: 033ad62863e72b444920b57373438221, type: 2}
 --- !u!1001 &3641334236855578577
 PrefabInstance:
