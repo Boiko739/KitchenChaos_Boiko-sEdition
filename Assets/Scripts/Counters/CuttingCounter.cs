@@ -7,15 +7,17 @@ public class CuttingCounter : BaseCounter, IHasProgress
     public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
 
     [SerializeField] private CuttingRecipeSO[] cuttingRecipeSOArray;
-    
+
     private int cuttingProgress;
 
     public override void Interact(Player player)
     {
         if (!HasKitchenObject())
         {
+            //The counter is empty
             if (player.HasKitchenObject())
             {
+                //The player is holding some KitchenObject
                 player.GetKitchenObject().SetKitchenObjectParent(this);
                 cuttingProgress = 0;
 
@@ -29,9 +31,43 @@ public class CuttingCounter : BaseCounter, IHasProgress
                 }
             }
         }
-        else if (!player.HasKitchenObject())
+        else
         {
-            GetKitchenObject().SetKitchenObjectParent(player);
+            //There is something on the counter
+            if (!player.HasKitchenObject())
+            {
+                //The player isn't holding any KitchenObject
+                GetKitchenObject().SetKitchenObjectParent(player);
+            }
+            else
+            {
+                //The player is holding some KitchenObject
+                if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject))
+                {
+                    //The player is holding a plate
+                    if (plateKitchenObject.TryToAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
+                    {
+                        //The player is adding an ingredient
+                        GetKitchenObject().DestroySelf();
+                    }
+                }
+                else
+                {
+                    //The player honding some object but not a plate
+                    if (GetKitchenObject().TryGetPlate(out plateKitchenObject))
+                    {
+                        //Therer is a plate on the counter
+                        if (plateKitchenObject.TryToAddIngredient(player.GetKitchenObject().GetKitchenObjectSO()))
+                        {
+                            player.GetKitchenObject().DestroySelf();
+                        }
+                    }
+                    else
+                    {
+                        //The ingredient is invalid
+                    }
+                }
+            }
         }
     }
 
