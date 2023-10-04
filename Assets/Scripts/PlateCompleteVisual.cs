@@ -27,7 +27,7 @@ public class PlateCompleteVisual : MonoBehaviour
     {
         foreach (KitchenObjectSO_GameObject pair in kitchenObjectSOGameObjectsList)
         {
-            if (pair.kitchenObjectSO == e.ingredient)
+            if (pair.kitchenObjectSO == e.Ingredient)
             {
                 pair.gameObject.SetActive(true);
             }
