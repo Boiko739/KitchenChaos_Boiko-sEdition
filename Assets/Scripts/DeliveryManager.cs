@@ -8,7 +8,8 @@ public class DeliveryManager : MonoBehaviour
     public static DeliveryManager Instance { get; private set; }
 
     [SerializeField] private RecipeListSO recipeListSO;
-    private RecipeSO[] waitingRecipeSOList;
+
+    private List<RecipeSO> waitingRecipeSOList;
 
     private float spawnRecipeTimer;
     private readonly float spawnRecipeTimerMax = 4f;
@@ -17,7 +18,7 @@ public class DeliveryManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        waitingRecipeSOList = new RecipeSO[waitingRecipesMax];
+        waitingRecipeSOList = new List<RecipeSO>();
     }
 
     private void Update()
@@ -25,10 +26,10 @@ public class DeliveryManager : MonoBehaviour
         if (spawnRecipeTimer >= spawnRecipeTimerMax)
         {
             spawnRecipeTimer = 0;
-            if (CanAcceptRecipe(out int ind))
+            if (waitingRecipeSOList.Count < waitingRecipesMax)
             {
                 RecipeSO recipe = recipeListSO.RecipeSOList[Random.Range(0, recipeListSO.RecipeSOList.Count)];
-                waitingRecipeSOList[ind] = recipe;
+                waitingRecipeSOList.Add(recipe);
                 print($"{recipe.RecipeName}!");
             }
         }
@@ -38,7 +39,7 @@ public class DeliveryManager : MonoBehaviour
 
     public void DeliveryRecipe(PlateKitchenObject plateKitchenObject)
     {
-        for (int i = 0; i < waitingRecipeSOList.Length; i++)
+        for (int i = 0; i < waitingRecipeSOList.Count; i++)
         {
             if (waitingRecipeSOList[i] != null && plateKitchenObject.KitchenObjectSOList.Count == waitingRecipeSOList[i].KitchenObjectSOList.Count)
             {
@@ -49,20 +50,5 @@ public class DeliveryManager : MonoBehaviour
                 } 
             }
         }
-    }
-
-    private bool CanAcceptRecipe(out int ind)
-    {
-        for (int i = 0; i < waitingRecipeSOList.Length; i++)
-        {
-            if (waitingRecipeSOList[i] == null)
-            {
-                ind = i;
-                return true;
-            }
-        }
-
-        ind = -1;
-        return false;
     }
 }
