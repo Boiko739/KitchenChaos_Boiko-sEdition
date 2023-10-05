@@ -6,6 +6,6 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class RecipeSO : ScriptableObject
 {
-    public List<KitchenObjectSO> KitchenObjectSOList { get; set; }
-    public string RecipeName { get; set; }
+    [SerializeField] public List<KitchenObjectSO> KitchenObjectSOList;
+    [SerializeField] public string RecipeName;
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DeliveryManager : MonoBehaviour
@@ -11,12 +12,12 @@ public class DeliveryManager : MonoBehaviour
 
     private float spawnRecipeTimer;
     private readonly float spawnRecipeTimerMax = 4f;
-    private readonly short maxWaitingRecipes = 4;
+    private readonly short waitingRecipesMax = 4;
 
     private void Awake()
     {
         Instance = this;
-        waitingRecipeSOList = new RecipeSO[maxWaitingRecipes];
+        waitingRecipeSOList = new RecipeSO[waitingRecipesMax];
     }
 
     private void Update()
