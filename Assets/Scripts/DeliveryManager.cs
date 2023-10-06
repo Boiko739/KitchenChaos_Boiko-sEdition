@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DeliveryManager : MonoBehaviour
@@ -39,16 +37,45 @@ public class DeliveryManager : MonoBehaviour
 
     public void DeliveryRecipe(PlateKitchenObject plateKitchenObject)
     {
+        bool deliveryMatched = false;
         for (int i = 0; i < waitingRecipeSOList.Count; i++)
         {
-            if (waitingRecipeSOList[i] != null && plateKitchenObject.KitchenObjectSOList.Count == waitingRecipeSOList[i].KitchenObjectSOList.Count)
+            bool hasTheSameAmountOfIngredients = plateKitchenObject.KitchenObjectSOList.Count == waitingRecipeSOList[i].KitchenObjectSOList.Count;
+            if (hasTheSameAmountOfIngredients && DeliveryMatchesAnyOrder(plateKitchenObject))
             {
-                //Has the same amount of ingredients
-                if (true)
-                {//plateKitchenObject.Equals(waitingRecipeSOList[i])
-                    print("0k");
-                } 
+                print($"{waitingRecipeSOList[i].RecipeName} is cooked right! Well done!");
+                waitingRecipeSOList.RemoveAt(i);
+                deliveryMatched = true;
+                break;
             }
         }
+
+        if (!deliveryMatched)
+        {
+            print("Invalid recipe!");
+        }
+    }
+
+    private bool DeliveryMatchesAnyOrder(PlateKitchenObject plateKitchenObject)
+    {
+        foreach (var recipe in waitingRecipeSOList)
+        {
+            bool recipeMatches = true;
+            foreach (var ingredient in recipe.KitchenObjectSOList)
+            {
+                if (!plateKitchenObject.KitchenObjectSOList.Contains(ingredient))
+                {
+                    recipeMatches = false;
+                    break;
+                }
+            }
+
+            if (recipeMatches)
+            {
+                return recipeMatches;
+            }
+        }
+
+        return false;
     }
 }
