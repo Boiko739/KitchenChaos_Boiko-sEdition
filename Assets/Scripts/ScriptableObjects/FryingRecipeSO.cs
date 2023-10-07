@@ -1,9 +1,12 @@
 using UnityEngine;
 
-[CreateAssetMenu()]
-public class FryingRecipeSO : ScriptableObject
+namespace MySOs
 {
-    public KitchenObjectSO input;
-    public KitchenObjectSO output;
-    public float fryingTimerMax;
+    [CreateAssetMenu()]
+    public class FryingRecipeSO : ScriptableObject
+    {
+        public KitchenObjectSO input;
+        public KitchenObjectSO output;
+        public float fryingTimerMax;
+    }
 }

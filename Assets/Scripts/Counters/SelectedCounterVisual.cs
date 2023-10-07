@@ -1,39 +1,43 @@
+using KitchenChaos;
 using UnityEngine;
 
-public class SelectedCounterVisual : MonoBehaviour
+namespace Counters
 {
-    [SerializeField] BaseCounter baseCounter;
-    [SerializeField] GameObject[] visualGameObjectArray;
-    private void Start()
+    public class SelectedCounterVisual : MonoBehaviour
     {
-        Player.Instance.OnSelectedCounterChanged += PlayerOnSelectedCounterChanged; ;
-    }
-
-    private void PlayerOnSelectedCounterChanged(object sender, Player.OnSelectedCounterChangedEventArgs e)
-    {
-        if (e.selectedCounter == baseCounter)
+        [SerializeField] BaseCounter baseCounter;
+        [SerializeField] GameObject[] visualGameObjectArray;
+        private void Start()
         {
-            Show();
+            Player.Instance.OnSelectedCounterChanged += PlayerOnSelectedCounterChanged;
         }
-        else
-        {
-            Hide();
-        }
-    }
 
-    private void Show()
-    {
-        foreach (var visualGameObject in visualGameObjectArray)
+        private void PlayerOnSelectedCounterChanged(object sender, Player.OnSelectedCounterChangedEventArgs e)
         {
-            visualGameObject.SetActive(true); 
+            if (e.selectedCounter == baseCounter)
+            {
+                Show();
+            }
+            else
+            {
+                Hide();
+            }
         }
-    }
 
-    private void Hide()
-    {
-        foreach (var visualGameObject in visualGameObjectArray)
+        private void Show()
         {
-            visualGameObject.SetActive(false);
+            foreach (var visualGameObject in visualGameObjectArray)
+            {
+                visualGameObject.SetActive(true);
+            }
+        }
+
+        private void Hide()
+        {
+            foreach (var visualGameObject in visualGameObjectArray)
+            {
+                visualGameObject.SetActive(false);
+            }
         }
     }
 }

@@ -1,40 +1,43 @@
 using UnityEngine;
 
-public class StoveCounterVisual : MonoBehaviour 
+namespace Counters
 {
-    [SerializeField] StoveCounter baseCounter;
-    [SerializeField] GameObject[] visualGameObjectArray;
-
-    private void Start()
+    public class StoveCounterVisual : MonoBehaviour
     {
-        baseCounter.OnStateChanged += BaseCounterOnStateChanged;
-    }
+        [SerializeField] StoveCounter baseCounter;
+        [SerializeField] GameObject[] visualGameObjectArray;
 
-    private void BaseCounterOnStateChanged(object sender, StoveCounter.OnStateChangedEventArgs e)
-    {
-        if (e.state is StoveCounter.State.Frying or StoveCounter.State.Fried)
+        private void Start()
         {
-            Show();
+            baseCounter.OnStateChanged += BaseCounterOnStateChanged;
         }
-        else
-        {
-            Hide();
-        }
-    }
 
-    private void Show()
-    {
-        foreach (var visualGameObject in visualGameObjectArray)
+        private void BaseCounterOnStateChanged(object sender, StoveCounter.OnStateChangedEventArgs e)
         {
-            visualGameObject.SetActive(true);
+            if (e.State is StoveCounter.State.Frying or StoveCounter.State.Fried)
+            {
+                Show();
+            }
+            else
+            {
+                Hide();
+            }
         }
-    }
 
-    private void Hide()
-    {
-        foreach (var visualGameObject in visualGameObjectArray)
+        private void Show()
         {
-            visualGameObject.SetActive(false);
+            foreach (var visualGameObject in visualGameObjectArray)
+            {
+                visualGameObject.SetActive(true);
+            }
+        }
+
+        private void Hide()
+        {
+            foreach (var visualGameObject in visualGameObjectArray)
+            {
+                visualGameObject.SetActive(false);
+            }
         }
     }
 }

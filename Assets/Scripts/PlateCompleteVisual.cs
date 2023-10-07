@@ -1,35 +1,39 @@
+using MySOs;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlateCompleteVisual : MonoBehaviour
+namespace KitchenChaos
 {
-    [Serializable]
-    public struct KitchenObjectSO_GameObject
+    public class PlateCompleteVisual : MonoBehaviour
     {
-        public KitchenObjectSO kitchenObjectSO;
-        public GameObject gameObject;
-    }
-
-    [SerializeField] private PlateKitchenObject plateKitchenObject;
-    [SerializeField] private List<KitchenObjectSO_GameObject> kitchenObjectSOGameObjectsList;
-
-    private void Start()
-    {
-        plateKitchenObject.OnIngredientAdded += PlateKitchenObjectOnIngredientAdded;
-        foreach (KitchenObjectSO_GameObject pair in kitchenObjectSOGameObjectsList)
+        [Serializable]
+        public struct KitchenObjectSOGameObject
         {
-            pair.gameObject.SetActive(false);
+            public KitchenObjectSO KitchenObjectSO;
+            public GameObject GameObject;
         }
-    }
 
-    private void PlateKitchenObjectOnIngredientAdded(object sender, PlateKitchenObject.OnIngredientAddedEventArgs e)
-    {
-        foreach (KitchenObjectSO_GameObject pair in kitchenObjectSOGameObjectsList)
+        [SerializeField] private PlateKitchenObject plateKitchenObject;
+        [SerializeField] private List<KitchenObjectSOGameObject> kitchenObjectSOGameObjectsList;
+
+        private void Start()
         {
-            if (pair.kitchenObjectSO == e.Ingredient)
+            plateKitchenObject.OnIngredientAdded += PlateKitchenObjectOnIngredientAdded;
+            foreach (KitchenObjectSOGameObject pair in kitchenObjectSOGameObjectsList)
             {
-                pair.gameObject.SetActive(true);
+                pair.GameObject.SetActive(false);
+            }
+        }
+
+        private void PlateKitchenObjectOnIngredientAdded(object sender, PlateKitchenObject.OnIngredientAddedEventArgs e)
+        {
+            foreach (KitchenObjectSOGameObject pair in kitchenObjectSOGameObjectsList)
+            {
+                if (pair.KitchenObjectSO == e.Ingredient)
+                {
+                    pair.GameObject.SetActive(true);
+                }
             }
         }
     }

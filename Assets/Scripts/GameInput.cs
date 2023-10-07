@@ -1,35 +1,38 @@
 using System;
 using UnityEngine;
 
-public class GameInput : MonoBehaviour
+namespace KitchenChaos
 {
-    public event EventHandler OnInteractAction;
-    public event EventHandler OnInteractAlternateAction;
-
-    private PlayerInputActions playerInputActions;
-    private void Awake()
+    public class GameInput : MonoBehaviour
     {
-        playerInputActions = new PlayerInputActions();
-        playerInputActions.Player.Enable();
+        public event EventHandler OnInteractAction;
+        public event EventHandler OnInteractAlternateAction;
 
-        playerInputActions.Player.Interact.performed += InteractPerformed;
-        playerInputActions.Player.InteractAlternate.performed += InteractAlternatePerformed; ;
-    }
+        private PlayerInputActions playerInputActions;
+        private void Awake()
+        {
+            playerInputActions = new PlayerInputActions();
+            playerInputActions.Player.Enable();
 
-    private void InteractAlternatePerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        OnInteractAlternateAction?.Invoke(this, EventArgs.Empty);
-    }
+            playerInputActions.Player.Interact.performed += InteractPerformed;
+            playerInputActions.Player.InteractAlternate.performed += InteractAlternatePerformed; ;
+        }
 
-    private void InteractPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        OnInteractAction?.Invoke(this, EventArgs.Empty);
-    }
+        private void InteractAlternatePerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+        {
+            OnInteractAlternateAction?.Invoke(this, EventArgs.Empty);
+        }
 
-    public Vector2 GetMovementVectorNormalized()
-    {
-        Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
+        private void InteractPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+        {
+            OnInteractAction?.Invoke(this, EventArgs.Empty);
+        }
 
-        return inputVector.normalized;
+        public Vector2 GetMovementVectorNormalized()
+        {
+            Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
+
+            return inputVector.normalized;
+        }
     }
 }

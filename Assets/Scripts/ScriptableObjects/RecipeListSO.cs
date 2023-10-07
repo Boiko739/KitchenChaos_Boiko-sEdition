@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu()]
-public class RecipeListSO : ScriptableObject
+namespace MySOs
 {
-    [SerializeField] private List<RecipeSO> recipeSOList;
-
-    public List<RecipeSO> RecipeSOList { get => recipeSOList; }
+    [CreateAssetMenu()]
+    public class RecipeListSO : ScriptableObject
+    {
+        public List<RecipeSO> RecipeSOList;
+    }
 }

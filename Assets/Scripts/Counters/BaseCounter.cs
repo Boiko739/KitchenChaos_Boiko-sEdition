@@ -1,41 +1,45 @@
+using KitchenChaos;
 using UnityEngine;
 
-public class BaseCounter : MonoBehaviour, IKitchenObjectParent
+namespace Counters
 {
-    [SerializeField] private Transform counterTopPoint;
-
-    private KitchenObject kitchenObject;
-
-    public virtual void Interact(Player player)
+    public class BaseCounter : MonoBehaviour, IKitchenObjectParent
     {
-        Debug.LogError("BaseCounter.Interact(Player player);"); 
-    }
+        [SerializeField] private Transform counterTopPoint;
 
-    public virtual void InteractAlternate(Player player)
-    { }
+        private KitchenObject kitchenObject;
 
-    public Transform GetKitchenObjectFollowTransform()
-    {
-        return counterTopPoint;
-    }
+        public virtual void Interact(Player player)
+        {
+            Debug.LogError("BaseCounter.Interact(Player player);");
+        }
 
-    public KitchenObject GetKitchenObject()
-    {
-        return kitchenObject;
-    }
+        public virtual void InteractAlternate(Player player)
+        { }
 
-    public void SetKitchenObject(KitchenObject kitchenObject)
-    {
-        this.kitchenObject = kitchenObject;
-    }
+        public Transform GetKitchenObjectFollowTransform()
+        {
+            return counterTopPoint;
+        }
 
-    public void ClearKitchenObject()
-    {
-        kitchenObject = null;
-    }
+        public KitchenObject GetKitchenObject()
+        {
+            return kitchenObject;
+        }
 
-    public bool HasKitchenObject()
-    {
-        return kitchenObject != null;
+        public void SetKitchenObject(KitchenObject kitchenObject)
+        {
+            this.kitchenObject = kitchenObject;
+        }
+
+        public void ClearKitchenObject()
+        {
+            kitchenObject = null;
+        }
+
+        public bool HasKitchenObject()
+        {
+            return kitchenObject != null;
+        }
     }
 }

@@ -1,11 +1,15 @@
+using MySOs;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlateIconsSingleUI : MonoBehaviour
+namespace MyUIs
 {
-    [SerializeField] private Image image;
-    public void SetKitchenObjectSO(KitchenObjectSO kitchenObjectSO)
+    public class PlateIconsSingleUI : MonoBehaviour
     {
-        image.sprite = kitchenObjectSO.sprite;
+        [SerializeField] private Image image;
+        public void SetKitchenObjectSO(KitchenObjectSO kitchenObjectSO)
+        {
+            image.sprite = kitchenObjectSO.sprite;
+        }
     }
 }

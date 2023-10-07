@@ -1,15 +1,17 @@
 using UnityEngine;
 
-public interface IKitchenObjectParent
+namespace KitchenChaos
 {
+    public interface IKitchenObjectParent
+    {
+        public Transform GetKitchenObjectFollowTransform();
 
-    public Transform GetKitchenObjectFollowTransform();
+        public KitchenObject GetKitchenObject();
 
-    public KitchenObject GetKitchenObject();
+        public void SetKitchenObject(KitchenObject kitchenObject);
 
-    public void SetKitchenObject(KitchenObject kitchenObject);
+        public void ClearKitchenObject();
 
-    public void ClearKitchenObject();
-
-    public bool HasKitchenObject();
+        public bool HasKitchenObject();
+    }
 }

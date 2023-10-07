@@ -1,15 +1,15 @@
-public class TrashCounter : BaseCounter
-{
-    public override void Interact(Player player)
-    {
-        if (player.HasKitchenObject())
-        {
-            player.GetKitchenObject().DestroySelf();
-        }
-    }
+using KitchenChaos;
 
-    public override void InteractAlternate(Player player)
+namespace Counters
+{
+    public class TrashCounter : BaseCounter
     {
-        //Do nothing
+        public override void Interact(Player player)
+        {
+            if (player.HasKitchenObject())
+            {
+                player.GetKitchenObject().DestroySelf();
+            }
+        }
     }
 }

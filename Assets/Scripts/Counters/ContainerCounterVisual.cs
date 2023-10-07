@@ -1,25 +1,28 @@
 using UnityEngine;
 
-public class ContainerCounterVisual : MonoBehaviour
+namespace Counters
 {
-    private const string OPEN_CLOSE = "OpenClose";
-
-    [SerializeField] private ContainerCounter containerCounter;
-
-    private Animator animator;
-
-    private void Awake()
+    public class ContainerCounterVisual : MonoBehaviour
     {
-        animator = GetComponent<Animator>();
-    }
+        private const string OPEN_CLOSE = "OpenClose";
 
-    private void Start()
-    {
-        containerCounter.OnPlayerGrabbedObject += ContainerCounterOnPlayerGrabbedObject;
-    }
+        [SerializeField] private ContainerCounter containerCounter;
 
-    private void ContainerCounterOnPlayerGrabbedObject(object sender, System.EventArgs e)
-    {
-        animator.SetTrigger(OPEN_CLOSE);
+        private Animator animator;
+
+        private void Awake()
+        {
+            animator = GetComponent<Animator>();
+        }
+
+        private void Start()
+        {
+            containerCounter.OnPlayerGrabbedObject += ContainerCounterOnPlayerGrabbedObject;
+        }
+
+        private void ContainerCounterOnPlayerGrabbedObject(object sender, System.EventArgs e)
+        {
+            animator.SetTrigger(OPEN_CLOSE);
+        }
     }
 }

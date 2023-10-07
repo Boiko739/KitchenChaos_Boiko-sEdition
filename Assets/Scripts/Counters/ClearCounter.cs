@@ -1,53 +1,53 @@
+using KitchenChaos;
+using MySOs;
 using UnityEngine;
 
-public class ClearCounter : BaseCounter
+namespace Counters
 {
-    [SerializeField] private KitchenObjectSO kitchenObjectSO;
-
-    public override void Interact(Player player)
+    public class ClearCounter : BaseCounter
     {
-        if (!HasKitchenObject())
+        [SerializeField] private KitchenObjectSO kitchenObjectSO;
+
+        public override void Interact(Player player)
         {
-            //The counter is empty
-            if (player.HasKitchenObject())
+            if (!HasKitchenObject())
             {
-                //The player is holding some KitchenObject
-                player.GetKitchenObject().SetKitchenObjectParent(this);
-            }
-        }
-        else
-        {
-            //There is some KitchenObject on the counter
-            if (!player.HasKitchenObject())
-            {
-                //The player isn't holding any KitchenObject
-                GetKitchenObject().SetKitchenObjectParent(player);
-            }
-            else if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject))
-            {
-                //The player is holding a Plate
-                if (plateKitchenObject.TryToAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
+                //The counter is empty
+                if (player.HasKitchenObject())
                 {
-                    GetKitchenObject().DestroySelf();
+                    //The player is holding some KitchenObject
+                    player.GetKitchenObject().SetKitchenObjectParent(this);
                 }
             }
             else
             {
-                //Player is holding some object but not a plate
-                if (GetKitchenObject().TryGetPlate(out plateKitchenObject))
+                //There is some KitchenObject on the counter
+                if (!player.HasKitchenObject())
                 {
-                    //There is a plate on the counter
-                    if (plateKitchenObject.TryToAddIngredient(player.GetKitchenObject().GetKitchenObjectSO()))
+                    //The player isn't holding any KitchenObject
+                    GetKitchenObject().SetKitchenObjectParent(player);
+                }
+                else if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject))
+                {
+                    //The player is holding a Plate
+                    if (plateKitchenObject.TryToAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
                     {
-                        player.GetKitchenObject().DestroySelf();
+                        GetKitchenObject().DestroySelf();
+                    }
+                }
+                else
+                {
+                    //Player is holding some object but not a plate
+                    if (GetKitchenObject().TryGetPlate(out plateKitchenObject))
+                    {
+                        //There is a plate on the counter
+                        if (plateKitchenObject.TryToAddIngredient(player.GetKitchenObject().GetKitchenObjectSO()))
+                        {
+                            player.GetKitchenObject().DestroySelf();
+                        }
                     }
                 }
             }
         }
-    }
-
-    public override void InteractAlternate(Player player)
-    {
-        //Do nothing
     }
 }

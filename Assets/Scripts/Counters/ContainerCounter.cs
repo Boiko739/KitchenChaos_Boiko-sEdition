@@ -1,24 +1,24 @@
+using KitchenChaos;
+using MySOs;
 using System;
 using UnityEngine;
 
-public class ContainerCounter : BaseCounter
+namespace Counters
 {
-    public event EventHandler OnPlayerGrabbedObject;
-
-    [SerializeField] private KitchenObjectSO kitchenObjectSO;
-
-    public override void Interact(Player player)
+    public class ContainerCounter : BaseCounter
     {
-        if (!player.HasKitchenObject())
+        public event EventHandler OnPlayerGrabbedObject;
+
+        [SerializeField] private KitchenObjectSO kitchenObjectSO;
+
+        public override void Interact(Player player)
         {
-            KitchenObject.SpawnKitchenObject(kitchenObjectSO, player);
+            if (!player.HasKitchenObject())
+            {
+                KitchenObject.SpawnKitchenObject(kitchenObjectSO, player);
 
-            OnPlayerGrabbedObject?.Invoke(this, EventArgs.Empty); 
+                OnPlayerGrabbedObject?.Invoke(this, EventArgs.Empty);
+            }
         }
-    }
-
-    public override void InteractAlternate(Player player)
-    {
-        //Do nothing
     }
 }

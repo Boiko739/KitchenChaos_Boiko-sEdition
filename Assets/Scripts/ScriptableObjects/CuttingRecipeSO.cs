@@ -1,9 +1,12 @@
 using UnityEngine;
 
-[CreateAssetMenu()]
-public class CuttingRecipeSO : ScriptableObject
+namespace MySOs
 {
-    public KitchenObjectSO input;
-    public KitchenObjectSO output;
-    public int cuttingProgressMax;
+    [CreateAssetMenu()]
+    public class CuttingRecipeSO : ScriptableObject
+    {
+        public KitchenObjectSO input;
+        public KitchenObjectSO output;
+        public int cuttingProgressMax;
+    }
 }

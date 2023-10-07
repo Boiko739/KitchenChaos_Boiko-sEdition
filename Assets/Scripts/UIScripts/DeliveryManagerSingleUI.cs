@@ -1,36 +1,40 @@
+using MySOs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DeliveryManagerSingleUI : MonoBehaviour
+namespace MyUIs
 {
-    [SerializeField] private TextMeshProUGUI recipeNameText;
-    [SerializeField] private Transform iconContainer;
-    [SerializeField] private Transform iconTemplate;
-
-    private void Awake()
+    public class DeliveryManagerSingleUI : MonoBehaviour
     {
-        iconTemplate.gameObject.SetActive(false);
-    }
+        [SerializeField] private TextMeshProUGUI recipeNameText;
+        [SerializeField] private Transform iconContainer;
+        [SerializeField] private Transform iconTemplate;
 
-    public void SetRecipeSO(RecipeSO recipeSO)
-    {
-        recipeNameText.text = recipeSO.RecipeName;
-
-        foreach (Transform child in iconContainer)
+        private void Awake()
         {
-            if (child != iconTemplate)
-            {
-                Destroy(child.gameObject);
-            }
+            iconTemplate.gameObject.SetActive(false);
         }
 
-        for (int i = 0; i < recipeSO.KitchenObjectSOList.Count; i++)
+        public void SetRecipeSO(RecipeSO recipeSO)
         {
-            KitchenObjectSO kitchenObjectSO = recipeSO.KitchenObjectSOList[i];
-            Transform iconTransform = Instantiate(iconTemplate, iconContainer);
-            iconTransform.gameObject.SetActive(true);
-            iconTransform.GetComponent<Image>().sprite = kitchenObjectSO.sprite;
+            recipeNameText.text = recipeSO.RecipeName;
+
+            foreach (Transform child in iconContainer)
+            {
+                if (child != iconTemplate)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+
+            for (int i = 0; i < recipeSO.KitchenObjectSOList.Count; i++)
+            {
+                KitchenObjectSO kitchenObjectSO = recipeSO.KitchenObjectSOList[i];
+                Transform iconTransform = Instantiate(iconTemplate, iconContainer);
+                iconTransform.gameObject.SetActive(true);
+                iconTransform.GetComponent<Image>().sprite = kitchenObjectSO.sprite;
+            }
         }
     }
 }
