@@ -1,13 +1,17 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DeliveryManager : MonoBehaviour
 {
+    public event EventHandler OnRecipeSpawned;
+    public event EventHandler OnRecipeCompleted;
+
     public static DeliveryManager Instance { get; private set; }
 
     [SerializeField] private RecipeListSO recipeListSO;
 
-    private List<RecipeSO> waitingRecipeSOList;
+    public List<RecipeSO> WaitingRecipeSOList { get; private set; }
 
     private float spawnRecipeTimer;
     private readonly float spawnRecipeTimerMax = 4f;
@@ -16,7 +20,7 @@ public class DeliveryManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        waitingRecipeSOList = new List<RecipeSO>();
+        WaitingRecipeSOList = new List<RecipeSO>();
     }
 
     private void Update()
@@ -24,11 +28,11 @@ public class DeliveryManager : MonoBehaviour
         if (spawnRecipeTimer >= spawnRecipeTimerMax)
         {
             spawnRecipeTimer = 0;
-            if (waitingRecipeSOList.Count < waitingRecipesMax)
+            if (WaitingRecipeSOList.Count < waitingRecipesMax)
             {
-                RecipeSO recipe = recipeListSO.RecipeSOList[Random.Range(0, recipeListSO.RecipeSOList.Count)];
-                waitingRecipeSOList.Add(recipe);
-                print($"{recipe.RecipeName}!");
+                RecipeSO recipe = recipeListSO.RecipeSOList[UnityEngine.Random.Range(0, recipeListSO.RecipeSOList.Count)];
+                WaitingRecipeSOList.Add(recipe);
+                OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -38,13 +42,13 @@ public class DeliveryManager : MonoBehaviour
     public void DeliveryRecipe(PlateKitchenObject plateKitchenObject)
     {
         bool deliveryMatched = false;
-        for (int i = 0; i < waitingRecipeSOList.Count; i++)
+        for (int i = 0; i < WaitingRecipeSOList.Count; i++)
         {
-            bool hasTheSameAmountOfIngredients = plateKitchenObject.KitchenObjectSOList.Count == waitingRecipeSOList[i].KitchenObjectSOList.Count;
+            bool hasTheSameAmountOfIngredients = plateKitchenObject.KitchenObjectSOList.Count == WaitingRecipeSOList[i].KitchenObjectSOList.Count;
             if (hasTheSameAmountOfIngredients && DeliveryMatchesAnyOrder(plateKitchenObject))
             {
-                print($"{waitingRecipeSOList[i].RecipeName} is cooked right! Well done!");
-                waitingRecipeSOList.RemoveAt(i);
+                OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
+                WaitingRecipeSOList.RemoveAt(i);
                 deliveryMatched = true;
                 break;
             }
@@ -58,11 +62,13 @@ public class DeliveryManager : MonoBehaviour
 
     private bool DeliveryMatchesAnyOrder(PlateKitchenObject plateKitchenObject)
     {
-        foreach (var recipe in waitingRecipeSOList)
+        for (int i = 0; i < WaitingRecipeSOList.Count; i++)
         {
+            RecipeSO recipe = WaitingRecipeSOList[i];
             bool recipeMatches = true;
-            foreach (var ingredient in recipe.KitchenObjectSOList)
+            for (int j = 0; j < recipe.KitchenObjectSOList.Count; j++)
             {
+                KitchenObjectSO ingredient = recipe.KitchenObjectSOList[j];
                 if (!plateKitchenObject.KitchenObjectSOList.Contains(ingredient))
                 {
                     recipeMatches = false;

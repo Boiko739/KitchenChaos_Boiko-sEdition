@@ -1,12 +1,12 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu()]
 public class RecipeSO : ScriptableObject
 {
-    [SerializeField] public List<KitchenObjectSO> KitchenObjectSOList;
-    [SerializeField] public string RecipeName;
+    [SerializeField] private List<KitchenObjectSO> kitchenObjectSOList;
+    [SerializeField] private string recipeName;
+
+    public string RecipeName { get => recipeName; }
+    public List<KitchenObjectSO> KitchenObjectSOList { get => kitchenObjectSOList; }
 }
