@@ -21,17 +21,15 @@ public class PlateIconsUI : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-            if (child == iconTemplate)
-            { 
-                //This transform is a template
-            }
-            else
+            if (child != iconTemplate)
             {
                 Destroy(child.gameObject);
             }
         }
-        foreach (KitchenObjectSO kitchenObjectSO in plateKitchenObject.KitchenObjectSOList)
+
+        for (int i = 0; i < plateKitchenObject.KitchenObjectSOList.Count; i++)
         {
+            KitchenObjectSO kitchenObjectSO = plateKitchenObject.KitchenObjectSOList[i];
             Transform iconInstance = Instantiate(iconTemplate, transform);
             iconInstance.gameObject.SetActive(true);
             iconInstance.GetComponent<PlateIconsSingleUI>().SetKitchenObjectSO(kitchenObjectSO);
