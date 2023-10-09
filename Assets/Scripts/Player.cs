@@ -8,6 +8,8 @@ namespace KitchenChaos
     {
         public static Player Instance { get; private set; }
 
+        public event EventHandler OnPickedSomething;
+
         public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
 
         public class OnSelectedCounterChangedEventArgs : EventArgs
@@ -113,7 +115,7 @@ namespace KitchenChaos
             Vector3 moveDir = new(inputVector.x, 0f, inputVector.y);
             float moveDistance = moveSpeed * Time.deltaTime;
 
-            bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance);
+            bool canMove = !Physics.CapsuleCast(transform.position, transform.position + (Vector3.up * playerHeight), playerRadius, moveDir, moveDistance);
             if (canMove)
             {
                 transform.position += moveSpeed * Time.deltaTime * moveDir;
@@ -160,6 +162,11 @@ namespace KitchenChaos
         public void SetKitchenObject(KitchenObject kitchenObject)
         {
             this.kitchenObject = kitchenObject;
+
+            if (kitchenObject != null)
+            {
+                OnPickedSomething?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         public void ClearKitchenObject()

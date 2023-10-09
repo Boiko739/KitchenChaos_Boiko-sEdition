@@ -16,7 +16,7 @@ namespace Counters
 
             public OnStateChangedEventArgs(State state)
             {
-                this.State = state;
+                State = state;
             }
 
             public State State { get => state; private set => state = value; }

@@ -10,6 +10,9 @@ namespace KitchenChaos
         public event EventHandler OnRecipeSpawned;
         public event EventHandler OnRecipeCompleted;
 
+        public event EventHandler OnRecipeSuccess;
+        public event EventHandler OnRecipeFailed;
+
         public static DeliveryManager Instance { get; private set; }
 
         [SerializeField] private RecipeListSO recipeListSO;
@@ -51,6 +54,7 @@ namespace KitchenChaos
                 if (hasTheSameAmountOfIngredients && DeliveryMatchesAnyOrder(plateKitchenObject))
                 {
                     OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
+                    OnRecipeSuccess?.Invoke(this, EventArgs.Empty);
                     WaitingRecipeSOList.RemoveAt(i);
                     deliveryMatched = true;
                     break;
@@ -59,7 +63,7 @@ namespace KitchenChaos
 
             if (!deliveryMatched)
             {
-                print("Invalid recipe!");
+                OnRecipeFailed?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -67,6 +71,11 @@ namespace KitchenChaos
         {
             for (int i = 0; i < WaitingRecipeSOList.Count; i++)
             {
+                if (plateKitchenObject.KitchenObjectSOList.Count != WaitingRecipeSOList[i].KitchenObjectSOList.Count)
+                {
+                    continue;
+                }
+
                 RecipeSO recipe = WaitingRecipeSOList[i];
                 bool recipeMatches = true;
                 for (int j = 0; j < recipe.KitchenObjectSOList.Count; j++)

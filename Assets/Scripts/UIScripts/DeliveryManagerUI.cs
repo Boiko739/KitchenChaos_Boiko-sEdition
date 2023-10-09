@@ -16,17 +16,17 @@ namespace MyUIs
 
         private void Start()
         {
-            DeliveryManager.Instance.OnRecipeSpawned += DeliveryManagerInstance_OnRecipeSpawned;
-            DeliveryManager.Instance.OnRecipeCompleted += DeliveryManagerInstance_OnRecipeCompleted;
+            DeliveryManager.Instance.OnRecipeSpawned += DeliveryManagerInstanceOnRecipeSpawned;
+            DeliveryManager.Instance.OnRecipeCompleted += DeliveryManagerInstanceOnRecipeCompleted;
             UpdateVisual();
         }
 
-        private void DeliveryManagerInstance_OnRecipeSpawned(object sender, System.EventArgs e)
+        private void DeliveryManagerInstanceOnRecipeSpawned(object sender, System.EventArgs e)
         {
             UpdateVisual();
         }
 
-        private void DeliveryManagerInstance_OnRecipeCompleted(object sender, System.EventArgs e)
+        private void DeliveryManagerInstanceOnRecipeCompleted(object sender, System.EventArgs e)
         {
             UpdateVisual();
         }
