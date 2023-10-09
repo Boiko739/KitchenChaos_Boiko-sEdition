@@ -1,34 +1,35 @@
 using Counters;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class StoveCounterSound : MonoBehaviour
+namespace KitchenChaos
 {
-    [SerializeField] private StoveCounter stoveCounter;
-
-    private AudioSource audioSource;
-
-    private void Awake()
+    public class StoveCounterSound : MonoBehaviour
     {
-        audioSource = GetComponent<AudioSource>();
-    }
+        [SerializeField] private StoveCounter stoveCounter;
 
-    private void Start()
-    {
-        stoveCounter.OnStateChanged += StoveCounterOnStateChanged;
-    }
+        private AudioSource audioSource;
 
-    private void StoveCounterOnStateChanged(object sender, StoveCounter.OnStateChangedEventArgs e)
-    {
-        bool playSound = e.State is StoveCounter.State.Frying or StoveCounter.State.Fried;
-        if (playSound)
+        private void Awake()
         {
-            audioSource.Play();
+            audioSource = GetComponent<AudioSource>();
         }
-        else
+
+        private void Start()
         {
-            audioSource.Pause();
+            stoveCounter.OnStateChanged += StoveCounterOnStateChanged;
+        }
+
+        private void StoveCounterOnStateChanged(object sender, StoveCounter.OnStateChangedEventArgs e)
+        {
+            bool playSound = e.State is StoveCounter.State.Frying or StoveCounter.State.Fried;
+            if (playSound)
+            {
+                audioSource.Play();
+            }
+            else
+            {
+                audioSource.Pause();
+            }
         }
     }
 }
