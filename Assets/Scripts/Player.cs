@@ -54,6 +54,11 @@ namespace KitchenChaos
 
         private void GameInputOnInteractAlternateAction(object sender, EventArgs e)
         {
+            if (!GameManager.Instance.IsGamePlaying())
+            {
+                return;
+            }
+
             if (selectedCounter != null)
             {
                 selectedCounter.InteractAlternate(this);
@@ -62,6 +67,11 @@ namespace KitchenChaos
 
         private void GameInputOnInteractAction(object sender, EventArgs e)
         {
+            if (!GameManager.Instance.IsGamePlaying())
+            {
+                return;
+            }
+
             if (selectedCounter != null)
             {
                 selectedCounter.Interact(this);
