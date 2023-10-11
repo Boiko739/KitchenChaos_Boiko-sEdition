@@ -19,6 +19,7 @@ namespace KitchenChaos
 
         public List<RecipeSO> WaitingRecipeSOList { get; private set; }
 
+        public int SuccessfulDeliveriesAmount { get; private set; }
         private float spawnRecipeTimer;
         private readonly float spawnRecipeTimerMax = 4f;
         private readonly short waitingRecipesMax = 4;
@@ -55,6 +56,8 @@ namespace KitchenChaos
                 {
                     OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
                     OnRecipeSuccess?.Invoke(this, EventArgs.Empty);
+
+                    SuccessfulDeliveriesAmount++;
                     WaitingRecipeSOList.RemoveAt(i);
                     deliveryMatched = true;
                     break;

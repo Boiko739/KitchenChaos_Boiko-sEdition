@@ -14,7 +14,7 @@ namespace Counters
 
         private void PlayerOnSelectedCounterChanged(object sender, Player.OnSelectedCounterChangedEventArgs e)
         {
-            if (e.selectedCounter == baseCounter)
+            if (e.SelectedCounter == baseCounter)
             {
                 Show();
             }

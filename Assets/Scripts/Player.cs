@@ -14,10 +14,11 @@ namespace KitchenChaos
 
         public class OnSelectedCounterChangedEventArgs : EventArgs
         {
-            public BaseCounter selectedCounter;
+            public BaseCounter SelectedCounter {  get; private set; }
+
             public OnSelectedCounterChangedEventArgs(BaseCounter counter)
             {
-                selectedCounter = counter;
+                SelectedCounter = counter;
             }
         }
 
@@ -135,7 +136,7 @@ namespace KitchenChaos
                 //Attempt to move only X or Z direction
 
                 Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized;
-                canMove = moveDir.x != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
+                canMove = moveDir.x != 0 && !Physics.CapsuleCast(transform.position, transform.position + (Vector3.up * playerHeight), playerRadius, moveDirX, moveDistance);
                 if (canMove)
                 {
                     transform.position += moveSpeed * Time.deltaTime * moveDirX;
@@ -143,7 +144,7 @@ namespace KitchenChaos
                 else
                 {
                     Vector3 moveDirZ = new Vector3(0, 0, moveDir.z).normalized;
-                    canMove = moveDir.z != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance);
+                    canMove = moveDir.z != 0 && !Physics.CapsuleCast(transform.position, transform.position + (Vector3.up * playerHeight), playerRadius, moveDirZ, moveDistance);
                     if (canMove)
                     {
                         transform.position += moveSpeed * Time.deltaTime * moveDirZ;

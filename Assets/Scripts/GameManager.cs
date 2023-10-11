@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 
 namespace KitchenChaos
@@ -11,6 +8,7 @@ namespace KitchenChaos
         public static GameManager Instance { get; private set; }
 
         public event EventHandler OnStateChanged;
+
         private enum GameState
         {
             WaitingToStart,
@@ -23,7 +21,8 @@ namespace KitchenChaos
 
         private float waitingToStartTimer = 1f;
         private float countdownToStartTimer = 3f;
-        private float gamePlayingTimer = 10f;
+        private readonly float gamePlayingTimerMax = 10f;
+        private float gamePlayingTimer;
 
         private void Awake()
         {
@@ -48,6 +47,8 @@ namespace KitchenChaos
                     countdownToStartTimer -= Time.deltaTime;
                     if (countdownToStartTimer <= 0)
                     {
+                        gamePlayingTimer = gamePlayingTimerMax;
+
                         gameState = GameState.GamePlaying;
                         OnStateChanged?.Invoke(this, EventArgs.Empty);
                     }
@@ -77,9 +78,19 @@ namespace KitchenChaos
             return gameState == GameState.CountdownToStart;
         }
 
+        public bool IsGameOver()
+        {
+            return gameState == GameState.GameOver;
+        }
+
         public float GetCountdownToStartTimer()
         {
             return countdownToStartTimer;
+        }
+
+        public float GetGamePlayingTimerNormalized()
+        {
+            return 1f - (gamePlayingTimer / gamePlayingTimerMax);
         }
     }
 }
