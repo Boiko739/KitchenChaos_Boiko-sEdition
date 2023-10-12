@@ -1,29 +1,28 @@
 using KitchenChaos;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Search;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class GameCountdownUI : MonoBehaviour
+namespace MyUIs
 {
-    [SerializeField] private TextMeshProUGUI countdownText;
-
-    private void Start()
+    public class GameCountdownUI : MonoBehaviour
     {
-        GameManager.Instance.OnStateChanged += GameManagerOnStateChanged;
-        gameObject.SetActive(false);
-    }
+        [SerializeField] private TextMeshProUGUI countdownText;
 
-    private void GameManagerOnStateChanged(object sender, System.EventArgs e)
-    {
-        gameObject.SetActive(GameManager.Instance.IsCountdownToStart());
-    }
+        private void Start()
+        {
+            GameManager.Instance.OnStateChanged += GameManagerOnStateChanged;
+            gameObject.SetActive(false);
+        }
 
-    private void Update()
-    {
-        countdownText.text = Math.Ceiling(GameManager.Instance.GetCountdownToStartTimer()).ToString();
+        private void GameManagerOnStateChanged(object sender, EventArgs e)
+        {
+            gameObject.SetActive(GameManager.Instance.IsCountdownToStart());
+        }
+
+        private void Update()
+        {
+            countdownText.text = Math.Ceiling(GameManager.Instance.GetCountdownToStartTimer()).ToString();
+        }
     }
 }
