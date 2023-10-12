@@ -21,7 +21,7 @@ namespace KitchenChaos
 
         private float waitingToStartTimer = 1f;
         private float countdownToStartTimer = 3f;
-        private readonly float gamePlayingTimerMax = 10f;
+        private readonly float gamePlayingTimerMax = 30f;
         private float gamePlayingTimer;
 
         private void Awake()
