@@ -10,6 +10,7 @@ namespace Counters
         {
             Instance = this;
         }
+
         public override void Interact(Player player)
         {
             if (player.HasKitchenObject() && player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject))

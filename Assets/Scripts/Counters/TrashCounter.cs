@@ -8,6 +8,11 @@ namespace Counters
     {
         public static event EventHandler OnAnyTrashThrowen;
 
+        new public static void ResetStaticData()
+        {
+            OnAnyTrashThrowen = null;
+        }
+
         public override void Interact(Player player)
         {
             if (player.HasKitchenObject())
