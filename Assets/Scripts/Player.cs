@@ -14,7 +14,7 @@ namespace KitchenChaos
 
         public class OnSelectedCounterChangedEventArgs : EventArgs
         {
-            public BaseCounter SelectedCounter {  get; private set; }
+            public BaseCounter SelectedCounter { get; private set; }
 
             public OnSelectedCounterChangedEventArgs(BaseCounter counter)
             {
@@ -22,7 +22,6 @@ namespace KitchenChaos
             }
         }
 
-        [SerializeField] private GameInput gameInput;
         [SerializeField] private LayerMask counterlayerMask;
         [SerializeField] private Transform kitchenObjectHoldPoint;
 
@@ -49,8 +48,8 @@ namespace KitchenChaos
 
         private void Start()
         {
-            gameInput.OnInteractAction += GameInputOnInteractAction;
-            gameInput.OnInteractAlternateAction += GameInputOnInteractAlternateAction;
+            GameInput.Instance.OnInteractAction += GameInputOnInteractAction;
+            GameInput.Instance.OnInteractAlternateAction += GameInputOnInteractAlternateAction;
         }
 
         private void GameInputOnInteractAlternateAction(object sender, EventArgs e)
@@ -92,7 +91,7 @@ namespace KitchenChaos
 
         private void HandleInteractions()
         {
-            var inputVector = gameInput.GetMovementVectorNormalized();
+            var inputVector = GameInput.Instance.GetMovementVectorNormalized();
             Vector3 moveDir = new(inputVector.x, 0f, inputVector.y);
             if (moveDir != Vector3.zero)
             {
@@ -122,7 +121,7 @@ namespace KitchenChaos
 
         private void HandleMovement()
         {
-            var inputVector = gameInput.GetMovementVectorNormalized();
+            var inputVector = GameInput.Instance.GetMovementVectorNormalized();
             Vector3 moveDir = new(inputVector.x, 0f, inputVector.y);
             float moveDistance = moveSpeed * Time.deltaTime;
 

@@ -8,6 +8,8 @@ namespace KitchenChaos
         public static GameManager Instance { get; private set; }
 
         public event EventHandler OnStateChanged;
+        public event EventHandler OnGamePaused;
+        public event EventHandler OnGameUnpaused;
 
         private enum GameState
         {
@@ -19,6 +21,7 @@ namespace KitchenChaos
 
         private GameState gameState;
 
+        private bool isGamePaused = false;
         private float waitingToStartTimer = 1f;
         private float countdownToStartTimer = 3f;
         private readonly float gamePlayingTimerMax = 30f;
@@ -27,7 +30,18 @@ namespace KitchenChaos
         private void Awake()
         {
             Instance = this;
+
             gameState = GameState.WaitingToStart;
+        }
+
+        private void Start()
+        {
+            GameInput.Instance.OnPauseAction += GameInputOnPauseAction;
+        }
+
+        private void GameInputOnPauseAction(object sender, EventArgs e)
+        {
+            TogglePauseGame();
         }
 
         void Update()
@@ -66,6 +80,21 @@ namespace KitchenChaos
                 case GameState.GameOver:
                     break;
             }
+        }
+
+        public void TogglePauseGame()
+        {
+            isGamePaused = !isGamePaused;
+            if (isGamePaused)
+            {
+                OnGamePaused?.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                OnGameUnpaused?.Invoke(this, EventArgs.Empty);
+            }
+
+            Time.timeScale = isGamePaused ? 0f : 1f;
         }
 
         public bool IsGamePlaying()
