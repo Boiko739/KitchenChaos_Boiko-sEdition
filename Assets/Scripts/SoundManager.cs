@@ -1,22 +1,38 @@
 using Counters;
+using MyUIs;
 using System;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace KitchenChaos
 {
     public class SoundManager : MonoBehaviour
     {
+        public static SoundManager Instance { get; private set; }
+
         [SerializeField] private AudioClipRefsSO audioClipRefsSO;
+
+        private const string PLAYER_PREFS_SOUND_EFFECTS_VOLUME = "SoundEffectsVolume";
+
+        public float Volume { get; private set; } = 1f;
+
+        private void Awake()
+        {
+            Instance = this;
+
+            Volume = PlayerPrefs.GetFloat(PLAYER_PREFS_SOUND_EFFECTS_VOLUME, 1f);
+        }
 
         private void Start()
         {
+            BaseCounter.OnAnyObjectPlacedHere += BaseCounterOnAnyobjectPlacedHere;
+            TrashCounter.OnAnyTrashThrowen += TrashCounterOnAnyTrashThrowen;
             DeliveryManager.Instance.OnRecipeSuccess += DeliveryManagerInstanceOnRecipeSuccess;
             DeliveryManager.Instance.OnRecipeFailed += DeliveryManagerInstanceOnRecipeFailed;
             CuttingCounter.OnAnyCut += CuttingCounterOnAnyCut;
+
             Player.Instance.OnPickedSomething += PlayerOnPickedSomething;
             Player.Instance.GetComponentInChildren<PlayerSounds>().OnWalking += PlayerOnWalking;
-            BaseCounter.OnAnyObjectPlacedHere += BaseCounterOnAnyobjectPlacedHere;
-            TrashCounter.OnAnyTrashThrowen += TrashCounterOnAnyTrashThrowen;
         }
 
         private void PlayerOnWalking(object sender, EventArgs e)
@@ -63,9 +79,21 @@ namespace KitchenChaos
             PlaySound(audioClipArray[UnityEngine.Random.Range(0, audioClipArray.Length)], position, volume);
         }
 
-        private void PlaySound(AudioClip audioClip, Vector3 position, float volume = 1f)
+        private void PlaySound(AudioClip audioClip, Vector3 position, float volumeMultiplier = 1f)
         {
-            AudioSource.PlayClipAtPoint(audioClip, position, volume);
+            AudioSource.PlayClipAtPoint(audioClip, position, volumeMultiplier * Volume);
+        }
+
+        public void ChangeVolume()
+        { 
+            Volume += .1f;
+            if (Volume > 1f)
+            {
+                Volume = 0f;
+            }
+
+            PlayerPrefs.SetFloat(PLAYER_PREFS_SOUND_EFFECTS_VOLUME, Volume);
+            PlayerPrefs.Save();
         }
     }
 }

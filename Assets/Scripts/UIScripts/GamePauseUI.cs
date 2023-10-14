@@ -9,6 +9,7 @@ namespace MyUIs
     {
         [SerializeField] private Button resumeButton;
         [SerializeField] private Button mainMenuButton;
+        [SerializeField] private Button optionsButton;
 
         private void Awake()
         {
@@ -20,6 +21,11 @@ namespace MyUIs
             mainMenuButton.onClick.AddListener(() =>
             {
                 Loader.Load(Loader.SceneName.MainMenuScene);
+            });
+
+            optionsButton.onClick.AddListener(() =>
+            {
+                OptionsUI.Instance.gameObject.SetActive(true);
             });
         }
 
@@ -38,7 +44,7 @@ namespace MyUIs
 
         private void GameManagerOnGameUnpaused(object sender, EventArgs e)
         {
-            gameObject?.SetActive(false);
+            gameObject.SetActive(false);
         }
     }
 }
