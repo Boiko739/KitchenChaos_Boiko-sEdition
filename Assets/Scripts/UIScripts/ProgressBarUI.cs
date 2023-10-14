@@ -13,8 +13,7 @@ namespace MyUIs
 
         public void Start()
         {
-            hasProgress = hasProgressGameObject.GetComponent<IHasProgress>();
-            if (hasProgress == null)
+            if (!hasProgressGameObject.TryGetComponent(out hasProgress))
             {
                 Debug.LogError("hasProgress is null! Change the reference to the hasProgressGameObject!");
             }
@@ -23,31 +22,15 @@ namespace MyUIs
                 hasProgress.OnProgressChanged += HasProgressOnProgressBarChanged;
                 barImage.fillAmount = 0f;
 
-                Hide();
+                gameObject.SetActive(false);
             }
         }
 
         private void HasProgressOnProgressBarChanged(object sender, IHasProgress.OnProgressChangedEventArgs e)
         {
             barImage.fillAmount = e.progressNormalized;
-            if (barImage.fillAmount is 0 or 1)
-            {
-                Hide();
-            }
-            else
-            {
-                Show();
-            }
-        }
 
-        private void Show()
-        {
-            gameObject.SetActive(true);
-        }
-
-        private void Hide()
-        {
-            gameObject.SetActive(false);
+            gameObject.SetActive(barImage.fillAmount is 0 or 1);
         }
     }
 }

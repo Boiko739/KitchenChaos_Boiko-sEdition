@@ -30,8 +30,8 @@ namespace KitchenChaos
                                interactDistance = 2f,
                                moveSpeed = 7f,
                                playerHeight = 2f;
-
         private bool isWalking;
+
         private Vector3 lastInteractDir;
         private BaseCounter selectedCounter;
         private KitchenObject kitchenObject;
@@ -40,7 +40,7 @@ namespace KitchenChaos
         {
             if (Instance != null)
             {
-                Debug.LogError("There is more than one instance");
+                Debug.LogError("There is more than one instance!");
             }
 
             Instance = this;
@@ -50,6 +50,12 @@ namespace KitchenChaos
         {
             GameInput.Instance.OnInteractAction += GameInputOnInteractAction;
             GameInput.Instance.OnInteractAlternateAction += GameInputOnInteractAlternateAction;
+        }
+
+        private void Update()
+        {
+            HandleMovement();
+            HandleInteractions();
         }
 
         private void GameInputOnInteractAlternateAction(object sender, EventArgs e)
@@ -76,12 +82,6 @@ namespace KitchenChaos
             {
                 selectedCounter.Interact(this);
             }
-        }
-
-        private void Update()
-        {
-            HandleMovement();
-            HandleInteractions();
         }
 
         public bool IsWalking()

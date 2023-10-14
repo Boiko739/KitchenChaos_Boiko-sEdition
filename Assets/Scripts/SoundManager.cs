@@ -1,8 +1,6 @@
 using Counters;
-using MyUIs;
 using System;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace KitchenChaos
 {
@@ -10,9 +8,9 @@ namespace KitchenChaos
     {
         public static SoundManager Instance { get; private set; }
 
-        [SerializeField] private AudioClipRefsSO audioClipRefsSO;
-
         private const string PLAYER_PREFS_SOUND_EFFECTS_VOLUME = "SoundEffectsVolume";
+
+        [SerializeField] private AudioClipRefsSO audioClipRefsSO;
 
         public float Volume { get; private set; } = 1f;
 
@@ -85,7 +83,7 @@ namespace KitchenChaos
         }
 
         public void ChangeVolume()
-        { 
+        {
             Volume += .1f;
             if (Volume > 1f)
             {

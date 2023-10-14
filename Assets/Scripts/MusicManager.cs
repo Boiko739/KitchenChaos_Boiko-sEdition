@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace KitchenChaos
 {
@@ -20,8 +17,8 @@ namespace KitchenChaos
             Instance = this;
 
             audioSource = GetComponent<AudioSource>();
-
             Volume = PlayerPrefs.GetFloat(PLAYER_PREFS_MUSIC_VOLUME, .3f);
+            audioSource.volume = Volume;
         }
 
         public void ChangeVolume()

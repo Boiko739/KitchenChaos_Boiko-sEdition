@@ -44,28 +44,5 @@ namespace KitchenChaos
                 return true;
             }
         }
-
-        public bool Equals(RecipeListSO recipeListSO)
-        {
-            foreach (KitchenObjectSO kitchenObjectSO in KitchenObjectSOList)
-            {
-                bool ingredientFound = false;
-                foreach (RecipeSO ingredientSO in recipeListSO.RecipeSOList)
-                {
-                    if (ingredientSO == kitchenObjectSO)
-                    {
-                        ingredientFound = true;
-                        break;
-                    }
-                }
-
-                if (!ingredientFound)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
     }
 }

@@ -44,7 +44,7 @@ namespace KitchenChaos
 
         public bool TryGetPlate(out PlateKitchenObject plateKitchenObject)
         {
-            if (this is PlateKitchenObject)
+            if (GetType() == typeof(PlateKitchenObject))
             {
                 plateKitchenObject = this as PlateKitchenObject;
                 return true;
