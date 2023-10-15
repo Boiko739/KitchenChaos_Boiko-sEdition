@@ -30,7 +30,7 @@ namespace MyUIs
         {
             barImage.fillAmount = e.progressNormalized;
 
-            gameObject.SetActive(barImage.fillAmount is 0 or 1);
+            gameObject.SetActive(barImage.fillAmount is not (0 or 1));
         }
     }
 }
