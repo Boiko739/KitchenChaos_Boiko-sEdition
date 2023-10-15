@@ -7,6 +7,16 @@ namespace KitchenChaos
     {
         public static GameInput Instance { get; private set; }
 
+        public enum Binding
+        {
+            MoveUp,
+            MoveDown,
+            MoveRight,
+            MoveLeft,
+            Interact,
+            InteractAlternate,
+            Pause
+        }
         public event EventHandler OnInteractAction;
         public event EventHandler OnInteractAlternateAction;
         public event EventHandler OnPauseAction;
@@ -22,6 +32,8 @@ namespace KitchenChaos
             playerInputActions.Player.Interact.performed += InteractPerformed;
             playerInputActions.Player.InteractAlternate.performed += InteractAlternatePerformed;
             playerInputActions.Player.Pause.performed += PausePerformed;
+
+            print(GetBindingText(Binding.Interact));
         }
 
         private void OnDestroy()
@@ -53,6 +65,15 @@ namespace KitchenChaos
             Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
 
             return inputVector.normalized;
+        }
+
+        public string GetBindingText(Binding binding)
+        {
+            switch(binding) {
+                default:
+                case Binding.Interact:
+                    return playerInputActions.Player.Interact.bindings[0].ToString();
+            }
         }
     }
 }

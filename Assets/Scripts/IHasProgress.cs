@@ -13,9 +13,9 @@ namespace KitchenChaos
             public OnProgressChangedEventArgs()
             { }
 
-            public OnProgressChangedEventArgs(float pn)
+            public OnProgressChangedEventArgs(float progressNormalized)
             {
-                progressNormalized = pn;
+                this.progressNormalized = progressNormalized;
             }
         }
     }
