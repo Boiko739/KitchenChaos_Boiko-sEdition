@@ -99,9 +99,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""left"",
-                    ""id"": ""0e01faa7-ac11-4133-b107-fdb9d34ae6b1"",
-                    ""path"": ""<Keyboard>/a"",
+                    ""name"": ""right"",
+                    ""id"": ""876011a9-c1fe-4def-8c5e-9738d3501b06"",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -110,9 +110,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""right"",
-                    ""id"": ""876011a9-c1fe-4def-8c5e-9738d3501b06"",
-                    ""path"": ""<Keyboard>/d"",
+                    ""name"": ""left"",
+                    ""id"": ""0e01faa7-ac11-4133-b107-fdb9d34ae6b1"",
+                    ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -154,9 +154,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""left"",
-                    ""id"": ""eb50f872-0c57-4567-8de9-342fa7cb52c8"",
-                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""name"": ""right"",
+                    ""id"": ""e231eb97-f5d0-4c8b-987c-8a37326ace72"",
+                    ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -165,9 +165,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""right"",
-                    ""id"": ""e231eb97-f5d0-4c8b-987c-8a37326ace72"",
-                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""name"": ""left"",
+                    ""id"": ""eb50f872-0c57-4567-8de9-342fa7cb52c8"",
+                    ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

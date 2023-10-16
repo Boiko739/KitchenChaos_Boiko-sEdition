@@ -1,7 +1,9 @@
 using KitchenChaos;
 using System;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace MyUIs
@@ -33,6 +35,8 @@ namespace MyUIs
         [SerializeField] private Button interactAlternateButton;
         [SerializeField] private Button pauseButton;
 
+        [SerializeField] private Transform pressToRebindKeyTransform;
+
         private void Awake()
         {
             Instance = this;
@@ -53,6 +57,41 @@ namespace MyUIs
             {
                 gameObject.SetActive(false);
             });
+
+            moveUpButton.onClick.AddListener(() =>
+            {
+                RebindBinding(GameInput.Binding.MoveUp);
+            });
+
+            moveDownButton.onClick.AddListener(() =>
+            {
+                RebindBinding(GameInput.Binding.MoveDown);
+            });
+
+            moveRightButton.onClick.AddListener(() =>
+            {
+                RebindBinding(GameInput.Binding.MoveRight);
+            });
+
+            moveLeftButton.onClick.AddListener(() =>
+            {
+                RebindBinding(GameInput.Binding.MoveLeft);
+            });
+
+            interactButton.onClick.AddListener(() =>
+            {
+                RebindBinding(GameInput.Binding.Interact);
+            });
+
+            interactAlternateButton.onClick.AddListener(() =>
+            {
+                RebindBinding(GameInput.Binding.InteractAlternate);
+            });
+
+            pauseButton.onClick.AddListener(() =>
+            {
+                RebindBinding(GameInput.Binding.Pause);
+            });
         }
 
         private void Start()
@@ -62,6 +101,7 @@ namespace MyUIs
             UpdateVisual();
 
             gameObject.SetActive(false);
+            pressToRebindKeyTransform.gameObject.SetActive(false);
         }
 
         private void GameManagerOnGameUnpaused(object sender, EventArgs e)
@@ -73,6 +113,24 @@ namespace MyUIs
         {
             soundEffectsText.text = $"SOUND EFFECTS: {Math.Round(SoundManager.Instance.Volume * 10f)}";
             musicText.text = $"MUSIC: {Math.Round(MusicManager.Instance.Volume * 10f)}";
+
+            moveUpText.text = GameInput.Instance.GetBindingText(GameInput.Binding.MoveUp);
+            moveDownText.text = GameInput.Instance.GetBindingText(GameInput.Binding.MoveDown);
+            moveRightText.text = GameInput.Instance.GetBindingText(GameInput.Binding.MoveLeft);
+            moveLeftText.text = GameInput.Instance.GetBindingText(GameInput.Binding.MoveRight);
+            interactText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Interact);
+            interactAlternateText.text = GameInput.Instance.GetBindingText(GameInput.Binding.InteractAlternate);
+            pauseText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Pause);
+        }
+
+        private void RebindBinding(GameInput.Binding binding)
+        {
+            pressToRebindKeyTransform.gameObject.SetActive(true);
+            GameInput.Instance.RebindBinding(binding, () => 
+            {
+                pressToRebindKeyTransform.gameObject.SetActive(false);
+                UpdateVisual();
+            });
         }
     }
 }
