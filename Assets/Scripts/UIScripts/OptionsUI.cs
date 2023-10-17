@@ -1,9 +1,7 @@
 using KitchenChaos;
 using System;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace MyUIs
@@ -27,6 +25,10 @@ namespace MyUIs
         [SerializeField] private TextMeshProUGUI interactAlternateText;
         [SerializeField] private TextMeshProUGUI pauseText;
 
+        [SerializeField] private TextMeshProUGUI gamepadInteractText;
+        [SerializeField] private TextMeshProUGUI gamepadInteractAlternateText;
+        [SerializeField] private TextMeshProUGUI gamepadPauseText;
+
         [SerializeField] private Button moveUpButton;
         [SerializeField] private Button moveDownButton;
         [SerializeField] private Button moveRightButton;
@@ -35,7 +37,13 @@ namespace MyUIs
         [SerializeField] private Button interactAlternateButton;
         [SerializeField] private Button pauseButton;
 
+        [SerializeField] private Button gamepadInteractButton;
+        [SerializeField] private Button gamepadInteractAlternateButton;
+        [SerializeField] private Button gamepadPauseButton;
+
         [SerializeField] private Transform pressToRebindKeyTransform;
+
+        private Action onCloseWindowAction;
 
         private void Awake()
         {
@@ -55,6 +63,7 @@ namespace MyUIs
 
             closeButton.onClick.AddListener(() =>
             {
+                onCloseWindowAction();
                 gameObject.SetActive(false);
             });
 
@@ -92,6 +101,21 @@ namespace MyUIs
             {
                 RebindBinding(GameInput.Binding.Pause);
             });
+
+            gamepadInteractButton.onClick.AddListener(() =>
+            {
+                RebindBinding(GameInput.Binding.GamepadInteract);
+            });
+
+            gamepadInteractAlternateButton.onClick.AddListener(() =>
+            {
+                RebindBinding(GameInput.Binding.GamepadInteractAlternate);
+            });
+
+            gamepadPauseButton.onClick.AddListener(() =>
+            {
+                RebindBinding(GameInput.Binding.GamepadPause);
+            });
         }
 
         private void Start()
@@ -121,12 +145,25 @@ namespace MyUIs
             interactText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Interact);
             interactAlternateText.text = GameInput.Instance.GetBindingText(GameInput.Binding.InteractAlternate);
             pauseText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Pause);
+
+            gamepadInteractText.text = GameInput.Instance.GetBindingText(GameInput.Binding.GamepadInteract);
+            gamepadInteractAlternateText.text = GameInput.Instance.GetBindingText(GameInput.Binding.GamepadInteractAlternate);
+            gamepadPauseText.text = GameInput.Instance.GetBindingText(GameInput.Binding.GamepadPause);
+        }
+
+        public void Show(Action onCloseWindowAction)
+        {
+            this.onCloseWindowAction = onCloseWindowAction;
+
+            gameObject.SetActive(true);
+
+            musicButton.Select();
         }
 
         private void RebindBinding(GameInput.Binding binding)
         {
             pressToRebindKeyTransform.gameObject.SetActive(true);
-            GameInput.Instance.RebindBinding(binding, () => 
+            GameInput.Instance.RebindBinding(binding, () =>
             {
                 pressToRebindKeyTransform.gameObject.SetActive(false);
                 UpdateVisual();

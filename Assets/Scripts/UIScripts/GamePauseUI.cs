@@ -25,7 +25,8 @@ namespace MyUIs
 
             optionsButton.onClick.AddListener(() =>
             {
-                OptionsUI.Instance.gameObject.SetActive(true);
+                gameObject.SetActive(false);
+                OptionsUI.Instance.Show(Show);
             });
         }
 
@@ -37,9 +38,15 @@ namespace MyUIs
             gameObject.SetActive(false);
         }
 
-        private void GameManagerOnGamePaused(object sender, EventArgs e)
+        private void Show()
         {
             gameObject.SetActive(true);
+            resumeButton.Select();
+        }
+
+        private void GameManagerOnGamePaused(object sender, EventArgs e)
+        {
+            Show();
         }
 
         private void GameManagerOnGameUnpaused(object sender, EventArgs e)
