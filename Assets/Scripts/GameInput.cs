@@ -28,6 +28,7 @@ namespace KitchenChaos
         public event EventHandler OnInteractAction;
         public event EventHandler OnInteractAlternateAction;
         public event EventHandler OnPauseAction;
+        public event EventHandler OnBindingRebind;
 
         private PlayerInputActions playerInputActions;
 
@@ -170,6 +171,8 @@ namespace KitchenChaos
                     onActionRebound();
                     PlayerPrefs.SetString(PLAYER_PREFS_BINDINGS, playerInputActions.SaveBindingOverridesAsJson());
                     PlayerPrefs.Save();
+
+                    OnBindingRebind(this, EventArgs.Empty);
                 })
                 .Start();
         }

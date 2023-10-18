@@ -7,13 +7,13 @@ namespace KitchenChaos
 {
     public class DeliveryManager : MonoBehaviour
     {
+        public static DeliveryManager Instance { get; private set; }
+
         public event EventHandler OnRecipeSpawned;
         public event EventHandler OnRecipeCompleted;
 
         public event EventHandler OnRecipeSuccess;
         public event EventHandler OnRecipeFailed;
-
-        public static DeliveryManager Instance { get; private set; }
 
         [SerializeField] private RecipeListSO recipeListSO;
 
@@ -32,18 +32,21 @@ namespace KitchenChaos
 
         private void Update()
         {
-            if (spawnRecipeTimer >= spawnRecipeTimerMax)
+            if (GameManager.Instance.IsGamePlaying())
             {
-                spawnRecipeTimer = 0;
-                if (WaitingRecipeSOList.Count < waitingRecipesMax)
+                if (spawnRecipeTimer >= spawnRecipeTimerMax)
                 {
-                    RecipeSO recipe = recipeListSO.RecipeSOList[UnityEngine.Random.Range(0, recipeListSO.RecipeSOList.Count)];
-                    WaitingRecipeSOList.Add(recipe);
-                    OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
+                    spawnRecipeTimer = 0;
+                    if (WaitingRecipeSOList.Count < waitingRecipesMax)
+                    {
+                        RecipeSO recipe = recipeListSO.RecipeSOList[UnityEngine.Random.Range(0, recipeListSO.RecipeSOList.Count)];
+                        WaitingRecipeSOList.Add(recipe);
+                        OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
+                    }
                 }
-            }
 
-            spawnRecipeTimer += Time.deltaTime;
+                spawnRecipeTimer += Time.deltaTime; 
+            }
         }
 
         public void DeliveryRecipe(PlateKitchenObject plateKitchenObject)

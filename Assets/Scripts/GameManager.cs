@@ -22,7 +22,6 @@ namespace KitchenChaos
         private GameState gameState;
 
         private bool isGamePaused = false;
-        private float waitingToStartTimer = 1f;
         private float countdownToStartTimer = 3f;
         private readonly float gamePlayingTimerMax = 30f;
         private float gamePlayingTimer;
@@ -37,6 +36,16 @@ namespace KitchenChaos
         private void Start()
         {
             GameInput.Instance.OnPauseAction += GameInputOnPauseAction;
+            GameInput.Instance.OnInteractAction += GameInputOnInteractAction;
+        }
+
+        private void GameInputOnInteractAction(object sender, EventArgs e)
+        {
+            if (gameState == GameState.WaitingToStart)
+            {
+                gameState = GameState.CountdownToStart;
+            }
+            OnStateChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void GameInputOnPauseAction(object sender, EventArgs e)
@@ -49,12 +58,6 @@ namespace KitchenChaos
             switch (gameState)
             {
                 case GameState.WaitingToStart:
-                    waitingToStartTimer -= Time.deltaTime;
-                    if (waitingToStartTimer <= 0)
-                    {
-                        gameState = GameState.CountdownToStart;
-                        OnStateChanged?.Invoke(this, EventArgs.Empty);
-                    }
 
                     break;
                 case GameState.CountdownToStart:
@@ -95,6 +98,11 @@ namespace KitchenChaos
             }
 
             Time.timeScale = isGamePaused ? 0f : 1f;
+        }
+
+        public bool IsGameWaitingToStart()
+        {
+            return gameState == GameState.WaitingToStart;
         }
 
         public bool IsGamePlaying()

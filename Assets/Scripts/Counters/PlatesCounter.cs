@@ -19,14 +19,17 @@ namespace Counters
 
         private void Update()
         {
-            _spawnPlateTimer += Time.deltaTime;
-            if (_spawnPlateTimer > _spawnDelay)
+            if (GameManager.Instance.IsGamePlaying())
             {
-                _spawnPlateTimer = 0;
-                if (_platesSpawnAmount < _platesSpawnAmountMax)
+                _spawnPlateTimer += Time.deltaTime;
+                if (_spawnPlateTimer > _spawnDelay)
                 {
-                    OnPlateSpawned?.Invoke(this, EventArgs.Empty);
-                    _platesSpawnAmount++;
+                    _spawnPlateTimer = 0;
+                    if (_platesSpawnAmount < _platesSpawnAmountMax)
+                    {
+                        OnPlateSpawned?.Invoke(this, EventArgs.Empty);
+                        _platesSpawnAmount++;
+                    }
                 }
             }
         }
