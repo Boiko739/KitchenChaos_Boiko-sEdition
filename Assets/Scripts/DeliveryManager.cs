@@ -32,21 +32,18 @@ namespace KitchenChaos
 
         private void Update()
         {
-            if (GameManager.Instance.IsGamePlaying())
+            if (GameManager.Instance.IsGamePlaying() && spawnRecipeTimer >= spawnRecipeTimerMax)
             {
-                if (spawnRecipeTimer >= spawnRecipeTimerMax)
+                spawnRecipeTimer = 0;
+                if (WaitingRecipeSOList.Count < waitingRecipesMax)
                 {
-                    spawnRecipeTimer = 0;
-                    if (WaitingRecipeSOList.Count < waitingRecipesMax)
-                    {
-                        RecipeSO recipe = recipeListSO.RecipeSOList[UnityEngine.Random.Range(0, recipeListSO.RecipeSOList.Count)];
-                        WaitingRecipeSOList.Add(recipe);
-                        OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
-                    }
+                    RecipeSO recipe = recipeListSO.RecipeSOList[UnityEngine.Random.Range(0, recipeListSO.RecipeSOList.Count)];
+                    WaitingRecipeSOList.Add(recipe);
+                    OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
                 }
-
-                spawnRecipeTimer += Time.deltaTime; 
             }
+
+            spawnRecipeTimer += Time.deltaTime;
         }
 
         public void DeliveryRecipe(PlateKitchenObject plateKitchenObject)

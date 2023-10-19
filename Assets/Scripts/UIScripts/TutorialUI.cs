@@ -26,8 +26,9 @@ public class TutorialUI : MonoBehaviour
 
         UpdateVisual();
         GameInput.Instance.OnBindingRebind += GameInputOnBindingRebind;
+        IsFirstGame = true;
         gameObject.SetActive(IsFirstGame);
-        IsFirstGame = false;
+        //IsFirstGame = false;
     }
 
     private void GameManagerOnStateChanged(object sender, System.EventArgs e)

@@ -44,8 +44,8 @@ namespace KitchenChaos
             if (gameState == GameState.WaitingToStart)
             {
                 gameState = GameState.CountdownToStart;
+                OnStateChanged?.Invoke(this, EventArgs.Empty);
             }
-            OnStateChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void GameInputOnPauseAction(object sender, EventArgs e)
@@ -58,8 +58,8 @@ namespace KitchenChaos
             switch (gameState)
             {
                 case GameState.WaitingToStart:
-
                     break;
+
                 case GameState.CountdownToStart:
                     countdownToStartTimer -= Time.deltaTime;
                     if (countdownToStartTimer <= 0)
@@ -71,6 +71,7 @@ namespace KitchenChaos
                     }
 
                     break;
+
                 case GameState.GamePlaying:
                     gamePlayingTimer -= Time.deltaTime;
                     if (gamePlayingTimer <= 0)
@@ -80,6 +81,7 @@ namespace KitchenChaos
                     }
 
                     break;
+
                 case GameState.GameOver:
                     break;
             }
