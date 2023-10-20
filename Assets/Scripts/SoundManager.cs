@@ -1,4 +1,5 @@
 using Counters;
+using MyUIs;
 using System;
 using UnityEngine;
 
@@ -29,8 +30,15 @@ namespace KitchenChaos
             DeliveryManager.Instance.OnRecipeFailed += DeliveryManagerInstanceOnRecipeFailed;
             CuttingCounter.OnAnyCut += CuttingCounterOnAnyCut;
 
+            GameStartCountdownUI.Instance.OnCountdownNumberChanged += GameStartCountdownUIOnCountdownNumberChanged;
+
             Player.Instance.OnPickedSomething += PlayerOnPickedSomething;
             Player.Instance.GetComponentInChildren<PlayerSounds>().OnWalking += PlayerOnWalking;
+        }
+
+        private void GameStartCountdownUIOnCountdownNumberChanged(object sender, EventArgs e)
+        {
+            PlaySound(audioClipRefsSO.warning, Vector3.zero);
         }
 
         private void PlayerOnWalking(object sender, EventArgs e)
