@@ -7,9 +7,9 @@ namespace KitchenChaos
 {
     public class SoundManager : MonoBehaviour
     {
-        public static SoundManager Instance { get; private set; }
-
         private const string PLAYER_PREFS_SOUND_EFFECTS_VOLUME = "SoundEffectsVolume";
+
+        public static SoundManager Instance { get; private set; }
 
         [SerializeField] private AudioClipRefsSO audioClipRefsSO;
 
@@ -18,7 +18,6 @@ namespace KitchenChaos
         private void Awake()
         {
             Instance = this;
-
             Volume = PlayerPrefs.GetFloat(PLAYER_PREFS_SOUND_EFFECTS_VOLUME, 1f);
         }
 
@@ -30,15 +29,20 @@ namespace KitchenChaos
             DeliveryManager.Instance.OnRecipeFailed += DeliveryManagerInstanceOnRecipeFailed;
             CuttingCounter.OnAnyCut += CuttingCounterOnAnyCut;
 
-            GameStartCountdownUI.Instance.OnCountdownNumberChanged += GameStartCountdownUIOnCountdownNumberChanged;
+            CountdownTextUI.Instance.OnCountdownNumberChanged += GameStartCountdownUIOnCountdownNumberChanged;
 
             Player.Instance.OnPickedSomething += PlayerOnPickedSomething;
             Player.Instance.GetComponentInChildren<PlayerSounds>().OnWalking += PlayerOnWalking;
         }
 
+        public void PlayBurnWarningSound(StoveCounter stoveCounter)
+        {
+            PlaySound(audioClipRefsSO.warning[1], stoveCounter.transform.position);
+        }
+
         private void GameStartCountdownUIOnCountdownNumberChanged(object sender, EventArgs e)
         {
-            PlaySound(audioClipRefsSO.warning, Vector3.zero);
+            PlaySound(audioClipRefsSO.warning[0], Vector3.zero);
         }
 
         private void PlayerOnWalking(object sender, EventArgs e)

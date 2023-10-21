@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace MyUIs
 {
-    public class GameStartCountdownUI : MonoBehaviour
+    public class CountdownTextUI : MonoBehaviour
     {
         private const string NUMBER_POPUP = "NumberPopup";
 
-        public static GameStartCountdownUI Instance { get; private set; }
+        public static CountdownTextUI Instance { get; private set; }
 
         [SerializeField] private TextMeshProUGUI countdownText;
 
@@ -32,7 +32,7 @@ namespace MyUIs
 
         private void Update()
         {
-            int countdownNumber = (int)Math.Ceiling(GameManager.Instance.GetCountdownToStartTimer());
+            int countdownNumber = (int)Math.Ceiling(GameManager.Instance.CountdownToStartTimer);
             countdownText.text = countdownNumber.ToString();
 
             if (countdownNumber != previousCountdownNumber)

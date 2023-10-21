@@ -8,15 +8,17 @@ namespace KitchenChaos
 
         public class OnProgressChangedEventArgs : EventArgs
         {
-            public float progressNormalized;
+            public float ProgressNormalized { get; set; }
 
             public OnProgressChangedEventArgs()
             { }
 
             public OnProgressChangedEventArgs(float progressNormalized)
             {
-                this.progressNormalized = progressNormalized;
+                this.ProgressNormalized = progressNormalized;
             }
+
+            public readonly float minWarningProgressAmount = .4f;
         }
     }
 }

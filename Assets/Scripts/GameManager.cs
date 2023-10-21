@@ -22,14 +22,16 @@ namespace KitchenChaos
         private GameState gameState;
 
         private bool isGamePaused = false;
-        private float countdownToStartTimer = 3f;
-        private readonly float gamePlayingTimerMax = 30f;
         private float gamePlayingTimer;
+        private readonly float gamePlayingTimerMax = 30f;
+
+        public static bool IsFirstGame { get; set; } = true;
+        public float CountdownToStartTimer { get; private set; }
 
         private void Awake()
         {
             Instance = this;
-
+            CountdownToStartTimer = 3f;
             gameState = GameState.WaitingToStart;
         }
 
@@ -45,6 +47,7 @@ namespace KitchenChaos
             {
                 gameState = GameState.CountdownToStart;
                 OnStateChanged?.Invoke(this, EventArgs.Empty);
+                IsFirstGame = false;
             }
         }
 
@@ -58,11 +61,16 @@ namespace KitchenChaos
             switch (gameState)
             {
                 case GameState.WaitingToStart:
+                    if (!IsFirstGame)
+                    {
+                        GameInputOnInteractAction(null, EventArgs.Empty);
+                    }
+
                     break;
 
                 case GameState.CountdownToStart:
-                    countdownToStartTimer -= Time.deltaTime;
-                    if (countdownToStartTimer <= 0)
+                    CountdownToStartTimer -= Time.deltaTime;
+                    if (CountdownToStartTimer <= 0)
                     {
                         gamePlayingTimer = gamePlayingTimerMax;
 
@@ -120,11 +128,6 @@ namespace KitchenChaos
         public bool IsGameOver()
         {
             return gameState == GameState.GameOver;
-        }
-
-        public float GetCountdownToStartTimer()
-        {
-            return countdownToStartTimer;
         }
 
         public float GetGamePlayingTimerNormalized()

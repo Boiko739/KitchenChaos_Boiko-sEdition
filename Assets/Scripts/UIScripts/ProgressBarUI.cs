@@ -28,7 +28,7 @@ namespace MyUIs
 
         private void HasProgressOnProgressBarChanged(object sender, IHasProgress.OnProgressChangedEventArgs e)
         {
-            barImage.fillAmount = e.progressNormalized;
+            barImage.fillAmount = e.ProgressNormalized;
 
             gameObject.SetActive(barImage.fillAmount is not (0 or 1));
         }

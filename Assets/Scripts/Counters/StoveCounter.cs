@@ -37,37 +37,39 @@ namespace Counters
         private float burningTimer;
         private FryingRecipeSO _fryingRecipeSO;
         private BurningRecipeSO _burningRecipeSO;
-        private State state = State.Idle;
+
+        public State CounterState { get; private set; } = State.Idle;
 
         private void Start()
         {
-            state = State.Idle;
+            CounterState = State.Idle;
         }
 
         private void Update()
         {
             if (HasKitchenObject())
             {
-                switch (state)
+                switch (CounterState)
                 {
                     case State.Idle:
+
                         break;
                     case State.Frying:
                         fryingTimer += Time.deltaTime;
 
                         OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs()
                         {
-                            progressNormalized = fryingTimer / _fryingRecipeSO.fryingTimerMax
+                            ProgressNormalized = fryingTimer / _fryingRecipeSO.fryingTimerMax
                         });
                         if (fryingTimer >= _fryingRecipeSO.fryingTimerMax)
                         {
                             GetKitchenObject().DestroySelf();
                             KitchenObject.SpawnKitchenObject(_fryingRecipeSO.output, this);
-                            state = State.Fried;
+                            CounterState = State.Fried;
                             burningTimer = 0f;
                             _burningRecipeSO = GetBurningRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
 
-                            OnStateChanged?.Invoke(this, new OnStateChangedEventArgs(state));
+                            OnStateChanged?.Invoke(this, new OnStateChangedEventArgs(CounterState));
                         }
 
                         break;
@@ -76,19 +78,20 @@ namespace Counters
 
                         OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs()
                         {
-                            progressNormalized = burningTimer / _burningRecipeSO.burningTimerMax
+                            ProgressNormalized = burningTimer / _burningRecipeSO.burningTimerMax
                         });
                         if (burningTimer >= _burningRecipeSO.burningTimerMax)
                         {
                             GetKitchenObject().DestroySelf();
                             KitchenObject.SpawnKitchenObject(_burningRecipeSO.output, this);
-                            state = State.Burned;
-                            OnStateChanged?.Invoke(this, new OnStateChangedEventArgs(state));
+                            CounterState = State.Burned;
+                            OnStateChanged?.Invoke(this, new OnStateChangedEventArgs(CounterState));
                             OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs(0f));
                         }
 
                         break;
                     case State.Burned:
+
                         break;
                 }
             }
@@ -105,8 +108,8 @@ namespace Counters
                     {
                         player.GetKitchenObject().SetKitchenObjectParent(this);
                         _fryingRecipeSO = GetFryingReciteSOWithInput(inputKitchenObjectSO);
-                        state = State.Frying;
-                        OnStateChanged?.Invoke(this, new OnStateChangedEventArgs(state));
+                        CounterState = State.Frying;
+                        OnStateChanged?.Invoke(this, new OnStateChangedEventArgs(CounterState));
                         fryingTimer = 0f;
                     }
                 }
@@ -131,8 +134,8 @@ namespace Counters
 
         private void ResetTheStoveCounter()
         {
-            state = State.Idle;
-            OnStateChanged?.Invoke(this, new OnStateChangedEventArgs(state));
+            CounterState = State.Idle;
+            OnStateChanged?.Invoke(this, new OnStateChangedEventArgs(CounterState));
             OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs(0f));
         }
 

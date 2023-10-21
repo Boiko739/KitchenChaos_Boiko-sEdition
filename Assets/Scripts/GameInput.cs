@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -59,17 +58,17 @@ namespace KitchenChaos
             playerInputActions.Dispose();
         }
 
-        private void InteractPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+        private void InteractPerformed(InputAction.CallbackContext obj)
         {
             OnInteractAction?.Invoke(this, EventArgs.Empty);
         }
 
-        private void InteractAlternatePerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+        private void InteractAlternatePerformed(InputAction.CallbackContext obj)
         {
             OnInteractAlternateAction?.Invoke(this, EventArgs.Empty);
         }
 
-        private void PausePerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+        private void PausePerformed(InputAction.CallbackContext obj)
         {
             OnPauseAction?.Invoke(this, EventArgs.Empty);
         }
@@ -83,37 +82,25 @@ namespace KitchenChaos
 
         public string GetBindingText(Binding binding)
         {
-            switch (binding)
+            return binding switch
             {
-                case Binding.MoveUp:
-                    return playerInputActions.Player.Move.bindings[1].ToDisplayString();
-                case Binding.MoveDown:
-                    return playerInputActions.Player.Move.bindings[2].ToDisplayString();
-                case Binding.MoveRight:
-                    return playerInputActions.Player.Move.bindings[3].ToDisplayString();
-                case Binding.MoveLeft:
-                    return playerInputActions.Player.Move.bindings[4].ToDisplayString();
-                case Binding.Interact:
-                    return playerInputActions.Player.Interact.bindings[0].ToDisplayString();
-                case Binding.InteractAlternate:
-                    return playerInputActions.Player.InteractAlternate.bindings[0].ToDisplayString();
-                case Binding.Pause:
-                    return playerInputActions.Player.Pause.bindings[0].ToDisplayString();
-                case Binding.GamepadInteract:
-                    return playerInputActions.Player.Interact.bindings[1].ToDisplayString();
-                case Binding.GamepadInteractAlternate:
-                    return playerInputActions.Player.InteractAlternate.bindings[1].ToDisplayString();
-                case Binding.GamepadPause:
-                    return playerInputActions.Player.Pause.bindings[1].ToDisplayString();
-                default:
-                    return string.Empty;
-            }
+                Binding.MoveUp => playerInputActions.Player.Move.bindings[1].ToDisplayString(),
+                Binding.MoveDown => playerInputActions.Player.Move.bindings[2].ToDisplayString(),
+                Binding.MoveRight => playerInputActions.Player.Move.bindings[3].ToDisplayString(),
+                Binding.MoveLeft => playerInputActions.Player.Move.bindings[4].ToDisplayString(),
+                Binding.Interact => playerInputActions.Player.Interact.bindings[0].ToDisplayString(),
+                Binding.InteractAlternate => playerInputActions.Player.InteractAlternate.bindings[0].ToDisplayString(),
+                Binding.Pause => playerInputActions.Player.Pause.bindings[0].ToDisplayString(),
+                Binding.GamepadInteract => playerInputActions.Player.Interact.bindings[1].ToDisplayString(),
+                Binding.GamepadInteractAlternate => playerInputActions.Player.InteractAlternate.bindings[1].ToDisplayString(),
+                Binding.GamepadPause => playerInputActions.Player.Pause.bindings[1].ToDisplayString(),
+                _ => string.Empty,
+            };
         }
 
         public void RebindBinding(Binding binding, Action onActionRebound)
         {
             playerInputActions.Player.Disable();
-
 
             InputAction inputAction;
             int bindingIndex;

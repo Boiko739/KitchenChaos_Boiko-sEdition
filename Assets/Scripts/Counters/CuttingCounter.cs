@@ -37,7 +37,7 @@ namespace Counters
                     {
                         OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs()
                         {
-                            progressNormalized = (float)cuttingProgress / cuttingRecipeSO.cuttingProgressMax
+                            ProgressNormalized = (float)cuttingProgress / cuttingRecipeSO.cuttingProgressMax
                         });
                     }
                 }
@@ -93,7 +93,7 @@ namespace Counters
                 CuttingRecipeSO cuttingRecipeSO = GetCuttingReciteSO(GetKitchenObject().GetKitchenObjectSO());
                 OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs()
                 {
-                    progressNormalized = (float)cuttingProgress / cuttingRecipeSO.cuttingProgressMax
+                    ProgressNormalized = (float)cuttingProgress / cuttingRecipeSO.cuttingProgressMax
                 });
 
                 KitchenObjectSO outputKitchenObjectSO = GetOutputForInput(GetKitchenObject().GetKitchenObjectSO());

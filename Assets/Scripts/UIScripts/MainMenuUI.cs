@@ -18,6 +18,7 @@ namespace MyUIs
 
             quitButton.onClick.AddListener(() =>
             {
+                GameManager.IsFirstGame = true;
                 Application.Quit();
             });
 
