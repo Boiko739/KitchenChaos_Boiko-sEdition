@@ -23,7 +23,7 @@ namespace KitchenChaos
 
         private bool isGamePaused = false;
         private float gamePlayingTimer;
-        private readonly float gamePlayingTimerMax = 30f;
+        private readonly float gamePlayingTimerMax = 120f;
 
         public static bool IsFirstGame { get; set; } = true;
         public float CountdownToStartTimer { get; private set; }
