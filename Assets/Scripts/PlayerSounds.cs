@@ -16,10 +16,10 @@ namespace KitchenChaos
             if (footstepTimer >= footstepTimerMax)
             {
                 footstepTimer = 0f;
-                if (Player.Instance.IsWalking())
+                /*if (Player.Instance.IsWalking())
                 {
                     OnWalking?.Invoke(Player.Instance, EventArgs.Empty);
-                }
+                }*/
             }
         }
     }

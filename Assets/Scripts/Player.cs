@@ -1,12 +1,13 @@
 using Counters;
 using System;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace KitchenChaos
 {
-    public class Player : MonoBehaviour, IKitchenObjectParent
+    public class Player : NetworkBehaviour, IKitchenObjectParent
     {
-        public static Player Instance { get; private set; }
+        //public static Player Instance { get; private set; }
 
         public event EventHandler OnPickedSomething;
 
@@ -38,12 +39,7 @@ namespace KitchenChaos
 
         private void Awake()
         {
-            if (Instance != null)
-            {
-                Debug.LogError("There is more than one instance!");
-            }
-
-            Instance = this;
+            //Instance = this;
         }
 
         private void Start()
