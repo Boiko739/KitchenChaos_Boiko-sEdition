@@ -26,12 +26,11 @@ namespace KitchenChaos
         private readonly float gamePlayingTimerMax = 120f;
 
         public static bool IsFirstGame { get; set; } = true;
-        public float CountdownToStartTimer { get; private set; }
+        public float CountdownToStartTimer { get; private set; } = 1f;
 
         private void Awake()
         {
             Instance = this;
-            CountdownToStartTimer = 3f;
             gameState = GameState.WaitingToStart;
         }
 

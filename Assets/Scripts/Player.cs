@@ -31,16 +31,12 @@ namespace KitchenChaos
                                interactDistance = 2f,
                                moveSpeed = 7f,
                                playerHeight = 2f;
-        private bool isWalking;
+        public bool IsWalking { get; private set; }
 
         private Vector3 lastInteractDir;
         private BaseCounter selectedCounter;
         private KitchenObject kitchenObject;
 
-        private void Awake()
-        {
-            //Instance = this;
-        }
 
         private void Start()
         {
@@ -50,6 +46,11 @@ namespace KitchenChaos
 
         private void Update()
         {
+            if (!IsOwner)
+            {
+                return;
+            }
+
             HandleMovement();
             HandleInteractions();
         }
@@ -78,11 +79,6 @@ namespace KitchenChaos
             {
                 selectedCounter.Interact(this);
             }
-        }
-
-        public bool IsWalking()
-        {
-            return isWalking;
         }
 
         private void HandleInteractions()
@@ -151,7 +147,7 @@ namespace KitchenChaos
                 }
             }
 
-            isWalking = moveDir != Vector3.zero;
+            IsWalking = moveDir != Vector3.zero;
             transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
         }
 

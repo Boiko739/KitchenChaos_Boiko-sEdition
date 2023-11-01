@@ -1,0 +1,4 @@
+repository "KitchenChaos_Boiko-sEdition@Boiko_GD@cloud"
+  path "/"
+    br "/main"
+    co "/main"
