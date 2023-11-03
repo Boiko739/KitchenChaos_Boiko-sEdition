@@ -1,11 +1,12 @@
 using MySOs;
 using System;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace KitchenChaos
 {
-    public class DeliveryManager : MonoBehaviour
+    public class DeliveryManager : NetworkBehaviour
     {
         public static DeliveryManager Instance { get; private set; }
 
@@ -20,7 +21,7 @@ namespace KitchenChaos
         public List<RecipeSO> WaitingRecipeSOList { get; private set; }
 
         public int SuccessfulDeliveriesAmount { get; private set; }
-        private float spawnRecipeTimer;
+        private float spawnRecipeTimer = 4f;
         private readonly float spawnRecipeTimerMax = 4f;
         private readonly short waitingRecipesMax = 4;
 
@@ -32,42 +33,77 @@ namespace KitchenChaos
 
         private void Update()
         {
+            if (!IsServer)
+            {
+                return;
+            }
+
             if (GameManager.Instance.IsGamePlaying() && spawnRecipeTimer >= spawnRecipeTimerMax)
             {
                 spawnRecipeTimer = 0;
                 if (WaitingRecipeSOList.Count < waitingRecipesMax)
                 {
-                    RecipeSO recipe = recipeListSO.RecipeSOList[UnityEngine.Random.Range(0, recipeListSO.RecipeSOList.Count)];
-                    WaitingRecipeSOList.Add(recipe);
-                    OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
+                    int recipeSOIndex = UnityEngine.Random.Range(0, recipeListSO.RecipeSOList.Count);
+                    SpawnNewRedcipeClientRpc(recipeSOIndex);
                 }
             }
 
             spawnRecipeTimer += Time.deltaTime;
         }
 
+        [ClientRpc]
+        private void SpawnNewRedcipeClientRpc(int recipeSOIndex)
+        {
+            RecipeSO recipeSO = recipeListSO.RecipeSOList[recipeSOIndex];
+
+            WaitingRecipeSOList.Add(recipeSO);
+
+            OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
+        }
+
+
         public void DeliveryRecipe(PlateKitchenObject plateKitchenObject)
         {
-            bool deliveryMatched = false;
             for (int i = 0; i < WaitingRecipeSOList.Count; i++)
             {
                 bool hasTheSameAmountOfIngredients = plateKitchenObject.KitchenObjectSOList.Count == WaitingRecipeSOList[i].KitchenObjectSOList.Count;
                 if (hasTheSameAmountOfIngredients && DeliveryMatchesAnyOrder(plateKitchenObject))
                 {
-                    OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
-                    OnRecipeSuccess?.Invoke(this, EventArgs.Empty);
-
-                    SuccessfulDeliveriesAmount++;
-                    WaitingRecipeSOList.RemoveAt(i);
-                    deliveryMatched = true;
-                    break;
+                    DeliverCorrectRecipeServerRpc(i);
+                    return;
                 }
             }
 
-            if (!deliveryMatched)
-            {
-                OnRecipeFailed?.Invoke(this, EventArgs.Empty);
-            }
+            //The delivery didn't match any order
+            DeliverIncorrectRecipeServerRpc();
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void DeliverCorrectRecipeServerRpc(int recipeSOListIndex)
+        {
+            DeliverCorrectRecipeClientRpc(recipeSOListIndex);
+        }
+
+        [ClientRpc]
+        private void DeliverCorrectRecipeClientRpc(int recipeSOListIndex)
+        {
+            OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
+            OnRecipeSuccess?.Invoke(this, EventArgs.Empty);
+
+            SuccessfulDeliveriesAmount++;
+            WaitingRecipeSOList.RemoveAt(recipeSOListIndex);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void DeliverIncorrectRecipeServerRpc()
+        {
+            DeliverIncorrectRecipeClientRpc();
+        }
+
+        [ClientRpc]
+        private void DeliverIncorrectRecipeClientRpc()
+        {
+            OnRecipeFailed?.Invoke(this, EventArgs.Empty);
         }
 
         private bool DeliveryMatchesAnyOrder(PlateKitchenObject plateKitchenObject)
