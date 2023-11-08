@@ -7,9 +7,17 @@ namespace KitchenChaos
 {
     public class Player : NetworkBehaviour, IKitchenObjectParent
     {
-        //public static Player Instance { get; private set; }
+        public static Player LocalInstance { get; private set; }
 
-        public event EventHandler OnPickedSomething;
+        public static event EventHandler OnAnyPlayerSpawned;
+
+        public static event EventHandler OnAnyPlayerPickedSomething;
+
+        public static void ResetStaticData()
+        {
+            OnAnyPlayerSpawned = null;
+            OnAnyPlayerPickedSomething = null;
+        }
 
         public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
 
@@ -42,6 +50,16 @@ namespace KitchenChaos
         {
             GameInput.Instance.OnInteractAction += GameInputOnInteractAction;
             GameInput.Instance.OnInteractAlternateAction += GameInputOnInteractAlternateAction;
+        }
+
+        public override void OnNetworkSpawn()
+        {
+            if (IsOwner)
+            {
+                LocalInstance = this;
+            }
+
+            OnAnyPlayerSpawned?.Invoke(this, EventArgs.Empty);
         }
 
         private void Update()
@@ -167,7 +185,7 @@ namespace KitchenChaos
 
             if (kitchenObject != null)
             {
-                OnPickedSomething?.Invoke(this, EventArgs.Empty);
+                OnAnyPlayerPickedSomething?.Invoke(this, EventArgs.Empty);
             }
         }
 
