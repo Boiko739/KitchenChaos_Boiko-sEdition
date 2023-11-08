@@ -65,7 +65,7 @@ namespace KitchenChaos
 
         private void PlayerOnAnyPickedSomething(object sender, EventArgs e)
         {
-            Player player = (Player)sender;
+            Player player = sender as Player;
             PlaySound(audioClipRefsSO.objectPickup, player.transform.position);
         }
 

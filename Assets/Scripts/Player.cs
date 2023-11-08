@@ -16,9 +16,8 @@ namespace KitchenChaos
         public static void ResetStaticData()
         {
             OnAnyPlayerSpawned = null;
+            OnAnyPlayerPickedSomething = null;
         }
-
-        public event EventHandler OnPickedSomething;
 
         public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
 
@@ -186,7 +185,6 @@ namespace KitchenChaos
 
             if (kitchenObject != null)
             {
-                OnPickedSomething?.Invoke(this, EventArgs.Empty);
                 OnAnyPlayerPickedSomething?.Invoke(this, EventArgs.Empty);
             }
         }
