@@ -7,6 +7,7 @@ namespace KitchenChaos
     {
         private void Awake()
         {
+            Player.ResetStaticData();
             BaseCounter.ResetStaticData();
             CuttingCounter.ResetStaticData();
             TrashCounter.ResetStaticData();

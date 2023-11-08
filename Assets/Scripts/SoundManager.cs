@@ -31,10 +31,10 @@ namespace KitchenChaos
 
             CountdownTextUI.Instance.OnCountdownNumberChanged += GameStartCountdownUIOnCountdownNumberChanged;
 
-            //Player.Instance.OnPickedSomething += PlayerOnPickedSomething;
-            //Player.Instance.GetComponentInChildren<PlayerSounds>().OnWalking += PlayerOnWalking;
+            Player.OnAnyPlayerPickedSomething += PlayerOnAnyPickedSomething;
+            //Player.LocalInstance.GetComponentInChildren<PlayerSounds>().OnWalking += PlayerOnWalking;
         }
-
+        
         public void PlayBurnWarningSound(StoveCounter stoveCounter)
         {
             PlaySound(audioClipRefsSO.warning[1], stoveCounter.transform.position);
@@ -47,7 +47,7 @@ namespace KitchenChaos
 
         private void PlayerOnWalking(object sender, EventArgs e)
         {
-            Player player = (Player)sender;
+            Player player = sender as Player;
             PlaySound(audioClipRefsSO.footsteps, player.transform.position);
         }
 
@@ -63,9 +63,10 @@ namespace KitchenChaos
             PlaySound(audioClipRefsSO.objectDrop, baseCounter.transform.position);
         }
 
-        private void PlayerOnPickedSomething(object sender, EventArgs e)
+        private void PlayerOnAnyPickedSomething(object sender, EventArgs e)
         {
-            //PlaySound(audioClipRefsSO.objectPickup, Player.Instance.transform.position);
+            Player player = (Player)sender;
+            PlaySound(audioClipRefsSO.objectPickup, player.transform.position);
         }
 
         private void CuttingCounterOnAnyCut(object sender, EventArgs e)
