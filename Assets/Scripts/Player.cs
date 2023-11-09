@@ -198,5 +198,10 @@ namespace KitchenChaos
         {
             return kitchenObject != null;
         }
+
+        public NetworkObject GetNetworkObject()
+        {
+            return NetworkObject;
+        }
     }
 }

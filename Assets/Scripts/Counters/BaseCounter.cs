@@ -1,5 +1,6 @@
 using KitchenChaos;
 using System;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Counters
@@ -53,6 +54,11 @@ namespace Counters
         public bool HasKitchenObject()
         {
             return kitchenObject != null;
+        }
+
+        public NetworkObject GetNetworkObject()
+        {
+            return null;
         }
     }
 }
