@@ -9,6 +9,12 @@ namespace KitchenChaos
         [SerializeField] private KitchenObjectSO kitchenObjectSO;
 
         private IKitchenObjectParent kitchenObjectParent;
+        private FollowTransform followTransform;
+
+        protected virtual void Awake()
+        {
+            followTransform = GetComponent<FollowTransform>();
+        }
 
         public KitchenObjectSO GetKitchenObjectSO()
         {
@@ -22,6 +28,21 @@ namespace KitchenChaos
 
         public void SetKitchenObjectParent(IKitchenObjectParent kitchenObjectParent)
         {
+            SetKitchenObjectParentServerRpc(kitchenObjectParent.GetNetworkObject());
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void SetKitchenObjectParentServerRpc(NetworkObjectReference kitchenObjectParentNetworkObjectReference)
+        {
+            SetKitchenObjectParentClientRpc(kitchenObjectParentNetworkObjectReference);
+        }
+
+        [ClientRpc]
+        public void SetKitchenObjectParentClientRpc(NetworkObjectReference kitchenObjectParentNetworkObjectReference)
+        {
+            kitchenObjectParentNetworkObjectReference.TryGet(out NetworkObject kitchenObjectParentNetworkObject);
+            IKitchenObjectParent kitchenObjectParent = kitchenObjectParentNetworkObject.GetComponent<IKitchenObjectParent>();
+
             this.kitchenObjectParent?.ClearKitchenObject();
 
             this.kitchenObjectParent = kitchenObjectParent;
@@ -33,8 +54,7 @@ namespace KitchenChaos
 
             kitchenObjectParent.SetKitchenObject(this);
 
-            //transform.parent = kitchenObjectParent.GetKitchenObjectFollowTransform();
-            //transform.localPosition = Vector3.zero;
+            followTransform.TargetTransform = kitchenObjectParent.GetKitchenObjectFollowTransform();
         }
 
         public void DestroySelf()
@@ -59,7 +79,7 @@ namespace KitchenChaos
 
         public static void SpawnKitchenObject(KitchenObjectSO kitchenObjectSO, IKitchenObjectParent kitchenObjectParent)
         {
-            KitchenGameMultiplayer.Instance.SpawnKitchenObject(kitchenObjectSO, kitchenObjectParent);
+            KitchenGameMultiplayer.Instance?.SpawnKitchenObject(kitchenObjectSO, kitchenObjectParent);
         }
     }
 }

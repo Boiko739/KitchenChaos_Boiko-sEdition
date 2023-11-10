@@ -23,8 +23,9 @@ namespace KitchenChaos
 
         public List<KitchenObjectSO> KitchenObjectSOList { get; private set; }
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             KitchenObjectSOList = new List<KitchenObjectSO>();
         }
 
