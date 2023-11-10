@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Counters
 {
-    public class BaseCounter : MonoBehaviour, IKitchenObjectParent
+    public class BaseCounter : NetworkBehaviour, IKitchenObjectParent
     {
         public static event EventHandler OnAnyObjectPlacedHere;
 
@@ -58,7 +58,7 @@ namespace Counters
 
         public NetworkObject GetNetworkObject()
         {
-            return null;
+            return NetworkObject;
         }
     }
 }

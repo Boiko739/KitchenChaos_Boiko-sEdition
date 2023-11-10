@@ -1,6 +1,7 @@
 using KitchenChaos;
 using MySOs;
 using System;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Counters
@@ -17,8 +18,20 @@ namespace Counters
             {
                 KitchenObject.SpawnKitchenObject(kitchenObjectSO, player);
 
-                OnPlayerGrabbedObject?.Invoke(this, EventArgs.Empty);
+                InteractLogicServerRpc();
             }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void InteractLogicServerRpc()
+        {
+            InteractLogicClientRpc();
+        }
+
+        [ClientRpc]
+        private void InteractLogicClientRpc()
+        {
+            OnPlayerGrabbedObject?.Invoke(this, EventArgs.Empty);
         }
     }
 }
