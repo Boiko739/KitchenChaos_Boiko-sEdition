@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8732786999044783119}
-  - component: {fileID: -7605512840658446558}
   - component: {fileID: -7947391400337529750}
+  - component: {fileID: 5703821063745237548}
+  - component: {fileID: -3615564410455182561}
   m_Layer: 0
   m_Name: TomatoSlices
   m_TagString: Untagged
@@ -34,19 +35,6 @@ Transform:
   - {fileID: 766920645376961564}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-7605512840658446558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3014409674105270198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 575defce32c7f0340b7cee2f0ec55b96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  kitchenObjectSO: {fileID: 11400000, guid: 80d8912211a9eb64bbb34f6d7be770ea, type: 2}
 --- !u!114 &-7947391400337529750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,6 +55,31 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &5703821063745237548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3014409674105270198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef473b48a6271f84a9a9e19a30583967, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3615564410455182561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3014409674105270198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8af240eded6efd439550ee22d7547e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kitchenObjectSO: {fileID: 11400000, guid: 80d8912211a9eb64bbb34f6d7be770ea, type: 2}
 --- !u!1001 &4489712007341406876
 PrefabInstance:
   m_ObjectHideFlags: 0

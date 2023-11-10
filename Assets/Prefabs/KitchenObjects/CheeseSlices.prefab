@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8732786999044783119}
-  - component: {fileID: 1211357788842267819}
   - component: {fileID: 1140946853403941919}
+  - component: {fileID: 7098358795929331139}
+  - component: {fileID: 7999434912220775561}
   m_Layer: 0
   m_Name: CheeseSlices
   m_TagString: Untagged
@@ -34,19 +35,6 @@ Transform:
   - {fileID: 712176786226106176}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1211357788842267819
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3014409674105270198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 575defce32c7f0340b7cee2f0ec55b96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  kitchenObjectSO: {fileID: 11400000, guid: a6f79139910d26c448b11e05d1e58123, type: 2}
 --- !u!114 &1140946853403941919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,6 +55,31 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &7098358795929331139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3014409674105270198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef473b48a6271f84a9a9e19a30583967, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7999434912220775561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3014409674105270198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8af240eded6efd439550ee22d7547e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kitchenObjectSO: {fileID: 11400000, guid: a6f79139910d26c448b11e05d1e58123, type: 2}
 --- !u!1001 &4397806854272571840
 PrefabInstance:
   m_ObjectHideFlags: 0

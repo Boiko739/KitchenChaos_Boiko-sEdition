@@ -320,6 +320,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClearCounter (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 3197225973679451994, guid: 274497e16f724ec48bf27090a4ea1e1b,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 4052712838
+      objectReference: {fileID: 0}
     - target: {fileID: 4709687570202494214, guid: 274497e16f724ec48bf27090a4ea1e1b,
         type: 3}
       propertyPath: kitchenObjectSO
@@ -1351,6 +1356,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 80d8912211a9eb64bbb34f6d7be770ea,
         type: 2}
+    - target: {fileID: 6191949488587568499, guid: 73023de7548ae2f4ba27b41f87494d59,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1355252806
+      objectReference: {fileID: 0}
     - target: {fileID: 7960403649743080908, guid: 73023de7548ae2f4ba27b41f87494d59,
         type: 3}
       propertyPath: m_Name
@@ -1716,6 +1726,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClearCounter (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 3197225973679451994, guid: 274497e16f724ec48bf27090a4ea1e1b,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 679634686
+      objectReference: {fileID: 0}
     - target: {fileID: 4709687570202494214, guid: 274497e16f724ec48bf27090a4ea1e1b,
         type: 3}
       propertyPath: kitchenObjectSO
@@ -2053,6 +2068,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ClearCounter (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3197225973679451994, guid: 274497e16f724ec48bf27090a4ea1e1b,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3016090281
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2545,8 +2565,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 336423864}
-  - component: {fileID: 336423863}
   - component: {fileID: 336423862}
+  - component: {fileID: 336423865}
   m_Layer: 0
   m_Name: KitchenGameMultiplayer
   m_TagString: Untagged
@@ -2574,20 +2594,6 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &336423863
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 336423861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4452ac957d45c94fb987fddc2adb8fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  kitchenObjectListSO: {fileID: 11400000, guid: 73df9da1f9484b14c9f51f194c838994,
-    type: 2}
 --- !u!4 &336423864
 Transform:
   m_ObjectHideFlags: 0
@@ -2603,6 +2609,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &336423865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336423861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71a384496d1d2f4489752da9ab32c5b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kitchenObjectListSO: {fileID: 11400000, guid: 73df9da1f9484b14c9f51f194c838994,
+    type: 2}
 --- !u!1 &370602097
 GameObject:
   m_ObjectHideFlags: 0
@@ -3610,6 +3630,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClearCounter (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 3197225973679451994, guid: 274497e16f724ec48bf27090a4ea1e1b,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2114588227
+      objectReference: {fileID: 0}
     - target: {fileID: 4709687570202494214, guid: 274497e16f724ec48bf27090a4ea1e1b,
         type: 3}
       propertyPath: kitchenObjectSO
@@ -4085,6 +4110,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ClearCounter (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3197225973679451994, guid: 274497e16f724ec48bf27090a4ea1e1b,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3490283309
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4569,6 +4599,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 939443864}
     m_Modifications:
+    - target: {fileID: 1028132431325652884, guid: 9a56d658b3b2d4d4494c83952672f837,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 4200811838
+      objectReference: {fileID: 0}
     - target: {fileID: 3318505780780111728, guid: 9a56d658b3b2d4d4494c83952672f837,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4691,6 +4726,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ClearCounter (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3197225973679451994, guid: 274497e16f724ec48bf27090a4ea1e1b,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 4224021078
       objectReference: {fileID: 0}
     - target: {fileID: 4709687570202494214, guid: 274497e16f724ec48bf27090a4ea1e1b,
         type: 3}
@@ -4905,6 +4945,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ClearCounter (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3197225973679451994, guid: 274497e16f724ec48bf27090a4ea1e1b,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 105284546
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6513,6 +6558,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9046753346958939030, guid: 0478a9b2393c78340afcf5d988bff968,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3121366857
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6911,6 +6961,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 80d8912211a9eb64bbb34f6d7be770ea,
         type: 2}
+    - target: {fileID: 6191949488587568499, guid: 73023de7548ae2f4ba27b41f87494d59,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3413866419
+      objectReference: {fileID: 0}
     - target: {fileID: 7960403649743080908, guid: 73023de7548ae2f4ba27b41f87494d59,
         type: 3}
       propertyPath: m_Name
@@ -7702,6 +7757,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ContainerCounter_CheeseBlock (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7795412220900128690, guid: a2f4362184b294d4f889c1c3da82a6c3,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1075269066
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8269,6 +8329,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClearCounter (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 3197225973679451994, guid: 274497e16f724ec48bf27090a4ea1e1b,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1455698238
+      objectReference: {fileID: 0}
     - target: {fileID: 4709687570202494214, guid: 274497e16f724ec48bf27090a4ea1e1b,
         type: 3}
       propertyPath: kitchenObjectSO
@@ -8492,6 +8557,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ClearCounter (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3197225973679451994, guid: 274497e16f724ec48bf27090a4ea1e1b,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3588780797
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9015,6 +9085,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatesCounter
+      objectReference: {fileID: 0}
+    - target: {fileID: 2813502927214960217, guid: 78153c28ed6659d439f185459c45bfd3,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3310727972
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10840,6 +10915,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClearCounter (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3197225973679451994, guid: 274497e16f724ec48bf27090a4ea1e1b,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2502356365
+      objectReference: {fileID: 0}
     - target: {fileID: 4709687570202494214, guid: 274497e16f724ec48bf27090a4ea1e1b,
         type: 3}
       propertyPath: kitchenObjectSO
@@ -11168,6 +11248,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ClearCounter (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3197225973679451994, guid: 274497e16f724ec48bf27090a4ea1e1b,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2443436604
       objectReference: {fileID: 0}
     - target: {fileID: 4709687570202494214, guid: 274497e16f724ec48bf27090a4ea1e1b,
         type: 3}
@@ -13045,6 +13130,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClearCounter
       objectReference: {fileID: 0}
+    - target: {fileID: 3197225973679451994, guid: 274497e16f724ec48bf27090a4ea1e1b,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2343966455
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13118,6 +13208,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ClearCounter (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3197225973679451994, guid: 274497e16f724ec48bf27090a4ea1e1b,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 4202391027
       objectReference: {fileID: 0}
     - target: {fileID: 4709687570202494214, guid: 274497e16f724ec48bf27090a4ea1e1b,
         type: 3}
@@ -13836,6 +13931,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClearCounter (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 3197225973679451994, guid: 274497e16f724ec48bf27090a4ea1e1b,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1277399059
+      objectReference: {fileID: 0}
     - target: {fileID: 4709687570202494214, guid: 274497e16f724ec48bf27090a4ea1e1b,
         type: 3}
       propertyPath: kitchenObjectSO
@@ -13916,6 +14016,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClearCounter (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 3197225973679451994, guid: 274497e16f724ec48bf27090a4ea1e1b,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3814024248
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13989,6 +14094,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9046753346958939030, guid: 2a0411e117b7f0a43bdcc9644944ee78,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1883601873
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14374,6 +14484,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 939443864}
     m_Modifications:
+    - target: {fileID: 1028132431325652884, guid: 9a56d658b3b2d4d4494c83952672f837,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2091350753
+      objectReference: {fileID: 0}
     - target: {fileID: 3318505780780111728, guid: 9a56d658b3b2d4d4494c83952672f837,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -14643,6 +14758,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DeliveryCounter
       objectReference: {fileID: 0}
+    - target: {fileID: 7913231425473199415, guid: 5c3f92f69b9132242928c348ea73df99,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2959942357
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14845,6 +14965,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9046753346958939030, guid: 65609ff67cac4a74d9e4c64b56781de3,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3768257292
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15021,6 +15146,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrashCounter
       objectReference: {fileID: 0}
+    - target: {fileID: 3414587007121657065, guid: 8e9196c2b108f8d4ab9187ecc4b5c8e8,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 4274463903
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15095,6 +15225,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9046753346958939030, guid: 9d166a855a4f25e4c8203a19d97bd78c,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2352209020
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15162,6 +15297,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ClearCounter (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3197225973679451994, guid: 274497e16f724ec48bf27090a4ea1e1b,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1418106730
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
