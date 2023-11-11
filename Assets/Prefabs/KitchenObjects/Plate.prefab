@@ -292,7 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2ada0c64ad20a48a7192134203c93c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plateKitchenObject: {fileID: 0}
+  plateKitchenObject: {fileID: 8981639652746308997}
   iconTemplate: {fileID: 5446891869507075039}
 --- !u!114 &3464166531868713595
 MonoBehaviour:

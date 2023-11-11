@@ -1,6 +1,7 @@
 using KitchenChaos;
 using MySOs;
 using System;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Counters
@@ -19,25 +20,55 @@ namespace Counters
 
         private void Update()
         {
+            if (!IsServer)
+            {
+                return;
+            }
+
             _spawnPlateTimer += Time.deltaTime;
             if (GameManager.Instance.IsGamePlaying() && _spawnPlateTimer > _spawnDelay)
             {
                 _spawnPlateTimer = 0;
                 if (_platesSpawnAmount < _platesSpawnAmountMax)
                 {
-                    OnPlateSpawned?.Invoke(this, EventArgs.Empty);
-                    _platesSpawnAmount++;
+                    SpawnPlateServerRpc();
                 }
             }
         }
+
+        [ServerRpc]
+        private void SpawnPlateServerRpc()
+        {
+            SpawnPlateClientRpc();
+        }
+
+        [ClientRpc]
+        private void SpawnPlateClientRpc()
+        {
+            OnPlateSpawned?.Invoke(this, EventArgs.Empty);
+            _platesSpawnAmount++;
+        }
+
         public override void Interact(Player player)
         {
             if (!player.HasKitchenObject() && _platesSpawnAmount > 0)
             {
-                _platesSpawnAmount -= 1;
                 KitchenObject.SpawnKitchenObject(plateKitchenObjectSO, player);
-                OnPlateTaken?.Invoke(this, EventArgs.Empty);
+                InteractLogicServerRpc();
             }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void InteractLogicServerRpc()
+        {
+            InteractLogicClientRpc();
+        }
+
+        [ClientRpc]
+        private void InteractLogicClientRpc()
+        {
+            _platesSpawnAmount -= 1;
+            OnPlateTaken?.Invoke(this, EventArgs.Empty);
         }
     }
 }
