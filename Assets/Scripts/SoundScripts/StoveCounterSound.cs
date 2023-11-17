@@ -42,7 +42,7 @@ namespace KitchenChaos
 
         private void StoveCounterOnProgressChanged(object sender, IHasProgress.OnProgressChangedEventArgs e)
         {
-            playWarningSound = stoveCounter.CounterState.Value == StoveCounter.State.Fried
+            playWarningSound = stoveCounter.CounterState == StoveCounter.State.Fried
                             && e.ProgressNormalized >= e.minWarningProgressAmount;
         }
 
