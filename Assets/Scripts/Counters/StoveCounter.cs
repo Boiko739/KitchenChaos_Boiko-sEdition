@@ -156,11 +156,16 @@ namespace Counters
                     //The player is holding a Plate
                     GetKitchenObject().DestroySelf();
 
-                    ResetTheStoveCounter();
+                    SetStateIdleServerRpc();
                 }
             }
         }
 
+        [ServerRpc(RequireOwnership = false)]
+        private void SetStateIdleServerRpc()
+        {
+            ResetTheStoveCounter();
+        }
         [ServerRpc(RequireOwnership = false)]
         private void InteractLogicPlaceObjectOnCounterServerRpc(int kitchenObjectSOIndex)
         {
