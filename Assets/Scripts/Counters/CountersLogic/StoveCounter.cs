@@ -34,8 +34,8 @@ namespace Counters
         [SerializeField] private FryingRecipeSO[] fryingRecipeSOArray;
         [SerializeField] private BurningRecipeSO[] burningRecipeSOArray;
 
-        private NetworkVariable<float> fryingTimer = new NetworkVariable<float>(0f);
-        private NetworkVariable<float> burningTimer = new NetworkVariable<float>(0f);
+        private NetworkVariable<float> fryingTimer = new(0f);
+        private NetworkVariable<float> burningTimer = new(0f);
 
         private FryingRecipeSO fryingRecipeSO;
         private BurningRecipeSO burningRecipeSO;
@@ -61,7 +61,7 @@ namespace Counters
 
         private void BurningTimer_OnValueChanged(float previousValue, float newValue)
         {
-            float burningTimerMax = burningTimer != null ? burningRecipeSO.burningTimerMax : 1f;
+            float burningTimerMax = burningRecipeSO != null ? burningRecipeSO.burningTimerMax : 1f;
             OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs()
             {
                 ProgressNormalized = burningTimer.Value / burningTimerMax
@@ -70,7 +70,7 @@ namespace Counters
 
         private void FryingTimer_OnValueChanged(float previousValue, float newValue)
         {
-            float fryingTimerMax = fryingTimer != null ? fryingRecipeSO.fryingTimerMax : 1f;
+            float fryingTimerMax = fryingRecipeSO != null ? fryingRecipeSO.fryingTimerMax : 1f;
             OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs()
             {
                 ProgressNormalized = fryingTimer.Value / fryingTimerMax
@@ -148,13 +148,13 @@ namespace Counters
                 if (!player.HasKitchenObject())
                 {
                     GetKitchenObject().SetKitchenObjectParent(player);
-                    ResetTheStoveCounter();
+                    SetStateIdleServerRpc();
                 }
                 else if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject)
                         && plateKitchenObject.TryToAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
                 {
                     //The player is holding a Plate
-                    GetKitchenObject().DestroySelf();
+                    KitchenObject.DestroyKitchenObject(GetKitchenObject());
 
                     SetStateIdleServerRpc();
                 }
@@ -164,8 +164,9 @@ namespace Counters
         [ServerRpc(RequireOwnership = false)]
         private void SetStateIdleServerRpc()
         {
-            ResetTheStoveCounter();
+            CounterState.Value = State.Idle;
         }
+
         [ServerRpc(RequireOwnership = false)]
         private void InteractLogicPlaceObjectOnCounterServerRpc(int kitchenObjectSOIndex)
         {
@@ -190,18 +191,13 @@ namespace Counters
             burningRecipeSO = GetBurningRecipeSOWithInput(kitchenObjectSOInput);
         }
 
-        private void ResetTheStoveCounter()
-        {
-            CounterState.Value = State.Idle;
-        }
-
         private FryingRecipeSO GetFryingReciteSOWithInput(KitchenObjectSO inputKitchenObjectSO)
         {
-            foreach (FryingRecipeSO fryingRecipeSO in fryingRecipeSOArray)
+            foreach (FryingRecipeSO fryingRecipeSOFromArray in fryingRecipeSOArray)
             {
-                if (fryingRecipeSO.input == inputKitchenObjectSO)
+                if (fryingRecipeSOFromArray.input == inputKitchenObjectSO)
                 {
-                    return fryingRecipeSO;
+                    return fryingRecipeSOFromArray;
                 }
             }
 
@@ -210,11 +206,11 @@ namespace Counters
 
         private BurningRecipeSO GetBurningRecipeSOWithInput(KitchenObjectSO inputKitchenObjectSO)
         {
-            foreach (BurningRecipeSO burningRecipeSO in burningRecipeSOArray)
+            foreach (BurningRecipeSO burningRecipeSOFromArray in burningRecipeSOArray)
             {
-                if (burningRecipeSO.input == inputKitchenObjectSO)
+                if (burningRecipeSOFromArray.input == inputKitchenObjectSO)
                 {
-                    return burningRecipeSO;
+                    return burningRecipeSOFromArray;
                 }
             }
 

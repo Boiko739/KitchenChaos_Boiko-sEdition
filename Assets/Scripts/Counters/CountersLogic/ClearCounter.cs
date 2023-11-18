@@ -32,7 +32,7 @@ namespace Counters
                     //The player is holding a Plate
                     if (plateKitchenObject.TryToAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
                     {
-                        GetKitchenObject().DestroySelf();
+                        KitchenObject.DestroyKitchenObject(GetKitchenObject());
                     }
                 }
                 else
@@ -43,7 +43,7 @@ namespace Counters
                         //There is a plate on the counter
                         if (plateKitchenObject.TryToAddIngredient(player.GetKitchenObject().GetKitchenObjectSO()))
                         {
-                            player.GetKitchenObject().DestroySelf();
+                            KitchenObject.DestroyKitchenObject(player.GetKitchenObject());
                         }
                     }
                 }

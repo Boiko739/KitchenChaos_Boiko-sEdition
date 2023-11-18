@@ -1,6 +1,7 @@
 using MySOs;
 using System;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace KitchenChaos
@@ -40,10 +41,25 @@ namespace KitchenChaos
             {
                 //Doesn't have this ingredient yet AND
                 //The ingredient is valid
-                KitchenObjectSOList.Add(kitchenObjectSO);
-                OnIngredientAdded?.Invoke(this, new OnIngredientAddedEventArgs(kitchenObjectSO));
+                AddIngredientServerRpc(
+                    KitchenGameMultiplayer.Instance.GetKitchenObjectSOIndex(kitchenObjectSO)
+                );
+
                 return true;
             }
+        }
+        [ServerRpc(RequireOwnership = false)]
+        private void AddIngredientServerRpc(int kitchenObjectSOIndex)
+        {
+            AddIngredientClientRpc(kitchenObjectSOIndex);
+        }
+
+        [ClientRpc]
+        private void AddIngredientClientRpc(int kitchenObjectSOIndex)
+        {
+            KitchenObjectSO kitchenObjectSO = KitchenGameMultiplayer.Instance.GetKitchenObjectSOFromIndex(kitchenObjectSOIndex);
+            KitchenObjectSOList.Add(kitchenObjectSO);
+            OnIngredientAdded?.Invoke(this, new OnIngredientAddedEventArgs(kitchenObjectSO));
         }
     }
 }
