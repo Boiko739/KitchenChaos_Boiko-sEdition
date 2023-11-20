@@ -1,5 +1,6 @@
 using Counters;
 using System;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -31,8 +32,10 @@ namespace KitchenChaos
             }
         }
 
-        [SerializeField] private LayerMask counterlayerMask;
+        [SerializeField] private LayerMask counterLayerMask;
+        [SerializeField] private LayerMask collisionsLayerMask;
         [SerializeField] private Transform kitchenObjectHoldPoint;
+        [SerializeField] private List<Vector3> spawnPositionList;
 
         private readonly float rotateSpeed = 10f,
                                playerRadius = .7f,
@@ -59,6 +62,7 @@ namespace KitchenChaos
                 LocalInstance = this;
             }
 
+            transform.position = spawnPositionList[(int)OwnerClientId];
             OnAnyPlayerSpawned?.Invoke(this, EventArgs.Empty);
         }
 
@@ -108,7 +112,7 @@ namespace KitchenChaos
                 lastInteractDir = moveDir;
             }
 
-            if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit raycastHit, interactDistance, counterlayerMask)
+            if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit raycastHit, interactDistance, counterLayerMask)
                 && raycastHit.transform.TryGetComponent(out BaseCounter counter))
             {
                 if (counter != selectedCounter)
@@ -135,7 +139,7 @@ namespace KitchenChaos
             Vector3 moveDir = new(inputVector.x, 0f, inputVector.y);
             float moveDistance = moveSpeed * Time.deltaTime;
 
-            bool canMove = !Physics.CapsuleCast(transform.position, transform.position + (Vector3.up * playerHeight), playerRadius, moveDir, moveDistance);
+            bool canMove = !Physics.BoxCast(transform.position, Vector3.one * playerRadius, moveDir, Quaternion.identity, moveDistance, collisionsLayerMask);
             if (canMove)
             {
                 transform.position += moveSpeed * Time.deltaTime * moveDir;
@@ -145,7 +149,7 @@ namespace KitchenChaos
                 //Attempt to move only X or Z direction
 
                 Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized;
-                canMove = (moveDir.x < - .5f || moveDir.x > .5f) && !Physics.CapsuleCast(transform.position, transform.position + (Vector3.up * playerHeight), playerRadius, moveDirX, moveDistance);
+                canMove = (moveDir.x < - .5f || moveDir.x > .5f) && !Physics.BoxCast(transform.position, Vector3.one * playerRadius, moveDirX, Quaternion.identity, moveDistance, collisionsLayerMask);
                 if (canMove)
                 {
                     transform.position += moveSpeed * Time.deltaTime * moveDirX;
@@ -153,7 +157,7 @@ namespace KitchenChaos
                 else
                 {
                     Vector3 moveDirZ = new Vector3(0, 0, moveDir.z).normalized;
-                    canMove = (moveDir.z < -.5f || moveDir.z > .5f) && !Physics.CapsuleCast(transform.position, transform.position + (Vector3.up * playerHeight), playerRadius, moveDirZ, moveDistance);
+                    canMove = (moveDir.z < -.5f || moveDir.z > .5f) && !Physics.BoxCast(transform.position, Vector3.one * playerRadius, moveDirZ, Quaternion.identity, moveDistance, collisionsLayerMask);
                     if (canMove)
                     {
                         transform.position += moveSpeed * Time.deltaTime * moveDirZ;
