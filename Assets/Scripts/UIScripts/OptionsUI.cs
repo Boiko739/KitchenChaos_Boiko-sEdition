@@ -48,7 +48,11 @@ namespace MyUIs
         private void Awake()
         {
             Instance = this;
+            AddingListenersForButtons();
+        }
 
+        private void AddingListenersForButtons()
+        {
             soundEffectsButton.onClick.AddListener(() =>
             {
                 SoundManager.Instance.ChangeVolume();
@@ -120,11 +124,11 @@ namespace MyUIs
 
         private void Start()
         {
+            gameObject.SetActive(false);
             GameManager.Instance.OnGameUnpaused += GameManagerOnGameUnpaused;
 
             UpdateVisual();
 
-            gameObject.SetActive(false);
             pressToRebindKeyTransform.gameObject.SetActive(false);
         }
 

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5471030805193037623}
   - component: {fileID: 5308741721829948715}
-  - component: {fileID: 2880886004674310126}
+  - component: {fileID: 3440792985019466791}
   m_Layer: 6
   m_Name: Sound
   m_TagString: Untagged
@@ -51,7 +51,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 121
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -129,7 +129,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &2880886004674310126
+--- !u!114 &3440792985019466791
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -138,7 +138,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6393907847677242661}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40f7d4e631a7e8845b4d52a00b92f171, type: 3}
+  m_Script: {fileID: 11500000, guid: 22f410d235cd6274a8f4377d1f03b235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   stoveCounter: {fileID: 5126163375615750959}
@@ -553,6 +553,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StoveCounter
+      objectReference: {fileID: 0}
+    - target: {fileID: 3437494266450704615, guid: 5d9d7ad0a90302942bf21c30fb60f5ae,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 951099334
       objectReference: {fileID: 0}
     - target: {fileID: 4381004618563819545, guid: 5d9d7ad0a90302942bf21c30fb60f5ae,
         type: 3}

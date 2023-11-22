@@ -21,16 +21,16 @@ namespace KitchenChaos
 
         private void Start()
         {
-            GameManager.Instance.OnStateChanged += GameManagerOnStateChanged;
+            GameManager.Instance.OnLocalPlayerReadyChanged += GameManagerOnLocalPlayerReadyChanged; ;
 
             UpdateVisual();
             GameInput.Instance.OnBindingRebind += GameInputOnBindingRebind;
             gameObject.SetActive(GameManager.IsFirstGame);
         }
 
-        private void GameManagerOnStateChanged(object sender, System.EventArgs e)
+        private void GameManagerOnLocalPlayerReadyChanged(object sender, System.EventArgs e)
         {
-            if (!GameManager.Instance.IsGameWaitingToStart())
+            if (GameManager.Instance.IsLocalPlayerReady)
             {
                 gameObject.SetActive(false);
             }

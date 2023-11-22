@@ -26,7 +26,7 @@ namespace MyUIs
 
         private void Start()
         {
-            GameManager.Instance.OnStateChanged += GameManagerOnStateChanged;
+            GameManager.Instance.OnGameStateChanged += GameManagerOnStateChanged;
             gameObject.SetActive(false);
         }
 

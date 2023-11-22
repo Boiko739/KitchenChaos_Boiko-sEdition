@@ -13,6 +13,11 @@ namespace MyUIs
 
         private void Awake()
         {
+            AddingListenersForButtons();
+        }
+
+        private void AddingListenersForButtons()
+        {
             resumeButton.onClick.AddListener(() =>
             {
                 GameManager.Instance.TogglePauseGame();
