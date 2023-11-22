@@ -1,4 +1,5 @@
 using Counters;
+using MySOs;
 using MyUIs;
 using System;
 using UnityEngine;
@@ -34,7 +35,7 @@ namespace KitchenChaos
             Player.OnAnyPlayerPickedSomething += PlayerOnAnyPickedSomething;
             //Player.LocalInstance.GetComponentInChildren<PlayerSounds>().OnWalking += PlayerOnWalking;
         }
-        
+
         public void PlayBurnWarningSound(StoveCounter stoveCounter)
         {
             PlaySound(audioClipRefsSO.warning[1], stoveCounter.transform.position);

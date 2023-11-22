@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43b01c45630cb4b43992ea3a8da7c4d7, type: 3}
-  m_Name: AudipClipRefsSO
+  m_Script: {fileID: 11500000, guid: ea9a690b13cda9a4e8e3a34d9cf847b0, type: 3}
+  m_Name: Audio Clip Refs SO
   m_EditorClassIdentifier: 
   chop:
   - {fileID: 8300000, guid: e519f586b4ac0904e877dfab85ed729e, type: 3}

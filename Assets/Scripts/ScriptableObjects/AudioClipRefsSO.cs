@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace KitchenChaos
+namespace MySOs
 {
     [CreateAssetMenu()]
     public class AudioClipRefsSO : ScriptableObject
