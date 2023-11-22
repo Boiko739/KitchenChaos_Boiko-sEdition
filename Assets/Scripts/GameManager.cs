@@ -1,15 +1,19 @@
 using System;
+using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace KitchenChaos
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : NetworkBehaviour
     {
         public static GameManager Instance { get; private set; }
 
-        public event EventHandler OnStateChanged;
+        public event EventHandler OnGameStateChanged;
         public event EventHandler OnGamePaused;
         public event EventHandler OnGameUnpaused;
+        public event EventHandler OnLocalPlayerReadyChanged;
 
         private enum GameState
         {
@@ -19,19 +23,26 @@ namespace KitchenChaos
             GameOver
         }
 
-        private GameState gameState;
+        private NetworkVariable<GameState> gameState = new(GameState.WaitingToStart);
 
         private bool isGamePaused = false;
-        private float gamePlayingTimer;
-        private readonly float gamePlayingTimerMax = 120f;
+        private bool isLocalPlayerReady;
+        private NetworkVariable<float> countdownToStartTimer = new(3f);
+        private NetworkVariable<float> gamePlayingTimer = new(0f);
+        private readonly float gamePlayingTimerMax = 90f;
+
+        private Dictionary<ulong, bool> playerReadyDictionary;
 
         public static bool IsFirstGame { get; set; } = true;
-        public float CountdownToStartTimer { get; private set; } = 1f;
+        public bool IsLocalPlayerReady { get => isLocalPlayerReady; }
+        public float CountdownToStartTimer { get => countdownToStartTimer.Value; private set => countdownToStartTimer.Value = value; }
+        public float GamePlayingTimer { get => gamePlayingTimer.Value; private set => gamePlayingTimer.Value = value; }
 
         private void Awake()
         {
             Instance = this;
-            gameState = GameState.WaitingToStart;
+
+            playerReadyDictionary = new Dictionary<ulong, bool>();
         }
 
         private void Start()
@@ -40,14 +51,42 @@ namespace KitchenChaos
             GameInput.Instance.OnInteractAction += GameInputOnInteractAction;
         }
 
+        public override void OnNetworkSpawn()
+        {
+            gameState.OnValueChanged += GameStateOnValueChanged;
+        }
+
+        private void GameStateOnValueChanged(GameState previousValue, GameState newValue)
+        {
+            OnGameStateChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         private void GameInputOnInteractAction(object sender, EventArgs e)
         {
-            if (gameState == GameState.WaitingToStart)
+            if (gameState.Value == GameState.WaitingToStart)
             {
-                gameState = GameState.CountdownToStart;
-                OnStateChanged?.Invoke(this, EventArgs.Empty);
-                IsFirstGame = false;
+                isLocalPlayerReady = true;
+                OnLocalPlayerReadyChanged?.Invoke(this, EventArgs.Empty);
+
+                SetPlayerReadyServerRpc();
             }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void SetPlayerReadyServerRpc(ServerRpcParams serverRpcParams = default)
+        {
+            playerReadyDictionary[serverRpcParams.Receive.SenderClientId] = true;
+
+            foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
+            {
+                if (!playerReadyDictionary.ContainsKey(clientId) || !playerReadyDictionary[clientId])
+                {
+                    return;
+                }
+            }
+
+            //All clients are ready
+            gameState.Value = GameState.CountdownToStart;
         }
 
         private void GameInputOnPauseAction(object sender, EventArgs e)
@@ -57,7 +96,12 @@ namespace KitchenChaos
 
         void Update()
         {
-            switch (gameState)
+            if (!IsServer)
+            {
+                return;
+            }
+
+            switch (gameState.Value)
             {
                 case GameState.WaitingToStart:
                     if (!IsFirstGame)
@@ -71,20 +115,19 @@ namespace KitchenChaos
                     CountdownToStartTimer -= Time.deltaTime;
                     if (CountdownToStartTimer <= 0)
                     {
-                        gamePlayingTimer = gamePlayingTimerMax;
+                        GamePlayingTimer = gamePlayingTimerMax;
 
-                        gameState = GameState.GamePlaying;
-                        OnStateChanged?.Invoke(this, EventArgs.Empty);
+                        gameState.Value = GameState.GamePlaying;
+                        OnGameStateChanged?.Invoke(this, EventArgs.Empty);
                     }
 
                     break;
 
                 case GameState.GamePlaying:
-                    gamePlayingTimer -= Time.deltaTime;
-                    if (gamePlayingTimer <= 0)
+                    GamePlayingTimer -= Time.deltaTime;
+                    if (GamePlayingTimer <= 0)
                     {
-                        gameState = GameState.GameOver;
-                        OnStateChanged?.Invoke(this, EventArgs.Empty);
+                        gameState.Value = GameState.GameOver;
                     }
 
                     break;
@@ -111,27 +154,27 @@ namespace KitchenChaos
 
         public bool IsGameWaitingToStart()
         {
-            return gameState == GameState.WaitingToStart;
+            return gameState.Value == GameState.WaitingToStart;
         }
 
         public bool IsGamePlaying()
         {
-            return gameState == GameState.GamePlaying;
+            return gameState.Value == GameState.GamePlaying;
         }
 
         public bool IsCountdownToStart()
         {
-            return gameState == GameState.CountdownToStart;
+            return gameState.Value == GameState.CountdownToStart;
         }
 
         public bool IsGameOver()
         {
-            return gameState == GameState.GameOver;
+            return gameState.Value == GameState.GameOver;
         }
 
         public float GetGamePlayingTimerNormalized()
         {
-            return 1f - (gamePlayingTimer / gamePlayingTimerMax);
+            return 1f - (GamePlayingTimer / gamePlayingTimerMax);
         }
     }
 }
