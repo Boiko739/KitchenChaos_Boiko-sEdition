@@ -37,8 +37,8 @@ namespace MyUIs
 
         private void Start()
         {
-            GameManager.Instance.OnGamePaused += GameManagerOnGamePaused;
-            GameManager.Instance.OnGameUnpaused += GameManagerOnGameUnpaused;
+            GameManager.Instance.OnLocalGamePaused += GameManagerOnLocalGamePaused;
+            GameManager.Instance.OnLocalGameUnpaused += GameManagerOnLocalGameUnpaused;
 
             gameObject.SetActive(false);
         }
@@ -49,12 +49,12 @@ namespace MyUIs
             resumeButton.Select();
         }
 
-        private void GameManagerOnGamePaused(object sender, EventArgs e)
+        private void GameManagerOnLocalGamePaused(object sender, EventArgs e)
         {
             Show();
         }
 
-        private void GameManagerOnGameUnpaused(object sender, EventArgs e)
+        private void GameManagerOnLocalGameUnpaused(object sender, EventArgs e)
         {
             gameObject.SetActive(false);
         }

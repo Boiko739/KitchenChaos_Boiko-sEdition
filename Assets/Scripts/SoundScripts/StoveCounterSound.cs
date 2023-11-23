@@ -23,11 +23,11 @@ namespace KitchenChaos
         {
             stoveCounter.OnStateChanged += StoveCounterOnStateChanged;
             stoveCounter.OnProgressChanged += StoveCounterOnProgressChanged;
-            GameManager.Instance.OnGamePaused += GameManagerOnGamePaused;
-            GameManager.Instance.OnGameUnpaused += GameManagerOnGameunpaused;
+            GameManager.Instance.OnLocalGamePaused += GameManagerOnLocalGamePaused;
+            GameManager.Instance.OnLocalGameUnpaused += GameManagerOnLocalGameUnpaused;
         }
 
-        private void GameManagerOnGameunpaused(object sender, EventArgs e)
+        private void GameManagerOnLocalGameUnpaused(object sender, EventArgs e)
         {
             if (PlaySound)
             {
@@ -35,7 +35,7 @@ namespace KitchenChaos
             }
         }
 
-        private void GameManagerOnGamePaused(object sender, EventArgs e)
+        private void GameManagerOnLocalGamePaused(object sender, EventArgs e)
         {
             audioSource.Pause();
         }

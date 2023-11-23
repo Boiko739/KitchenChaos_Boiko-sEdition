@@ -11,8 +11,10 @@ namespace KitchenChaos
         public static GameManager Instance { get; private set; }
 
         public event EventHandler OnGameStateChanged;
-        public event EventHandler OnGamePaused;
-        public event EventHandler OnGameUnpaused;
+        public event EventHandler OnLocalGamePaused;
+        public event EventHandler OnLocalGameUnpaused;
+        public event EventHandler OnMultiplayerGamePaused;
+        public event EventHandler OnMultiplayerGameUnpaused;
         public event EventHandler OnLocalPlayerReadyChanged;
 
         private enum GameState
@@ -24,14 +26,18 @@ namespace KitchenChaos
         }
 
         private NetworkVariable<GameState> gameState = new(GameState.WaitingToStart);
+        private NetworkVariable<bool> isGamePaused = new(false);
 
-        private bool isGamePaused = false;
+        private bool isLocalGamePaused = false;
         private bool isLocalPlayerReady;
+
         private NetworkVariable<float> countdownToStartTimer = new(3f);
         private NetworkVariable<float> gamePlayingTimer = new(0f);
+
         private readonly float gamePlayingTimerMax = 90f;
 
         private Dictionary<ulong, bool> playerReadyDictionary;
+        private Dictionary<ulong, bool> playerPausedDictionary;
 
         public static bool IsFirstGame { get; set; } = true;
         public bool IsLocalPlayerReady { get => isLocalPlayerReady; }
@@ -43,6 +49,7 @@ namespace KitchenChaos
             Instance = this;
 
             playerReadyDictionary = new Dictionary<ulong, bool>();
+            playerPausedDictionary = new Dictionary<ulong, bool>();
         }
 
         private void Start()
@@ -54,6 +61,21 @@ namespace KitchenChaos
         public override void OnNetworkSpawn()
         {
             gameState.OnValueChanged += GameStateOnValueChanged;
+            isGamePaused.OnValueChanged += IsGamePausedOnValueChanged;
+        }
+
+        private void IsGamePausedOnValueChanged(bool previousValue, bool newValue)
+        {
+            if (isGamePaused.Value)
+            {
+                OnMultiplayerGamePaused?.Invoke(this, EventArgs.Empty);
+                Time.timeScale = 0f;
+            }
+            else
+            {
+                OnMultiplayerGameUnpaused?.Invoke(this, EventArgs.Empty);
+                Time.timeScale = 1f;
+            }
         }
 
         private void GameStateOnValueChanged(GameState previousValue, GameState newValue)
@@ -139,17 +161,17 @@ namespace KitchenChaos
 
         public void TogglePauseGame()
         {
-            isGamePaused = !isGamePaused;
-            if (isGamePaused)
+            isLocalGamePaused = !isLocalGamePaused;
+            if (isLocalGamePaused)
             {
-                OnGamePaused?.Invoke(this, EventArgs.Empty);
+                PauseGameServerRpc();
+                OnLocalGamePaused?.Invoke(this, EventArgs.Empty);
             }
             else
             {
-                OnGameUnpaused?.Invoke(this, EventArgs.Empty);
+                UnpauseGameServerRpc();
+                OnLocalGameUnpaused?.Invoke(this, EventArgs.Empty);
             }
-
-            Time.timeScale = isGamePaused ? 0f : 1f;
         }
 
         public bool IsGameWaitingToStart()
@@ -175,6 +197,36 @@ namespace KitchenChaos
         public float GetGamePlayingTimerNormalized()
         {
             return 1f - (GamePlayingTimer / gamePlayingTimerMax);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void PauseGameServerRpc(ServerRpcParams rpcParams = default)
+        {
+            playerPausedDictionary[rpcParams.Receive.SenderClientId] = true;
+            TestGamePausedState();
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void UnpauseGameServerRpc(ServerRpcParams rpcParams = default)
+        {
+            playerPausedDictionary[rpcParams.Receive.SenderClientId] = false;
+            TestGamePausedState();
+        }
+
+        private void TestGamePausedState()
+        {
+            foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
+            {
+                if (playerPausedDictionary.ContainsKey(clientId) && playerPausedDictionary[clientId])
+                {
+                    //This player is paused
+                    isGamePaused.Value = true;
+                    return;
+                }
+
+                //All players are unpaused
+                isGamePaused.Value = false;
+            }
         }
     }
 }

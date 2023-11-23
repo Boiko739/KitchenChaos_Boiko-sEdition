@@ -125,14 +125,14 @@ namespace MyUIs
         private void Start()
         {
             gameObject.SetActive(false);
-            GameManager.Instance.OnGameUnpaused += GameManagerOnGameUnpaused;
+            GameManager.Instance.OnLocalGameUnpaused += GameManagerOnLocalGameUnpaused;
 
             UpdateVisual();
 
             pressToRebindKeyTransform.gameObject.SetActive(false);
         }
 
-        private void GameManagerOnGameUnpaused(object sender, EventArgs e)
+        private void GameManagerOnLocalGameUnpaused(object sender, EventArgs e)
         {
             gameObject.SetActive(false);
         }
