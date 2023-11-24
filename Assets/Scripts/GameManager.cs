@@ -30,6 +30,7 @@ namespace KitchenChaos
 
         private bool isLocalGamePaused = false;
         private bool isLocalPlayerReady;
+        private bool autoTestGamePausedState;
 
         private NetworkVariable<float> countdownToStartTimer = new(3f);
         private NetworkVariable<float> gamePlayingTimer = new(0f);
@@ -62,6 +63,16 @@ namespace KitchenChaos
         {
             gameState.OnValueChanged += GameStateOnValueChanged;
             isGamePaused.OnValueChanged += IsGamePausedOnValueChanged;
+
+            if (IsServer)
+            {
+                NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+            }
+        }
+
+        private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
+        {
+            autoTestGamePausedState = true;
         }
 
         private void IsGamePausedOnValueChanged(bool previousValue, bool newValue)
@@ -114,6 +125,15 @@ namespace KitchenChaos
         private void GameInputOnPauseAction(object sender, EventArgs e)
         {
             TogglePauseGame();
+        }
+
+        private void LateUpdate()
+        {
+            if (autoTestGamePausedState)
+            {
+                autoTestGamePausedState = false;
+                TestGamePausedState();
+            }
         }
 
         void Update()

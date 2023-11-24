@@ -64,6 +64,19 @@ namespace KitchenChaos
 
             transform.position = spawnPositionList[(int)OwnerClientId];
             OnAnyPlayerSpawned?.Invoke(this, EventArgs.Empty);
+
+            if (IsServer)
+            {
+                NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+            }
+        }
+
+        private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
+        {
+            if (clientId == OwnerClientId && HasKitchenObject())
+            {
+                KitchenObject.DestroyKitchenObject(GetKitchenObject());
+            }
         }
 
         private void Update()
@@ -149,7 +162,7 @@ namespace KitchenChaos
                 //Attempt to move only X or Z direction
 
                 Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized;
-                canMove = (moveDir.x < - .5f || moveDir.x > .5f) && !Physics.BoxCast(transform.position, Vector3.one * playerRadius, moveDirX, Quaternion.identity, moveDistance, collisionsLayerMask);
+                canMove = (moveDir.x < -.5f || moveDir.x > .5f) && !Physics.BoxCast(transform.position, Vector3.one * playerRadius, moveDirX, Quaternion.identity, moveDistance, collisionsLayerMask);
                 if (canMove)
                 {
                     transform.position += moveSpeed * Time.deltaTime * moveDirX;

@@ -1,17 +1,26 @@
 using KitchenChaos;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace MyUIs
 {
     public class GameOverUI : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI recipesDeliveredText;
+        [SerializeField] private Button mainMenuButton;
 
         private void Start()
         {
             GameManager.Instance.OnGameStateChanged += GameManagerOnStateChanged;
             gameObject.SetActive(false);
+
+            mainMenuButton.onClick.AddListener(() =>
+            {
+                NetworkManager.Singleton.Shutdown();
+                Loader.Load(Loader.SceneName.MainMenuScene);
+            });
         }
 
         private void GameManagerOnStateChanged(object sender, System.EventArgs e)

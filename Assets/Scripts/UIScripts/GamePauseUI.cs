@@ -1,5 +1,6 @@
 using KitchenChaos;
 using System;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +26,7 @@ namespace MyUIs
 
             mainMenuButton.onClick.AddListener(() =>
             {
+                NetworkManager.Singleton.Shutdown();
                 Loader.Load(Loader.SceneName.MainMenuScene);
             });
 
