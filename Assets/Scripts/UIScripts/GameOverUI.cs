@@ -14,13 +14,14 @@ namespace MyUIs
         private void Start()
         {
             GameManager.Instance.OnGameStateChanged += GameManagerOnStateChanged;
-            gameObject.SetActive(false);
 
             mainMenuButton.onClick.AddListener(() =>
             {
                 NetworkManager.Singleton.Shutdown();
                 Loader.Load(Loader.SceneName.MainMenuScene);
             });
+
+            gameObject.SetActive(false);
         }
 
         private void GameManagerOnStateChanged(object sender, System.EventArgs e)

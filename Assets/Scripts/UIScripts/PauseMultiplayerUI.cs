@@ -20,7 +20,7 @@ public class PauseMultiplayerUI : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void GameManagerOnMultiplayerGamePaused(object sender, System.EventArgs e)
+    private void GameManagerOnMultiplayerGamePaused(object sender, EventArgs e)
     {
         gameObject.SetActive(true);
     }
