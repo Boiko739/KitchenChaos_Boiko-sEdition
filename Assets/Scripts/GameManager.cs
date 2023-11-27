@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.Properties;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace KitchenChaos
 {
@@ -25,15 +25,15 @@ namespace KitchenChaos
             GameOver
         }
 
-        private NetworkVariable<GameState> gameState = new(GameState.WaitingToStart);
-        private NetworkVariable<bool> isGamePaused = new(false);
+        private readonly NetworkVariable<GameState> gameState = new(GameState.WaitingToStart);
+        private readonly NetworkVariable<bool> isGamePaused = new(false);
 
         private bool isLocalGamePaused = false;
         private bool isLocalPlayerReady;
         private bool autoTestGamePausedState;
 
-        private NetworkVariable<float> countdownToStartTimer = new(3f);
-        private NetworkVariable<float> gamePlayingTimer = new(0f);
+        private readonly NetworkVariable<float> countdownToStartTimer = new(3f);
+        private readonly NetworkVariable<float> gamePlayingTimer = new(0f);
 
         private readonly float gamePlayingTimerMax = 90f;
 
@@ -51,6 +51,23 @@ namespace KitchenChaos
 
             playerReadyDictionary = new Dictionary<ulong, bool>();
             playerPausedDictionary = new Dictionary<ulong, bool>();
+        }
+
+        public void StartHost()
+        {
+            NetworkManager.ConnectionApprovalCallback += NetworkManagerConnectionApprovalCallback;
+            NetworkManager.StartHost();
+        }
+
+        private void NetworkManagerConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest connectionApprovalRequest, NetworkManager.ConnectionApprovalResponse connectionApprovalResponse)
+        {
+            connectionApprovalResponse.Approved = Instance.IsWaitingToStart();
+            connectionApprovalResponse.CreatePlayerObject = Instance.IsWaitingToStart();
+        }
+
+        public void StartClient()
+        {
+            NetworkManager.StartClient();
         }
 
         private void Start()
@@ -194,7 +211,7 @@ namespace KitchenChaos
             }
         }
 
-        public bool IsGameWaitingToStart()
+        public bool IsWaitingToStart()
         {
             return gameState.Value == GameState.WaitingToStart;
         }

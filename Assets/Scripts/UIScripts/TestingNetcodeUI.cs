@@ -1,3 +1,4 @@
+using KitchenChaos;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -14,14 +15,14 @@ public class TestingNetcodeUI : NetworkBehaviour
         startHostButton.onClick.AddListener(() =>
         {
             print("HOST!");
-            NetworkManager.Singleton.StartHost();
+            GameManager.Instance.StartHost();
             gameObject.SetActive(false);
         });
 
         startClientButton.onClick.AddListener(() =>
         {
             print("CLIENT!");
-            NetworkManager.Singleton.StartClient();
+            GameManager.Instance.StartClient();
             gameObject.SetActive(false);
         });
     }
