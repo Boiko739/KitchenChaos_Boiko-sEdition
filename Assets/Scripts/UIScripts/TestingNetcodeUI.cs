@@ -15,14 +15,14 @@ public class TestingNetcodeUI : NetworkBehaviour
         startHostButton.onClick.AddListener(() =>
         {
             print("HOST!");
-            GameManager.Instance.StartHost();
+            KitchenGameMultiplayer.Instance.StartHost();
             gameObject.SetActive(false);
         });
 
         startClientButton.onClick.AddListener(() =>
         {
             print("CLIENT!");
-            GameManager.Instance.StartClient();
+            KitchenGameMultiplayer.Instance.StartClient();
             gameObject.SetActive(false);
         });
     }

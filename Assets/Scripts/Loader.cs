@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine.SceneManagement;
 
 namespace KitchenChaos
@@ -7,6 +8,8 @@ namespace KitchenChaos
         public enum SceneName
         {
             MainMenuScene,
+            LobbyScene,
+            CharacterSelectScene,
             LoadingScene,
             GameScene
         }
@@ -18,6 +21,11 @@ namespace KitchenChaos
             Loader.targetSceneName = targetSceneName;
 
             SceneManager.LoadScene(SceneName.LoadingScene.ToString());
+        }
+
+        public static void LoadNetwork(SceneName targetSceneName)
+        {
+            NetworkManager.Singleton.SceneManager.LoadScene(targetSceneName.ToString(), LoadSceneMode.Single);
         }
 
         public static void LoaderCallback()
