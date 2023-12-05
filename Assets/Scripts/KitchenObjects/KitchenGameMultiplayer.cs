@@ -20,6 +20,7 @@ public class KitchenGameMultiplayer : NetworkBehaviour
     [SerializeField] private KitchenObjectListSO kitchenObjectListSO;
 
     public NetworkList<PlayerData> playerDataNetworkList;
+    public List<Color> playerColorList;
 
     private void Awake()
     {
@@ -138,5 +139,15 @@ public class KitchenGameMultiplayer : NetworkBehaviour
     public bool IsPlayerConnected(int playerIndex)
     {
         return playerIndex < playerDataNetworkList.Count;
+    }
+
+    public PlayerData GetPlayerDataFromPlayerIndex(int index)
+    {
+        return playerDataNetworkList[index];
+    }
+
+    public Color GetPlayerColor(int colorId)
+    {
+        return playerColorList[colorId];
     }
 }
