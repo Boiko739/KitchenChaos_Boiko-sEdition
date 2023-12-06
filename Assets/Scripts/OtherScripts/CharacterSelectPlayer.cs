@@ -25,10 +25,11 @@ public class CharacterSelectPlayer : MonoBehaviour
         if (KitchenGameMultiplayer.Instance.IsPlayerConnected(playerIndex))
         {
             gameObject.SetActive(true);
-            readyGameObject.SetActive(CharacterSelectReady.Instance.IsPlayerReady(
-                KitchenGameMultiplayer.Instance.GetPlayerDataFromPlayerIndex(playerIndex).clientId));
+            PlayerData playerData = KitchenGameMultiplayer.Instance.GetPlayerDataFromPlayerIndex(playerIndex);
 
-            playerVisual.SetPlayerColor(KitchenGameMultiplayer.Instance.GetPlayerColor(playerIndex));
+            readyGameObject.SetActive(CharacterSelectReady.Instance.IsPlayerReady(playerData.clientId));
+
+            playerVisual.SetPlayerColor(KitchenGameMultiplayer.Instance.GetPlayerColor(playerData.colorId));
         }
         else
         {
