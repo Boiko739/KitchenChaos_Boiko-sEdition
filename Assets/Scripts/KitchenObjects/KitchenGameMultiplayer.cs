@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Rendering.UI;
 using UnityEngine.SceneManagement;
 
 public class KitchenGameMultiplayer : NetworkBehaviour
@@ -41,7 +42,20 @@ public class KitchenGameMultiplayer : NetworkBehaviour
     {
         NetworkManager.Singleton.ConnectionApprovalCallback += NetworkManagerConnectionApprovalCallback;
         NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Server_OnClientConnectedCallback;
         NetworkManager.Singleton.StartHost();
+    }
+
+    private void NetworkManager_Server_OnClientConnectedCallback(ulong clientId)
+    {
+        for (int i = 0; i < playerDataNetworkList.Count; i++)
+        {
+            PlayerData playerData = playerDataNetworkList[i];
+            if (playerData.clientId == clientId)
+            {
+                playerDataNetworkList.RemoveAt(i);
+            }
+        }
     }
 
     private void NetworkManager_OnClientConnectedCallback(ulong clientId)
@@ -74,11 +88,11 @@ public class KitchenGameMultiplayer : NetworkBehaviour
     {
         OnTryingToJoinGame?.Invoke(this, EventArgs.Empty);
 
-        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManagerOnClientDisconnectCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Client_OnClientDisconnectCallback;
         NetworkManager.StartClient();
     }
 
-    private void NetworkManagerOnClientDisconnectCallback(ulong clientId)
+    private void NetworkManager_Client_OnClientDisconnectCallback(ulong clientId)
     {
         OnFailedToJoinGame?.Invoke(this, EventArgs.Empty);
     }
@@ -233,5 +247,11 @@ public class KitchenGameMultiplayer : NetworkBehaviour
         }
 
         return -1;
+    }
+
+    public void KickPlayer(ulong clientId)
+    {
+        NetworkManager.Singleton.DisconnectClient(clientId);
+        NetworkManager_Server_OnClientConnectedCallback(clientId);
     }
 }

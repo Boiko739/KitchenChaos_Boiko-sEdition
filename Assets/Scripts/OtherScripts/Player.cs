@@ -36,6 +36,7 @@ namespace KitchenChaos
         [SerializeField] private LayerMask collisionsLayerMask;
         [SerializeField] private Transform kitchenObjectHoldPoint;
         [SerializeField] private List<Vector3> spawnPositionList;
+        [SerializeField] private PlayerVisual playerVisual;
 
         private readonly float rotateSpeed = 10f,
                                playerRadius = .7f,
@@ -53,6 +54,9 @@ namespace KitchenChaos
         {
             GameInput.Instance.OnInteractAction += GameInputOnInteractAction;
             GameInput.Instance.OnInteractAlternateAction += GameInputOnInteractAlternateAction;
+
+            PlayerData playerData = KitchenGameMultiplayer.Instance.GetPlayerDataFromLocalId(OwnerClientId);
+            playerVisual.SetPlayerColor(KitchenGameMultiplayer.Instance.GetPlayerColor(playerData.colorId));
         }
 
         public override void OnNetworkSpawn()
@@ -62,7 +66,7 @@ namespace KitchenChaos
                 LocalInstance = this;
             }
 
-            transform.position = spawnPositionList[(int)OwnerClientId];
+            transform.position = spawnPositionList[KitchenGameMultiplayer.Instance.GetPlayerIndexFromClientId(OwnerClientId)];
             OnAnyPlayerSpawned?.Invoke(this, EventArgs.Empty);
 
             if (IsServer)

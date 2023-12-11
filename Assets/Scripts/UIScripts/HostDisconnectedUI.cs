@@ -33,4 +33,9 @@ public class HostDisconnectedUI : MonoBehaviour
             recipesDeliveredText.text = DeliveryManager.Instance.SuccessfulDeliveriesAmount.ToString();
         }
     }
+
+    private void OnDestroy()
+    {
+        NetworkManager.Singleton.OnClientDisconnectCallback -= NetworkManager_OnClientDisconnectCallback;
+    }
 }
