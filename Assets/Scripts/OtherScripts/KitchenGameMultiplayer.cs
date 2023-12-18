@@ -3,6 +3,7 @@ using MySOs;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Rendering.UI;
@@ -11,6 +12,7 @@ using UnityEngine.SceneManagement;
 public class KitchenGameMultiplayer : NetworkBehaviour
 {
     private const int MAX_PLAYER_AMOUNT = 4;
+    private const string PLAYER_PREFS_PlayerNameMultiplayer = "PlayerNameMultiplayer";
 
     public static KitchenGameMultiplayer Instance { get; private set; }
 
@@ -21,13 +23,25 @@ public class KitchenGameMultiplayer : NetworkBehaviour
     [SerializeField] private KitchenObjectListSO kitchenObjectListSO;
 
     public NetworkList<PlayerData> playerDataNetworkList;
-    public List<Color> playerColorList;
+    public List<UnityEngine.Color> playerColorList;
+    private string playerName;
+    public string PlayerName
+    {
+        get { return playerName; }
+        set
+        {
+            playerName = value;
+            PlayerPrefs.SetString(PLAYER_PREFS_PlayerNameMultiplayer, value);
+        }
+    }
 
     private void Awake()
     {
         Instance = this;
 
         DontDestroyOnLoad(this);
+
+        PlayerName = PlayerPrefs.GetString(PLAYER_PREFS_PlayerNameMultiplayer, "Player " + UnityEngine.Random.Range(100, 1000));
 
         playerDataNetworkList = new NetworkList<PlayerData>();
         playerDataNetworkList.OnListChanged += PlayerDataNetworkListOnListChanged;
@@ -65,6 +79,8 @@ public class KitchenGameMultiplayer : NetworkBehaviour
             clientId = clientId, 
             colorId =  GetFirstUnusedColorId()
         });
+
+        SetPlayerNameServerRpc(PlayerName);
     }
 
     private void NetworkManagerConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest connectionApprovalRequest, NetworkManager.ConnectionApprovalResponse connectionApprovalResponse)
@@ -89,11 +105,25 @@ public class KitchenGameMultiplayer : NetworkBehaviour
         OnTryingToJoinGame?.Invoke(this, EventArgs.Empty);
 
         NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Client_OnClientDisconnectCallback;
+        NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_Client_OnClientDisconnectCallback;
         NetworkManager.StartClient();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SetPlayerNameServerRpc(string playerName, ServerRpcParams serverRpcParams = default)
+    {
+        int playerIndex = GetPlayerIndexFromClientId(serverRpcParams.Receive.SenderClientId);
+
+        PlayerData playerData = playerDataNetworkList[playerIndex];
+
+        playerData.playerName = playerName;
+
+        playerDataNetworkList[playerIndex] = playerData;
     }
 
     private void NetworkManager_Client_OnClientDisconnectCallback(ulong clientId)
     {
+        SetPlayerNameServerRpc(PlayerName); 
         OnFailedToJoinGame?.Invoke(this, EventArgs.Empty);
     }
 
@@ -195,7 +225,7 @@ public class KitchenGameMultiplayer : NetworkBehaviour
         return playerDataNetworkList[index];
     }
 
-    public Color GetPlayerColor(int colorId)
+    public UnityEngine.Color GetPlayerColor(int colorId)
     {
         return playerColorList[colorId];
     }
