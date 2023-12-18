@@ -16,12 +16,12 @@ public class LobbyCreateUI : MonoBehaviour
     {
         createPrivateButton.onClick.AddListener(() =>
         {
-            KitchenGameLobby.Instance.CrateLobby(lobbyNameInputField.text, true);
+            KitchenGameLobby.Instance.CrateLobby(GetLobbyText(), true);
         });
 
         createPublicButton.onClick.AddListener(() =>
         {
-            KitchenGameLobby.Instance.CrateLobby(lobbyNameInputField.text, false);
+            KitchenGameLobby.Instance.CrateLobby(GetLobbyText(), false);
         });
 
         closeButton.onClick.AddListener(() =>
@@ -33,5 +33,10 @@ public class LobbyCreateUI : MonoBehaviour
     private void Start()
     {
         gameObject.SetActive(false);
+    }
+
+    private string GetLobbyText()
+    {
+        return lobbyNameInputField.text == "" ? "Lobby Name" : lobbyNameInputField.text;
     }
 }

@@ -1,4 +1,6 @@
 using KitchenChaos;
+using System;
+using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
@@ -9,8 +11,8 @@ public class KitchenGameLobby : MonoBehaviour
 {
     public const int MAX_PLAYERS_AMOUNT = 4;
 
-    private Lobby lobby;
     private Lobby joinedLobby;
+    private float heatbeatTimer;
 
     public static KitchenGameLobby Instance { get; private set; }
 
@@ -32,11 +34,36 @@ public class KitchenGameLobby : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        HandleHeartbeat();
+    }
+
+    private void HandleHeartbeat()
+    {
+        if (IsLobbyHost())
+        {
+            heatbeatTimer += Time.deltaTime;
+            if (heatbeatTimer <= 0)
+            {
+                float heartbeatTimerMax = 20;
+                heatbeatTimer = heartbeatTimerMax;
+
+                LobbyService.Instance.SendHeartbeatPingAsync(joinedLobby.Id);
+            }
+        }
+    }
+
+    private bool IsLobbyHost()
+    {
+        return joinedLobby != null && joinedLobby.HostId == AuthenticationService.Instance.PlayerId;
+    }
+
     public async void CrateLobby(string lobbyName, bool isPrivate)
     {
         try
         {
-            lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, MAX_PLAYERS_AMOUNT, new CreateLobbyOptions() { IsPrivate = isPrivate });
+            joinedLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, MAX_PLAYERS_AMOUNT, new CreateLobbyOptions() { IsPrivate = isPrivate });
 
             KitchenGameMultiplayer.Instance.StartHost();
             Loader.LoadNetwork(Loader.SceneName.CharacterSelectScene);
