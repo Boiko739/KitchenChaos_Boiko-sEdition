@@ -4,7 +4,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Net.Security;
 using Unity.Netcode;
+using Unity.Services.Authentication;
 using UnityEngine;
 using UnityEngine.Rendering.UI;
 using UnityEngine.SceneManagement;
@@ -54,7 +56,7 @@ public class KitchenGameMultiplayer : NetworkBehaviour
 
     public void StartHost()
     {
-        NetworkManager.Singleton.ConnectionApprovalCallback += NetworkManagerConnectionApprovalCallback;
+        NetworkManager.Singleton.ConnectionApprovalCallback += NetworkManager_ConnectionApprovalCallback;
         NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
         NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Server_OnClientConnectedCallback;
         NetworkManager.Singleton.StartHost();
@@ -81,9 +83,10 @@ public class KitchenGameMultiplayer : NetworkBehaviour
         });
 
         SetPlayerNameServerRpc(PlayerName);
+        SetPlayerIdServerRpc(AuthenticationService.Instance.PlayerId);
     }
 
-    private void NetworkManagerConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest connectionApprovalRequest, NetworkManager.ConnectionApprovalResponse connectionApprovalResponse)
+    private void NetworkManager_ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest connectionApprovalRequest, NetworkManager.ConnectionApprovalResponse connectionApprovalResponse)
     {
         if (SceneManager.GetActiveScene().name !=  Loader.SceneName.CharacterSelectScene.ToString())
         {
@@ -121,9 +124,23 @@ public class KitchenGameMultiplayer : NetworkBehaviour
         playerDataNetworkList[playerIndex] = playerData;
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    private void SetPlayerIdServerRpc(string playerId, ServerRpcParams serverRpcParams = default)
+    {
+        int playerIndex = GetPlayerIndexFromClientId(serverRpcParams.Receive.SenderClientId);
+
+        PlayerData playerData = playerDataNetworkList[playerIndex];
+
+        playerData.playerId = playerId;
+
+        playerDataNetworkList[playerIndex] = playerData;
+    }
+
     private void NetworkManager_Client_OnClientDisconnectCallback(ulong clientId)
     {
-        SetPlayerNameServerRpc(PlayerName); 
+        SetPlayerNameServerRpc(PlayerName);
+        SetPlayerIdServerRpc(AuthenticationService.Instance.PlayerId);
+
         OnFailedToJoinGame?.Invoke(this, EventArgs.Empty);
     }
 

@@ -43,6 +43,7 @@ public class CharacterSelectReady : NetworkBehaviour
 
         //All clients are ready
         Loader.LoadNetwork(Loader.SceneName.GameScene);
+        KitchenGameLobby.Instance.DeleteLobby();
     }
 
     [ClientRpc]

@@ -1,6 +1,5 @@
 using KitchenChaos;
 using System;
-using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
@@ -15,6 +14,12 @@ public class KitchenGameLobby : MonoBehaviour
     private float heatbeatTimer;
 
     public static KitchenGameLobby Instance { get; private set; }
+
+    public event EventHandler OnCreateLobbyStarted;
+    public event EventHandler OnCreateLobbyFailed;
+    public event EventHandler OnJoinStarted;
+    public event EventHandler OnJoinFailed;
+    public event EventHandler OnQuickJoinFailed;
 
     private void Awake()
     {
@@ -61,6 +66,7 @@ public class KitchenGameLobby : MonoBehaviour
 
     public async void CrateLobby(string lobbyName, bool isPrivate)
     {
+        OnCreateLobbyStarted(this, EventArgs.Empty);
         try
         {
             joinedLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, MAX_PLAYERS_AMOUNT, new CreateLobbyOptions() { IsPrivate = isPrivate });
@@ -70,12 +76,14 @@ public class KitchenGameLobby : MonoBehaviour
         }
         catch (LobbyServiceException e)
         {
+            OnCreateLobbyFailed(this, EventArgs.Empty);
             print(e);
         }
     }
 
     public async void QuickJoin()
     {
+        OnJoinStarted(this, EventArgs.Empty);
         try
         {
             joinedLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
@@ -83,12 +91,14 @@ public class KitchenGameLobby : MonoBehaviour
         }
         catch (LobbyServiceException e)
         {
+            OnQuickJoinFailed(this, EventArgs.Empty);
             print(e);
         }
     }
 
     public async void JoinWithCode(string code)
     {
+        OnJoinStarted(this, EventArgs.Empty);
         try
         {
             joinedLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(code);
@@ -96,7 +106,55 @@ public class KitchenGameLobby : MonoBehaviour
         }
         catch (LobbyServiceException e)
         {
+            OnJoinFailed(this, EventArgs.Empty);
             print(e);
+        }
+    }
+
+    public async void DeleteLobby()
+    {
+        if (joinedLobby != null)
+        {
+            try
+            {
+                await LobbyService.Instance.DeleteLobbyAsync(joinedLobby.Id);
+                joinedLobby = null;
+            }
+            catch (LobbyServiceException e)
+            {
+                print(e);
+            }
+        }
+    }
+
+    public async void LeaveLobby()
+    {
+        if (joinedLobby != null)
+        {
+            try
+            {
+                await LobbyService.Instance.RemovePlayerAsync(joinedLobby.Id, AuthenticationService.Instance.PlayerId);
+                joinedLobby = null;
+            }
+            catch (LobbyServiceException e)
+            {
+                print(e);
+            }
+        }
+    }
+
+    public async void KickPlayer(string playerId)
+    {
+        if (IsLobbyHost())
+        {
+            try
+            {
+                await LobbyService.Instance.RemovePlayerAsync(joinedLobby.Id, playerId);
+            }
+            catch (LobbyServiceException e)
+            {
+                print(e);
+            }
         }
     }
 
