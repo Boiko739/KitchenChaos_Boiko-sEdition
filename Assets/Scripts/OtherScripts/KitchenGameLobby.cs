@@ -1,15 +1,23 @@
 using KitchenChaos;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
+using Unity.Networking.Transport.Relay;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class KitchenGameLobby : MonoBehaviour
 {
     public const int MAX_PLAYERS_AMOUNT = 4;
+    private const string KEY_RELAY_JOIN_CODE = "RelayJoinCode";
 
     private Lobby joinedLobby;
     private float heatbeatTimer;
@@ -55,15 +63,16 @@ public class KitchenGameLobby : MonoBehaviour
 
     private void HandlePeriodicListLobbies()
     {
-        if (joinedLobby == null && AuthenticationService.Instance.IsSignedIn)
+        if (joinedLobby == null && AuthenticationService.Instance.IsSignedIn &&
+            SceneManager.GetActiveScene().name == Loader.SceneName.LobbyScene.ToString())
         {
             listLobbiesTimer -= Time.deltaTime;
             if (listLobbiesTimer <= 0)
             {
                 float listLobbiesTimerMax = 3f;
                 listLobbiesTimer = listLobbiesTimerMax;
-            ListLobbies();
-            } 
+                ListLobbies();
+            }
         }
     }
 
@@ -102,9 +111,37 @@ public class KitchenGameLobby : MonoBehaviour
             QueryResponse queryResponse = await LobbyService.Instance.QueryLobbiesAsync(queryLobbiesOptions);
             OnLobbyListChanged?.Invoke(this, new() { lobbyList = queryResponse.Results });
         }
-        catch(LobbyServiceException e)
+        catch (LobbyServiceException e)
         {
             print(e);
+        }
+    }
+
+    private async Task<string> GetRelayJoinCode(Allocation allocation)
+    {
+        try
+        {
+            string relayJoinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+            return relayJoinCode;
+        }
+        catch (RelayServiceException e)
+        {
+            print(e);
+            return default;
+        }
+    }
+
+    private async Task<JoinAllocation> JoinRelay(string relayJoinCode)
+    {
+        try
+        {
+            JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(relayJoinCode);
+            return joinAllocation;
+        }
+        catch (RelayServiceException e)
+        {
+            print(e);
+            return default;
         }
     }
 
@@ -113,7 +150,20 @@ public class KitchenGameLobby : MonoBehaviour
         OnCreateLobbyStarted(this, EventArgs.Empty);
         try
         {
-            joinedLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, MAX_PLAYERS_AMOUNT, new CreateLobbyOptions() { IsPrivate = isPrivate });
+            joinedLobby = await LobbyService.Instance.CreateLobbyAsync
+                (lobbyName, MAX_PLAYERS_AMOUNT, new CreateLobbyOptions() { IsPrivate = isPrivate });
+
+            Allocation allocation = await AllocateRelay();
+            string relayJoinCode = await GetRelayJoinCode(allocation);
+
+            await LobbyService.Instance.UpdateLobbyAsync(joinedLobby.Id, new UpdateLobbyOptions()
+            {
+                Data = new Dictionary<string, DataObject>()
+                {
+                    { KEY_RELAY_JOIN_CODE, new DataObject(DataObject.VisibilityOptions.Member, relayJoinCode) }
+                }
+            });
+
 
             KitchenGameMultiplayer.Instance.StartHost();
             Loader.LoadNetwork(Loader.SceneName.CharacterSelectScene);
@@ -125,12 +175,32 @@ public class KitchenGameLobby : MonoBehaviour
         }
     }
 
+    private async Task<Allocation> AllocateRelay()
+    {
+        try
+        {
+            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(KitchenGameMultiplayer.MAX_PLAYER_AMOUNT - 1);
+            return allocation;
+        }
+        catch (RelayServiceException e)
+        {
+            print(e);
+
+            return default;
+        }
+    }
+
     public async void QuickJoin()
     {
         OnJoinStarted(this, EventArgs.Empty);
         try
         {
             joinedLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
+
+            string joinRelayCode = joinedLobby.Data[KEY_RELAY_JOIN_CODE].Value;
+            JoinAllocation joinAllocation = await JoinRelay(joinRelayCode);
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
+
             KitchenGameMultiplayer.Instance.StartClient();
         }
         catch (LobbyServiceException e)
@@ -146,6 +216,11 @@ public class KitchenGameLobby : MonoBehaviour
         try
         {
             joinedLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(code);
+
+            string joinRelayCode = joinedLobby.Data[KEY_RELAY_JOIN_CODE].Value;
+            JoinAllocation joinAllocation = await JoinRelay(joinRelayCode);
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
+
             KitchenGameMultiplayer.Instance.StartClient();
         }
         catch (LobbyServiceException e)
@@ -161,6 +236,11 @@ public class KitchenGameLobby : MonoBehaviour
         try
         {
             joinedLobby = await LobbyService.Instance.JoinLobbyByIdAsync(id);
+
+            string joinRelayCode = joinedLobby.Data[KEY_RELAY_JOIN_CODE].Value;
+            JoinAllocation joinAllocation = await JoinRelay(joinRelayCode);
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
+
             KitchenGameMultiplayer.Instance.StartClient();
         }
         catch (LobbyServiceException e)

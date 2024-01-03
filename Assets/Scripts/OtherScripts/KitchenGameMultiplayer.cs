@@ -13,7 +13,7 @@ using UnityEngine.SceneManagement;
 
 public class KitchenGameMultiplayer : NetworkBehaviour
 {
-    private const int MAX_PLAYER_AMOUNT = 4;
+    public const int MAX_PLAYER_AMOUNT = 4;
     private const string PLAYER_PREFS_PlayerNameMultiplayer = "PlayerNameMultiplayer";
 
     public static KitchenGameMultiplayer Instance { get; private set; }
