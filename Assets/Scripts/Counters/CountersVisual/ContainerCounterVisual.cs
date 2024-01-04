@@ -17,10 +17,10 @@ namespace Counters
 
         private void Start()
         {
-            containerCounter.OnPlayerGrabbedObject += ContainerCounterOnPlayerGrabbedObject;
+            containerCounter.OnPlayerGrabbedObject += ContainerCounter_OnPlayerGrabbedObject;
         }
 
-        private void ContainerCounterOnPlayerGrabbedObject(object sender, System.EventArgs e)
+        private void ContainerCounter_OnPlayerGrabbedObject(object sender, System.EventArgs e)
         {
             animator.SetTrigger(OPEN_CLOSE);
         }

@@ -1,19 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowTransform : MonoBehaviour
+namespace OtherScripts
 {
-    public Transform TargetTransform { get; set; }
-
-    private void LateUpdate()
+    public class FollowTransform : MonoBehaviour
     {
-        if (TargetTransform == null)
-        {  
-            return; 
-        }
+        public Transform TargetTransform { get; set; }
 
-        transform.position = TargetTransform.position;
-        transform.rotation = TargetTransform.rotation;
+        private void LateUpdate()
+        {
+            if (TargetTransform == null)
+            {
+                return;
+            }
+
+            transform.SetPositionAndRotation(TargetTransform.position, TargetTransform.rotation);
+        }
     }
 }

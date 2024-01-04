@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.Properties;
 using UnityEngine;
 
 namespace KitchenChaos
@@ -57,14 +56,14 @@ namespace KitchenChaos
 
         private void Start()
         {
-            GameInput.Instance.OnPauseAction += GameInputOnPauseAction;
-            GameInput.Instance.OnInteractAction += GameInputOnInteractAction;
+            GameInput.Instance.OnPauseAction += GameInput_OnPauseAction;
+            GameInput.Instance.OnInteractAction += GameInput_OnInteractAction;
         }
 
         public override void OnNetworkSpawn()
         {
-            gameState.OnValueChanged += GameStateOnValueChanged;
-            isGamePaused.OnValueChanged += IsGamePausedOnValueChanged;
+            gameState.OnValueChanged += GameState_OnValueChanged;
+            isGamePaused.OnValueChanged += IsGamePaused_OnValueChanged;
 
             if (IsServer)
             {
@@ -87,7 +86,7 @@ namespace KitchenChaos
             autoTestGamePausedState = true;
         }
 
-        private void IsGamePausedOnValueChanged(bool previousValue, bool newValue)
+        private void IsGamePaused_OnValueChanged(bool previousValue, bool newValue)
         {
             if (isGamePaused.Value)
             {
@@ -101,12 +100,12 @@ namespace KitchenChaos
             }
         }
 
-        private void GameStateOnValueChanged(GameState previousValue, GameState newValue)
+        private void GameState_OnValueChanged(GameState previousValue, GameState newValue)
         {
             OnGameStateChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        private void GameInputOnInteractAction(object sender, EventArgs e)
+        private void GameInput_OnInteractAction(object sender, EventArgs e)
         {
             if (gameState.Value == GameState.WaitingToStart)
             {
@@ -134,7 +133,7 @@ namespace KitchenChaos
             gameState.Value = GameState.CountdownToStart;
         }
 
-        private void GameInputOnPauseAction(object sender, EventArgs e)
+        private void GameInput_OnPauseAction(object sender, EventArgs e)
         {
             TogglePauseGame();
         }
@@ -160,7 +159,7 @@ namespace KitchenChaos
                 case GameState.WaitingToStart:
                     if (!IsFirstGame)
                     {
-                        GameInputOnInteractAction(null, EventArgs.Empty);
+                        GameInput_OnInteractAction(null, EventArgs.Empty);
                     }
 
                     break;

@@ -1,31 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using OtherScripts;
 using UnityEngine;
 
-public class ConnectingUI : MonoBehaviour
+namespace MyUIs
 {
-    void Start()
+    public class ConnectingUI : MonoBehaviour
     {
-        KitchenGameMultiplayer.Instance.OnTryingToJoinGame += KitchenGameMultiplayerOnTryingToJoinGame;
-        KitchenGameMultiplayer.Instance.OnFailedToJoinGame += KitchenGameMultiplayerOnFailedToJoinGame;
+        void Start()
+        {
+            KitchenGameMultiplayer.Instance.OnTryingToJoinGame += KitchenGameMultiplayer_OnTryingToJoinGame;
+            KitchenGameMultiplayer.Instance.OnFailedToJoinGame += KitchenGameMultiplayer_OnFailedToJoinGame;
 
-        gameObject.SetActive(false);
-    }
+            gameObject.SetActive(false);
+        }
 
-    private void KitchenGameMultiplayerOnFailedToJoinGame(object sender, System.EventArgs e)
-    {
-        gameObject.SetActive(false);
-    }
+        private void KitchenGameMultiplayer_OnFailedToJoinGame(object sender, System.EventArgs e)
+        {
+            gameObject.SetActive(false);
+        }
 
-    private void KitchenGameMultiplayerOnTryingToJoinGame(object sender, System.EventArgs e)
-    {
-        gameObject.SetActive(true);
-    }
+        private void KitchenGameMultiplayer_OnTryingToJoinGame(object sender, System.EventArgs e)
+        {
+            gameObject.SetActive(true);
+        }
 
-    void OnDestroy()
-    {
-        KitchenGameMultiplayer.Instance.OnTryingToJoinGame -= KitchenGameMultiplayerOnTryingToJoinGame;
-        KitchenGameMultiplayer.Instance.OnFailedToJoinGame -= KitchenGameMultiplayerOnFailedToJoinGame;
+        void OnDestroy()
+        {
+            KitchenGameMultiplayer.Instance.OnTryingToJoinGame -= KitchenGameMultiplayer_OnTryingToJoinGame;
+            KitchenGameMultiplayer.Instance.OnFailedToJoinGame -= KitchenGameMultiplayer_OnFailedToJoinGame;
+        }
     }
 }

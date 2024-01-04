@@ -1,17 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
+using OtherScripts;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TestingCharacterSelectUI : MonoBehaviour
+namespace MyUIs
 {
-    [SerializeField] private Button readyButton;
-
-    private void Awake()
+    public class TestingCharacterSelectUI : MonoBehaviour
     {
-        readyButton.onClick.AddListener(() =>
+        [SerializeField] private Button readyButton;
+
+        private void Awake()
         {
-            CharacterSelectReady.Instance.SetPlayerReady();
-        });
+            readyButton.onClick.AddListener(() =>
+            {
+                CharacterSelectReady.Instance.SetPlayerReady();
+            });
+        }
     }
 }

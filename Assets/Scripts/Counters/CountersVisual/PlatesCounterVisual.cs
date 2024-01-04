@@ -18,18 +18,18 @@ namespace Counters
 
         private void Start()
         {
-            platesCounter.OnPlateSpawned += PlatesCounterOnPlateSpawned;
-            platesCounter.OnPlateTaken += PlatesCounterOnPlateTaken;
+            platesCounter.OnPlateSpawned += PlatesCounter_OnPlateSpawned;
+            platesCounter.OnPlateTaken += PlatesCounter_OnPlateTaken;
         }
 
-        private void PlatesCounterOnPlateTaken(object sender, System.EventArgs e)
+        private void PlatesCounter_OnPlateTaken(object sender, System.EventArgs e)
         {
             GameObject plate = spawnedPlatesVisual[^1];
             spawnedPlatesVisual.Remove(plate);
             Destroy(plate);
         }
 
-        private void PlatesCounterOnPlateSpawned(object sender, System.EventArgs e)
+        private void PlatesCounter_OnPlateSpawned(object sender, System.EventArgs e)
         {
             Transform plateVisualTransform = Instantiate(plateVisualPrefab, counterTopPoint);
             float plateOffsetY = 0.1f;

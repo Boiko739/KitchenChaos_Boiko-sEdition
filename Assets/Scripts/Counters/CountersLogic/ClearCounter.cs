@@ -38,13 +38,11 @@ namespace Counters
                 else
                 {
                     //Player is holding some object but not a plate
-                    if (GetKitchenObject().TryGetPlate(out plateKitchenObject))
+                    if (GetKitchenObject().TryGetPlate(out plateKitchenObject) &&
+                        plateKitchenObject.TryToAddIngredient(player.GetKitchenObject().GetKitchenObjectSO()))
                     {
-                        //There is a plate on the counter
-                        if (plateKitchenObject.TryToAddIngredient(player.GetKitchenObject().GetKitchenObjectSO()))
-                        {
-                            KitchenObject.DestroyKitchenObject(player.GetKitchenObject());
-                        }
+                        //There is a plate on the counter and the ingredient can be added
+                        KitchenObject.DestroyKitchenObject(player.GetKitchenObject());
                     }
                 }
             }

@@ -21,13 +21,13 @@ namespace KitchenChaos
 
         private void Start()
         {
-            stoveCounter.OnStateChanged += StoveCounterOnStateChanged;
-            stoveCounter.OnProgressChanged += StoveCounterOnProgressChanged;
-            GameManager.Instance.OnLocalGamePaused += GameManagerOnLocalGamePaused;
-            GameManager.Instance.OnLocalGameUnpaused += GameManagerOnLocalGameUnpaused;
+            stoveCounter.OnStateChanged += StoveCounter_OnStateChanged;
+            stoveCounter.OnProgressChanged += StoveCounter_OnProgressChanged;
+            GameManager.Instance.OnLocalGamePaused += GameManager_OnLocalGamePaused;
+            GameManager.Instance.OnLocalGameUnpaused += GameManager_OnLocalGameUnpaused;
         }
 
-        private void GameManagerOnLocalGameUnpaused(object sender, EventArgs e)
+        private void GameManager_OnLocalGameUnpaused(object sender, EventArgs e)
         {
             if (PlaySound)
             {
@@ -35,18 +35,18 @@ namespace KitchenChaos
             }
         }
 
-        private void GameManagerOnLocalGamePaused(object sender, EventArgs e)
+        private void GameManager_OnLocalGamePaused(object sender, EventArgs e)
         {
             audioSource.Pause();
         }
 
-        private void StoveCounterOnProgressChanged(object sender, IHasProgress.OnProgressChangedEventArgs e)
+        private void StoveCounter_OnProgressChanged(object sender, IHasProgress.OnProgressChangedEventArgs e)
         {
             playWarningSound = stoveCounter.CounterState.Value == StoveCounter.State.Fried
                             && e.ProgressNormalized >= e.minWarningProgressAmount;
         }
 
-        private void StoveCounterOnStateChanged(object sender, StoveCounter.OnStateChangedEventArgs e)
+        private void StoveCounter_OnStateChanged(object sender, StoveCounter.OnStateChangedEventArgs e)
         {
             PlaySound = e.State is StoveCounter.State.Frying or StoveCounter.State.Fried;
             if (PlaySound)

@@ -24,16 +24,16 @@ namespace KitchenChaos
 
         private void Start()
         {
-            BaseCounter.OnAnyObjectPlacedHere += BaseCounterOnAnyobjectPlacedHere;
-            TrashCounter.OnAnyTrashThrowen += TrashCounterOnAnyTrashThrowen;
-            DeliveryManager.Instance.OnRecipeSuccess += DeliveryManagerInstanceOnRecipeSuccess;
-            DeliveryManager.Instance.OnRecipeFailed += DeliveryManagerInstanceOnRecipeFailed;
-            CuttingCounter.OnAnyCut += CuttingCounterOnAnyCut;
+            BaseCounter.OnAnyObjectPlacedHere += BaseCounter_OnAnyobjectPlacedHere;
+            TrashCounter.OnAnyTrashThrowen += TrashCounter_OnAnyTrashThrowen;
+            DeliveryManager.Instance.OnRecipeSuccess += DeliveryManagerInstance_OnRecipeSuccess;
+            DeliveryManager.Instance.OnRecipeFailed += DeliveryManagerInstance_OnRecipeFailed;
+            CuttingCounter.OnAnyCut += CuttingCounter_OnAnyCut;
 
-            CountdownTextUI.Instance.OnCountdownNumberChanged += GameStartCountdownUIOnCountdownNumberChanged;
+            CountdownTextUI.Instance.OnCountdownNumberChanged += GameStartCountdownUI_OnCountdownNumberChanged;
 
-            Player.OnAnyPlayerPickedSomething += PlayerOnAnyPickedSomething;
-            //Player.LocalInstance.GetComponentInChildren<PlayerSounds>().OnWalking += PlayerOnWalking;
+            Player.OnAnyPlayerPickedSomething += Player_OnAnyPickedSomething;
+            Player.LocalInstance.GetComponentInChildren<PlayerSounds>().OnWalking += Player_OnWalking;
         }
 
         public void PlayBurnWarningSound(StoveCounter stoveCounter)
@@ -41,47 +41,47 @@ namespace KitchenChaos
             PlaySound(audioClipRefsSO.warning[1], stoveCounter.transform.position);
         }
 
-        private void GameStartCountdownUIOnCountdownNumberChanged(object sender, EventArgs e)
+        private void GameStartCountdownUI_OnCountdownNumberChanged(object sender, EventArgs e)
         {
             PlaySound(audioClipRefsSO.warning[0], Vector3.zero);
         }
 
-        private void PlayerOnWalking(object sender, EventArgs e)
+        private void Player_OnWalking(object sender, EventArgs e)
         {
             Player player = sender as Player;
             PlaySound(audioClipRefsSO.footsteps, player.transform.position);
         }
 
-        private void TrashCounterOnAnyTrashThrowen(object sender, EventArgs e)
+        private void TrashCounter_OnAnyTrashThrowen(object sender, EventArgs e)
         {
             TrashCounter trashCounter = sender as TrashCounter;
             PlaySound(audioClipRefsSO.trash, trashCounter.transform.position);
         }
 
-        private void BaseCounterOnAnyobjectPlacedHere(object sender, EventArgs e)
+        private void BaseCounter_OnAnyobjectPlacedHere(object sender, EventArgs e)
         {
             BaseCounter baseCounter = (BaseCounter)sender;
             PlaySound(audioClipRefsSO.objectDrop, baseCounter.transform.position);
         }
 
-        private void PlayerOnAnyPickedSomething(object sender, EventArgs e)
+        private void Player_OnAnyPickedSomething(object sender, EventArgs e)
         {
             Player player = sender as Player;
             PlaySound(audioClipRefsSO.objectPickup, player.transform.position);
         }
 
-        private void CuttingCounterOnAnyCut(object sender, EventArgs e)
+        private void CuttingCounter_OnAnyCut(object sender, EventArgs e)
         {
             CuttingCounter cuttingCounter = (CuttingCounter)sender;
             PlaySound(audioClipRefsSO.chop, cuttingCounter.transform.position);
         }
 
-        private void DeliveryManagerInstanceOnRecipeFailed(object sender, EventArgs e)
+        private void DeliveryManagerInstance_OnRecipeFailed(object sender, EventArgs e)
         {
             PlaySound(audioClipRefsSO.deliveryFail, DeliveryCounter.Instance.transform.position);
         }
 
-        private void DeliveryManagerInstanceOnRecipeSuccess(object sender, EventArgs e)
+        private void DeliveryManagerInstance_OnRecipeSuccess(object sender, EventArgs e)
         {
             PlaySound(audioClipRefsSO.deliverySuccess, DeliveryCounter.Instance.transform.position);
         }

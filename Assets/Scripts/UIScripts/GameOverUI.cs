@@ -13,7 +13,7 @@ namespace MyUIs
 
         private void Start()
         {
-            GameManager.Instance.OnGameStateChanged += GameManagerOnStateChanged;
+            GameManager.Instance.OnGameStateChanged += GameManager_OnStateChanged;
 
             mainMenuButton.onClick.AddListener(() =>
             {
@@ -24,7 +24,7 @@ namespace MyUIs
             gameObject.SetActive(false);
         }
 
-        private void GameManagerOnStateChanged(object sender, System.EventArgs e)
+        private void GameManager_OnStateChanged(object sender, System.EventArgs e)
         {
             if (GameManager.Instance.IsGameOver())
             {

@@ -1,61 +1,60 @@
 using KitchenChaos;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using Unity.Netcode;
-using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class CharacterSelectReady : NetworkBehaviour
+namespace OtherScripts
 {
-    public static CharacterSelectReady Instance { get; private set; }
-
-    public event EventHandler OnReadyChanged;
-
-    private Dictionary<ulong, bool> playerReadyDictionary;
-
-    private void Awake()
+    public class CharacterSelectReady : NetworkBehaviour
     {
-        Instance = this;
+        public static CharacterSelectReady Instance { get; private set; }
 
-        playerReadyDictionary = new Dictionary<ulong, bool>();
-    }
+        public event EventHandler OnReadyChanged;
 
-    public void SetPlayerReady()
-    {
-        SetPlayerReadyServerRpc();
-    }
+        private Dictionary<ulong, bool> playerReadyDictionary;
 
-    [ServerRpc(RequireOwnership = false)]
-    private void SetPlayerReadyServerRpc(ServerRpcParams serverRpcParams = default)
-    {
-        SetPlayerReadyClientRpc(serverRpcParams.Receive.SenderClientId);
-        playerReadyDictionary[serverRpcParams.Receive.SenderClientId] = true;
-
-        foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
+        private void Awake()
         {
-            if (!playerReadyDictionary.ContainsKey(clientId) || !playerReadyDictionary[clientId])
-            {
-                return;
-            }
+            Instance = this;
+
+            playerReadyDictionary = new Dictionary<ulong, bool>();
         }
 
-        //All clients are ready
-        Loader.LoadNetwork(Loader.SceneName.GameScene);
-        KitchenGameLobby.Instance.DeleteLobby();
-    }
+        public void SetPlayerReady()
+        {
+            SetPlayerReadyServerRpc();
+        }
 
-    [ClientRpc]
-    private void SetPlayerReadyClientRpc(ulong clientId)
-    {
-        playerReadyDictionary[clientId] = true;
+        [ServerRpc(RequireOwnership = false)]
+        private void SetPlayerReadyServerRpc(ServerRpcParams serverRpcParams = default)
+        {
+            SetPlayerReadyClientRpc(serverRpcParams.Receive.SenderClientId);
+            playerReadyDictionary[serverRpcParams.Receive.SenderClientId] = true;
 
-        OnReadyChanged?.Invoke(this, EventArgs.Empty);
-    }
+            foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
+            {
+                if (!playerReadyDictionary.ContainsKey(clientId) || !playerReadyDictionary[clientId])
+                {
+                    return;
+                }
+            }
 
-    public bool IsPlayerReady(ulong clientId)
-    {
-        return playerReadyDictionary.ContainsKey(clientId) && playerReadyDictionary[clientId];
+            //All clients are ready
+            Loader.LoadNetwork(Loader.SceneName.GameScene);
+            KitchenGameLobby.Instance.DeleteLobby();
+        }
+
+        [ClientRpc]
+        private void SetPlayerReadyClientRpc(ulong clientId)
+        {
+            playerReadyDictionary[clientId] = true;
+
+            OnReadyChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public bool IsPlayerReady(ulong clientId)
+        {
+            return playerReadyDictionary.ContainsKey(clientId) && playerReadyDictionary[clientId];
+        }
     }
 }

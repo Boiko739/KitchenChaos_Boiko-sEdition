@@ -1,50 +1,52 @@
-using System.Collections;
-using System.Collections.Generic;
+using OtherScripts;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterColorSelectSingleUI : MonoBehaviour
+namespace MyUIs
 {
-    [SerializeField] private int colorId;
-    [SerializeField] private Image image;
-    [SerializeField] private GameObject selectedGameObject;
-
-    private void Awake()
+    public class CharacterColorSelectSingleUI : MonoBehaviour
     {
-        GetComponent<Button>().onClick.AddListener(() =>
+        [SerializeField] private int colorId;
+        [SerializeField] private Image image;
+        [SerializeField] private GameObject selectedGameObject;
+
+        private void Awake()
         {
-            KitchenGameMultiplayer.Instance.ChangePlayerColor(colorId);
-        });
-    }
-
-    private void Start()
-    {
-        KitchenGameMultiplayer.Instance.OnPlayerDataNetworkListChanged += KitchenGameMultiplayerOnPlayerDataNetworkListChanged;
-
-        image.color = KitchenGameMultiplayer.Instance.GetPlayerColor(colorId);
-
-        UpdateIsSelected();
-    }
-
-    private void KitchenGameMultiplayerOnPlayerDataNetworkListChanged(object sender, System.EventArgs e)
-    {
-        UpdateIsSelected();
-    }
-
-    private void UpdateIsSelected()
-    {
-        if (KitchenGameMultiplayer.Instance.GetPlayerData().colorId == colorId)
-        {
-            selectedGameObject.SetActive(true);
+            GetComponent<Button>().onClick.AddListener(() =>
+            {
+                KitchenGameMultiplayer.Instance.ChangePlayerColor(colorId);
+            });
         }
-        else
-        {
-            selectedGameObject.SetActive(false);
-        }
-    }
 
-    private void OnDestroy()
-    {
-        KitchenGameMultiplayer.Instance.OnPlayerDataNetworkListChanged -= KitchenGameMultiplayerOnPlayerDataNetworkListChanged;
+        private void Start()
+        {
+            KitchenGameMultiplayer.Instance.OnPlayerDataNetworkListChanged += KitchenGameMultiplayer_OnPlayerDataNetworkListChanged;
+
+            image.color = KitchenGameMultiplayer.Instance.GetPlayerColor(colorId);
+
+            UpdateIsSelected();
+        }
+
+        private void KitchenGameMultiplayer_OnPlayerDataNetworkListChanged(object sender, System.EventArgs e)
+        {
+            UpdateIsSelected();
+        }
+
+        private void UpdateIsSelected()
+        {
+            if (KitchenGameMultiplayer.Instance.GetPlayerData().colorId == colorId)
+            {
+                selectedGameObject.SetActive(true);
+            }
+            else
+            {
+                selectedGameObject.SetActive(false);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            KitchenGameMultiplayer.Instance.OnPlayerDataNetworkListChanged -= KitchenGameMultiplayer_OnPlayerDataNetworkListChanged;
+        }
     }
 }

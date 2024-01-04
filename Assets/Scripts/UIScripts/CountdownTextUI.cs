@@ -26,7 +26,7 @@ namespace MyUIs
 
         private void Start()
         {
-            GameManager.Instance.OnGameStateChanged += GameManagerOnStateChanged;
+            GameManager.Instance.OnGameStateChanged += GameManager_OnStateChanged;
             gameObject.SetActive(false);
         }
 
@@ -43,7 +43,7 @@ namespace MyUIs
             }
         }
 
-        private void GameManagerOnStateChanged(object sender, EventArgs e)
+        private void GameManager_OnStateChanged(object sender, EventArgs e)
         {
             gameObject.SetActive(GameManager.Instance.IsCountdownToStart());
         }

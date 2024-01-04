@@ -104,9 +104,11 @@ namespace Counters
         [ServerRpc(RequireOwnership = false)]
         private void CutObjectServerRpc()
         {
-            CutObjectClientRpc();
+            if (HasKitchenObject() && HasRecipeWithInput(GetKitchenObject().GetKitchenObjectSO()))
+            {
+                CutObjectClientRpc();
+            }
         }
-
 
         [ClientRpc]
         private void CutObjectClientRpc()
@@ -125,11 +127,14 @@ namespace Counters
         [ServerRpc(RequireOwnership = false)]
         private void TestCuttingProgressServerRpc()
         {
-            KitchenObjectSO outputKitchenObjectSO = GetOutputForInput(GetKitchenObject().GetKitchenObjectSO());
-            if (cuttingProgress >= GetCuttingReciteSO(GetKitchenObject().GetKitchenObjectSO()).cuttingProgressMax)
+            if (HasKitchenObject() && HasRecipeWithInput(GetKitchenObject().GetKitchenObjectSO()))
             {
-                KitchenObject.DestroyKitchenObject(GetKitchenObject());
-                KitchenObject.SpawnKitchenObject(outputKitchenObjectSO, this);
+                KitchenObjectSO outputKitchenObjectSO = GetOutputForInput(GetKitchenObject().GetKitchenObjectSO());
+                if (cuttingProgress >= GetCuttingReciteSO(GetKitchenObject().GetKitchenObjectSO()).cuttingProgressMax)
+                {
+                    KitchenObject.DestroyKitchenObject(GetKitchenObject());
+                    KitchenObject.SpawnKitchenObject(outputKitchenObjectSO, this);
+                }
             }
         }
 

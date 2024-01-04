@@ -18,11 +18,11 @@ namespace MyUIs
 
         private void Start()
         {
-            stoveCounter.OnProgressChanged += StoveCounterOnProgressChanged;
+            stoveCounter.OnProgressChanged += StoveCounter_OnProgressChanged;
             animator.SetBool(IS_FLASHING, false);
         }
 
-        private void StoveCounterOnProgressChanged(object sender, KitchenChaos.IHasProgress.OnProgressChangedEventArgs e)
+        private void StoveCounter_OnProgressChanged(object sender, KitchenChaos.IHasProgress.OnProgressChangedEventArgs e)
         {
             animator.SetBool(IS_FLASHING, e.ProgressNormalized >= e.minWarningProgressAmount
                                           && stoveCounter.CounterState.Value == StoveCounter.State.Fried);

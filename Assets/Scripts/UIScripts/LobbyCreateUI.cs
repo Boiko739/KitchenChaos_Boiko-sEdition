@@ -1,42 +1,43 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using OtherScripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LobbyCreateUI : MonoBehaviour
+namespace MyUIs
 {
-    [SerializeField] private TMP_InputField lobbyNameInputField;
-    [SerializeField] private Button createPublicButton;
-    [SerializeField] private Button createPrivateButton;
-    [SerializeField] private Button closeButton;
-
-    private void Awake()
+    public class LobbyCreateUI : MonoBehaviour
     {
-        createPrivateButton.onClick.AddListener(() =>
-        {
-            KitchenGameLobby.Instance.CrateLobby(GetLobbyText(), true);
-        });
+        [SerializeField] private TMP_InputField lobbyNameInputField;
+        [SerializeField] private Button createPublicButton;
+        [SerializeField] private Button createPrivateButton;
+        [SerializeField] private Button closeButton;
 
-        createPublicButton.onClick.AddListener(() =>
+        private void Awake()
         {
-            KitchenGameLobby.Instance.CrateLobby(GetLobbyText(), false);
-        });
+            createPrivateButton.onClick.AddListener(() =>
+            {
+                KitchenGameLobby.Instance.CrateLobby(GetLobbyText(), true);
+            });
 
-        closeButton.onClick.AddListener(() =>
+            createPublicButton.onClick.AddListener(() =>
+            {
+                KitchenGameLobby.Instance.CrateLobby(GetLobbyText(), false);
+            });
+
+            closeButton.onClick.AddListener(() =>
+            {
+                gameObject.SetActive(false);
+            });
+        }
+
+        private void Start()
         {
             gameObject.SetActive(false);
-        });
-    }
+        }
 
-    private void Start()
-    {
-        gameObject.SetActive(false);
-    }
-
-    private string GetLobbyText()
-    {
-        return lobbyNameInputField.text == "" ? "Lobby Name" : lobbyNameInputField.text;
+        private string GetLobbyText()
+        {
+            return lobbyNameInputField.text == "" ? "Lobby Name" : lobbyNameInputField.text;
+        }
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -21,14 +19,14 @@ namespace KitchenChaos
 
         private void Start()
         {
-            GameManager.Instance.OnLocalPlayerReadyChanged += GameManagerOnLocalPlayerReadyChanged; ;
+            GameManager.Instance.OnLocalPlayerReadyChanged += GameManager_OnLocalPlayerReadyChanged;
 
             UpdateVisual();
-            GameInput.Instance.OnBindingRebind += GameInputOnBindingRebind;
+            GameInput.Instance.OnBindingRebind += GameInput_OnBindingRebind;
             gameObject.SetActive(GameManager.IsFirstGame);
         }
 
-        private void GameManagerOnLocalPlayerReadyChanged(object sender, System.EventArgs e)
+        private void GameManager_OnLocalPlayerReadyChanged(object sender, System.EventArgs e)
         {
             if (GameManager.Instance.IsLocalPlayerReady)
             {
@@ -36,7 +34,7 @@ namespace KitchenChaos
             }
         }
 
-        private void GameInputOnBindingRebind(object sender, System.EventArgs e)
+        private void GameInput_OnBindingRebind(object sender, System.EventArgs e)
         {
             UpdateVisual();
         }

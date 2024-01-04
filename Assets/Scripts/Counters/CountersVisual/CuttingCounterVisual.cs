@@ -17,10 +17,10 @@ namespace Counters
 
         private void Start()
         {
-            cuttingCounter.OnCut += CuttingCounterOnCut;
+            cuttingCounter.OnCut += CuttingCounter_OnCut;
         }
 
-        private void CuttingCounterOnCut(object sender, System.EventArgs e)
+        private void CuttingCounter_OnCut(object sender, System.EventArgs e)
         {
             animator.SetTrigger(CUT);
         }

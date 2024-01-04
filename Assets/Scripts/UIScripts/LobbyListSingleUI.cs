@@ -1,27 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
+using OtherScripts;
 using TMPro;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LobbyListSingleUI : MonoBehaviour
+namespace MyUIs
 {
-    [SerializeField] private TextMeshProUGUI lobbyNameText;
-
-    private Lobby lobby;
-
-    private void Awake()
+    public class LobbyListSingleUI : MonoBehaviour
     {
-        GetComponent<Button>().onClick.AddListener(() =>
+        [SerializeField] private TextMeshProUGUI lobbyNameText;
+
+        private Lobby lobby;
+
+        private void Awake()
         {
-            KitchenGameLobby.Instance.JoinWithId(lobby.Id);
-        });
-    }
+            GetComponent<Button>().onClick.AddListener(() =>
+            {
+                KitchenGameLobby.Instance.JoinWithId(lobby.Id);
+            });
+        }
 
-    public void SetLobby(Lobby lobby)
-    {
-        this.lobby = lobby;
-        lobbyNameText.text = lobby.Name;
+        public void SetLobby(Lobby lobby)
+        {
+            this.lobby = lobby;
+            lobbyNameText.text = lobby.Name;
+        }
     }
 }

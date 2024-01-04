@@ -1,29 +1,30 @@
-using KitchenChaos;
-using System.Collections;
-using System.Collections.Generic;
+using OtherScripts;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TestingNetcodeUI : NetworkBehaviour
+namespace MyUIs
 {
-    [SerializeField] private Button startHostButton;
-    [SerializeField] private Button startClientButton;
-
-    private void Awake()
+    public class TestingNetcodeUI : NetworkBehaviour
     {
-        startHostButton.onClick.AddListener(() =>
-        {
-            print("HOST!");
-            KitchenGameMultiplayer.Instance.StartHost();
-            gameObject.SetActive(false);
-        });
+        [SerializeField] private Button startHostButton;
+        [SerializeField] private Button startClientButton;
 
-        startClientButton.onClick.AddListener(() =>
+        private void Awake()
         {
-            print("CLIENT!");
-            KitchenGameMultiplayer.Instance.StartClient();
-            gameObject.SetActive(false);
-        });
+            startHostButton.onClick.AddListener(() =>
+            {
+                print("HOST!");
+                KitchenGameMultiplayer.Instance.StartHost();
+                gameObject.SetActive(false);
+            });
+
+            startClientButton.onClick.AddListener(() =>
+            {
+                print("CLIENT!");
+                KitchenGameMultiplayer.Instance.StartClient();
+                gameObject.SetActive(false);
+            });
+        }
     }
 }

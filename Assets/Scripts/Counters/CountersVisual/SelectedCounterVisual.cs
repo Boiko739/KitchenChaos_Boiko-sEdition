@@ -11,24 +11,24 @@ namespace Counters
         {
             if (Player.LocalInstance != null)
             {
-                Player.LocalInstance.OnSelectedCounterChanged += PlayerOnSelectedCounterChanged;
+                Player.LocalInstance.OnSelectedCounterChanged += Player_OnSelectedCounterChanged;
             }
             else
             {
-                Player.OnAnyPlayerSpawned += PlayerOnAnyPlayerSpawned;
+                Player.OnAnyPlayerSpawned += Player_OnAnyPlayerSpawned;
             }
         }
 
-        private void PlayerOnAnyPlayerSpawned(object sender, System.EventArgs e)
+        private void Player_OnAnyPlayerSpawned(object sender, System.EventArgs e)
         {
             if (Player.LocalInstance != null)
             {
-                Player.LocalInstance.OnSelectedCounterChanged -= PlayerOnSelectedCounterChanged;
-                Player.LocalInstance.OnSelectedCounterChanged += PlayerOnSelectedCounterChanged;
+                Player.LocalInstance.OnSelectedCounterChanged -= Player_OnSelectedCounterChanged;
+                Player.LocalInstance.OnSelectedCounterChanged += Player_OnSelectedCounterChanged;
             }
         }
 
-        private void PlayerOnSelectedCounterChanged(object sender, Player.OnSelectedCounterChangedEventArgs e)
+        private void Player_OnSelectedCounterChanged(object sender, Player.OnSelectedCounterChangedEventArgs e)
         {
             if (e.SelectedCounter == baseCounter)
             {

@@ -1,4 +1,5 @@
 using Counters;
+using OtherScripts;
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -41,19 +42,17 @@ namespace KitchenChaos
         private readonly float rotateSpeed = 10f,
                                playerRadius = .7f,
                                interactDistance = 2f,
-                               moveSpeed = 7f,
-                               playerHeight = 2f;
+                               moveSpeed = 7f;
         public bool IsWalking { get; private set; }
 
         private Vector3 lastInteractDir;
         private BaseCounter selectedCounter;
         private KitchenObject kitchenObject;
 
-
         private void Start()
         {
-            GameInput.Instance.OnInteractAction += GameInputOnInteractAction;
-            GameInput.Instance.OnInteractAlternateAction += GameInputOnInteractAlternateAction;
+            GameInput.Instance.OnInteractAction += GameInput_OnInteractAction;
+            GameInput.Instance.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
 
             PlayerData playerData = KitchenGameMultiplayer.Instance.GetPlayerDataFromLocalId(OwnerClientId);
             playerVisual.SetPlayerColor(KitchenGameMultiplayer.Instance.GetPlayerColor(playerData.colorId));
@@ -94,7 +93,7 @@ namespace KitchenChaos
             HandleInteractions();
         }
 
-        private void GameInputOnInteractAlternateAction(object sender, EventArgs e)
+        private void GameInput_OnInteractAlternateAction(object sender, EventArgs e)
         {
             if (!GameManager.Instance.IsGamePlaying())
             {
@@ -107,7 +106,7 @@ namespace KitchenChaos
             }
         }
 
-        private void GameInputOnInteractAction(object sender, EventArgs e)
+        private void GameInput_OnInteractAction(object sender, EventArgs e)
         {
             if (!GameManager.Instance.IsGamePlaying())
             {

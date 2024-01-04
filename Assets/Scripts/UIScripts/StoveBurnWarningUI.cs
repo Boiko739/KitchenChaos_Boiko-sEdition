@@ -11,11 +11,11 @@ namespace MyUIs
 
         private void Start()
         {
-            stoveCounter.OnProgressChanged += StoveCounterOnProgressChanged;
+            stoveCounter.OnProgressChanged += StoveCounter_OnProgressChanged;
             gameObject.SetActive(false);
         }
 
-        private void StoveCounterOnProgressChanged(object sender, KitchenChaos.IHasProgress.OnProgressChangedEventArgs e)
+        private void StoveCounter_OnProgressChanged(object sender, KitchenChaos.IHasProgress.OnProgressChangedEventArgs e)
         {
             gameObject.SetActive(stoveCounter.CounterState.Value == StoveCounter.State.Fried && e.ProgressNormalized >= showWarningProgressAmount);
         }

@@ -19,14 +19,14 @@ namespace MyUIs
             }
             else
             {
-                hasProgress.OnProgressChanged += HasProgressOnProgressBarChanged;
+                hasProgress.OnProgressChanged += HasProgress_OnProgressBarChanged;
                 barImage.fillAmount = 0f;
 
                 gameObject.SetActive(false);
             }
         }
 
-        private void HasProgressOnProgressBarChanged(object sender, IHasProgress.OnProgressChangedEventArgs e)
+        private void HasProgress_OnProgressBarChanged(object sender, IHasProgress.OnProgressChangedEventArgs e)
         {
             barImage.fillAmount = e.ProgressNormalized;
 

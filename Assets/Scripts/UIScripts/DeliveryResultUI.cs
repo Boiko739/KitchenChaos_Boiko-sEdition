@@ -1,6 +1,4 @@
 using KitchenChaos;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,13 +26,13 @@ namespace MyUIs
 
         private void Start()
         {
-            DeliveryManager.Instance.OnRecipeSuccess += DeliveryManagerOnRecipeSuccess;
-            DeliveryManager.Instance.OnRecipeFailed += DeliveryManagerOnRecipeFailed;
+            DeliveryManager.Instance.OnRecipeSuccess += DeliveryManager_OnRecipeSuccess;
+            DeliveryManager.Instance.OnRecipeFailed += DeliveryManager_OnRecipeFailed;
 
             gameObject.SetActive(false);
         }
 
-        private void DeliveryManagerOnRecipeSuccess(object sender, System.EventArgs e)
+        private void DeliveryManager_OnRecipeSuccess(object sender, System.EventArgs e)
         {
             gameObject.SetActive(true);
             animator.SetTrigger(POPUP);
@@ -43,7 +41,7 @@ namespace MyUIs
             MessageText.text = "DELIVERY\nSUCCESS";
         }
 
-        private void DeliveryManagerOnRecipeFailed(object sender, System.EventArgs e)
+        private void DeliveryManager_OnRecipeFailed(object sender, System.EventArgs e)
         {
             gameObject.SetActive(true);
             animator.SetTrigger(POPUP);

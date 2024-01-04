@@ -1,39 +1,41 @@
 using KitchenChaos;
-using System.Collections;
-using System.Collections.Generic;
+using OtherScripts;
 using TMPro;
 using Unity.Netcode;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterSelectUI : MonoBehaviour
+namespace MyUIs
 {
-    [SerializeField] private Button mainMenuButton;
-    [SerializeField] private Button readyButton;
-    [SerializeField] private TextMeshProUGUI lobbyNameText;
-    [SerializeField] private TextMeshProUGUI lobbyCodeText;
-
-    private void Awake()
+    public class CharacterSelectUI : MonoBehaviour
     {
-        mainMenuButton.onClick.AddListener(() =>
+        [SerializeField] private Button mainMenuButton;
+        [SerializeField] private Button readyButton;
+        [SerializeField] private TextMeshProUGUI lobbyNameText;
+        [SerializeField] private TextMeshProUGUI lobbyCodeText;
+
+        private void Awake()
         {
-            KitchenGameLobby.Instance.LeaveLobby();
-            NetworkManager.Singleton.Shutdown();
-            Loader.Load(Loader.SceneName.MainMenuScene);
-        });
+            mainMenuButton.onClick.AddListener(() =>
+            {
+                KitchenGameLobby.Instance.LeaveLobby();
+                NetworkManager.Singleton.Shutdown();
+                Loader.Load(Loader.SceneName.MainMenuScene);
+            });
 
-        readyButton.onClick.AddListener(() =>
+            readyButton.onClick.AddListener(() =>
+            {
+                CharacterSelectReady.Instance.SetPlayerReady();
+            });
+        }
+
+        private void Start()
         {
-            CharacterSelectReady.Instance.SetPlayerReady();
-        });
-    }
+            Lobby lobby = KitchenGameLobby.Instance.GetLobby();
 
-    private void Start()
-    {
-        Lobby lobby = KitchenGameLobby.Instance.GetLobby();
-
-        lobbyNameText.text = "Lobby Name: " + lobby.Name;
-        lobbyCodeText.text = "Lobby Code: " + lobby.LobbyCode;
+            lobbyNameText.text = "Lobby Name: " + lobby.Name;
+            lobbyCodeText.text = "Lobby Code: " + lobby.LobbyCode;
+        }
     }
 }

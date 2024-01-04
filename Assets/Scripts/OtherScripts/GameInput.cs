@@ -108,7 +108,7 @@ namespace KitchenChaos
             switch (binding)
             {
                 default:
-                //case Binding.MoveUp:
+                    //case Binding.MoveUp:
                     inputAction = playerInputActions.Player.Move;
                     bindingIndex = 1;
                     break;

@@ -1,27 +1,27 @@
 using KitchenChaos;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class PauseMultiplayerUI : MonoBehaviour
-{  
-    void Start()
+namespace MyUIs
+{
+    public class PauseMultiplayerUI : MonoBehaviour
     {
-        GameManager.Instance.OnMultiplayerGamePaused += GameManagerOnMultiplayerGamePaused;
-        GameManager.Instance.OnMultiplayerGameUnpaused += GameManagerOnMultiplayerGameUnpaused;
+        void Start()
+        {
+            GameManager.Instance.OnMultiplayerGamePaused += GameManager_OnMultiplayerGamePaused;
+            GameManager.Instance.OnMultiplayerGameUnpaused += GameManager_OnMultiplayerGameUnpaused;
 
-        gameObject.SetActive(false);
-    }
+            gameObject.SetActive(false);
+        }
 
-    private void GameManagerOnMultiplayerGameUnpaused(object sender, EventArgs e)
-    {
-        gameObject.SetActive(false);
-    }
+        private void GameManager_OnMultiplayerGameUnpaused(object sender, EventArgs e)
+        {
+            gameObject.SetActive(false);
+        }
 
-    private void GameManagerOnMultiplayerGamePaused(object sender, EventArgs e)
-    {
-        gameObject.SetActive(true);
+        private void GameManager_OnMultiplayerGamePaused(object sender, EventArgs e)
+        {
+            gameObject.SetActive(true);
+        }
     }
 }

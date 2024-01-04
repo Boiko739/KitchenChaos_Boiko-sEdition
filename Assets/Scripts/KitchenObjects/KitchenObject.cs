@@ -1,4 +1,5 @@
 using MySOs;
+using OtherScripts;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace KitchenChaos
     {
         [SerializeField] private KitchenObjectSO kitchenObjectSO;
 
-        private IKitchenObjectParent kitchenObjectParent;
+        private IKitchenObjectParent thisKitchenObjectParent;
         private FollowTransform followTransform;
 
         protected virtual void Awake()
@@ -23,7 +24,7 @@ namespace KitchenChaos
 
         public IKitchenObjectParent GetKitchenObjectParent()
         {
-            return kitchenObjectParent;
+            return thisKitchenObjectParent;
         }
 
         public void SetKitchenObjectParent(IKitchenObjectParent kitchenObjectParent)
@@ -43,9 +44,9 @@ namespace KitchenChaos
             kitchenObjectParentNetworkObjectReference.TryGet(out NetworkObject kitchenObjectParentNetworkObject);
             IKitchenObjectParent kitchenObjectParent = kitchenObjectParentNetworkObject.GetComponent<IKitchenObjectParent>();
 
-            this.kitchenObjectParent?.ClearKitchenObject();
+            thisKitchenObjectParent?.ClearKitchenObject();
 
-            this.kitchenObjectParent = kitchenObjectParent;
+            thisKitchenObjectParent = kitchenObjectParent;
 
             if (kitchenObjectParent.HasKitchenObject())
             {
@@ -64,7 +65,7 @@ namespace KitchenChaos
 
         public void ClearKitchenObjectOnParent()
         {
-            kitchenObjectParent.ClearKitchenObject();
+            thisKitchenObjectParent.ClearKitchenObject();
         }
 
         public bool TryGetPlate(out PlateKitchenObject plateKitchenObject)

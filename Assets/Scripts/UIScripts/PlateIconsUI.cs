@@ -12,10 +12,10 @@ namespace MyUIs
         private void Start()
         {
             iconTemplate.gameObject.SetActive(false);
-            plateKitchenObject.OnIngredientAdded += PlateKitchenObjectOnIngredientAdded;
+            plateKitchenObject.OnIngredientAdded += PlateKitchenObject_OnIngredientAdded;
         }
 
-        private void PlateKitchenObjectOnIngredientAdded(object sender, PlateKitchenObject.OnIngredientAddedEventArgs e)
+        private void PlateKitchenObject_OnIngredientAdded(object sender, PlateKitchenObject.OnIngredientAddedEventArgs e)
         {
             UpdateVisual();
         }

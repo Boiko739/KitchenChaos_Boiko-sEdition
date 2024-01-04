@@ -1,41 +1,42 @@
 using KitchenChaos;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HostDisconnectedUI : MonoBehaviour
+namespace MyUIs
 {
-    [SerializeField] private TextMeshProUGUI recipesDeliveredText;
-    [SerializeField] private Button mainMenuButton;
-
-    void Start()
+    public class HostDisconnectedUI : MonoBehaviour
     {
-        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+        [SerializeField] private TextMeshProUGUI recipesDeliveredText;
+        [SerializeField] private Button mainMenuButton;
 
-        mainMenuButton.onClick.AddListener(() =>
+        void Start()
         {
-            NetworkManager.Singleton.Shutdown();
-            Loader.Load(Loader.SceneName.MainMenuScene);
-        });
+            NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
 
-        gameObject.SetActive(false);
-    }
+            mainMenuButton.onClick.AddListener(() =>
+            {
+                NetworkManager.Singleton.Shutdown();
+                Loader.Load(Loader.SceneName.MainMenuScene);
+            });
 
-    private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
-    {
-        if (clientId == NetworkManager.ServerClientId)
-        {
-            //Server shut down
-            gameObject.SetActive(true);
-            recipesDeliveredText.text = DeliveryManager.Instance.SuccessfulDeliveriesAmount.ToString();
+            gameObject.SetActive(false);
         }
-    }
 
-    private void OnDestroy()
-    {
-        NetworkManager.Singleton.OnClientDisconnectCallback -= NetworkManager_OnClientDisconnectCallback;
+        private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
+        {
+            if (clientId == NetworkManager.ServerClientId)
+            {
+                //Server shut down
+                gameObject.SetActive(true);
+                recipesDeliveredText.text = DeliveryManager.Instance.SuccessfulDeliveriesAmount.ToString();
+            }
+        }
+
+        private void OnDestroy()
+        {
+            NetworkManager.Singleton.OnClientDisconnectCallback -= NetworkManager_OnClientDisconnectCallback;
+        }
     }
 }

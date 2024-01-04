@@ -1,27 +1,28 @@
 using KitchenChaos;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using OtherScripts;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TestingLobbyUI : MonoBehaviour
+namespace MyUIs
 {
-    [SerializeField] private Button createGameButton;
-    [SerializeField] private Button joinGameButton;
-
-    private void Awake()
+    public class TestingLobbyUI : MonoBehaviour
     {
-        createGameButton.onClick.AddListener(() =>
-        {
-            KitchenGameMultiplayer.Instance.StartHost();
-            Loader.LoadNetwork(Loader.SceneName.CharacterSelectScene);
-        });
+        [SerializeField] private Button createGameButton;
+        [SerializeField] private Button joinGameButton;
 
-        joinGameButton.onClick.AddListener(() =>
+        private void Awake()
         {
-            KitchenGameMultiplayer.Instance.StartClient();
-        });
+            createGameButton.onClick.AddListener(() =>
+            {
+                KitchenGameMultiplayer.Instance.StartHost();
+                Loader.LoadNetwork(Loader.SceneName.CharacterSelectScene);
+            });
+
+            joinGameButton.onClick.AddListener(() =>
+            {
+                KitchenGameMultiplayer.Instance.StartClient();
+            });
+        }
+
     }
-
 }

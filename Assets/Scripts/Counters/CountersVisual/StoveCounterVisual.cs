@@ -9,10 +9,10 @@ namespace Counters
 
         private void Start()
         {
-            baseCounter.OnStateChanged += BaseCounterOnStateChanged;
+            baseCounter.OnStateChanged += BaseCounter_OnStateChanged;
         }
 
-        private void BaseCounterOnStateChanged(object sender, StoveCounter.OnStateChangedEventArgs e)
+        private void BaseCounter_OnStateChanged(object sender, StoveCounter.OnStateChangedEventArgs e)
         {
             if (e.State is StoveCounter.State.Frying or StoveCounter.State.Fried)
             {

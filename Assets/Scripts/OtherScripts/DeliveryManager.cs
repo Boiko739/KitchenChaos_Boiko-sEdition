@@ -61,7 +61,6 @@ namespace KitchenChaos
             OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
         }
 
-
         public void DeliveryRecipe(PlateKitchenObject plateKitchenObject)
         {
             for (int i = 0; i < WaitingRecipeSOList.Count; i++)
