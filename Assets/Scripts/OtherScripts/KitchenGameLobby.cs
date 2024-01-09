@@ -150,11 +150,11 @@ namespace OtherScripts
 
         public async void CrateLobby(string lobbyName, bool isPrivate)
         {
-            OnCreateLobbyStarted(this, EventArgs.Empty);
+            OnCreateLobbyStarted?.Invoke(this, EventArgs.Empty);
             try
             {
-                joinedLobby = await LobbyService.Instance.CreateLobbyAsync
-                    (lobbyName, MAX_PLAYERS_AMOUNT, new CreateLobbyOptions() { IsPrivate = isPrivate });
+                joinedLobby = await LobbyService.Instance.CreateLobbyAsync(
+                    lobbyName, MAX_PLAYERS_AMOUNT, new CreateLobbyOptions() { IsPrivate = isPrivate });
 
                 Allocation allocation = await AllocateRelay();
                 string relayJoinCode = await GetRelayJoinCode(allocation);
@@ -167,12 +167,14 @@ namespace OtherScripts
                 }
                 });
 
+                NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation, "dtls"));
+
                 KitchenGameMultiplayer.Instance.StartHost();
                 Loader.LoadNetwork(Loader.SceneName.CharacterSelectScene);
             }
             catch (LobbyServiceException e)
             {
-                OnCreateLobbyFailed(this, EventArgs.Empty);
+                OnCreateLobbyFailed?.Invoke(this, EventArgs.Empty);
                 print(e);
             }
         }
@@ -194,7 +196,7 @@ namespace OtherScripts
 
         public async void QuickJoin()
         {
-            OnJoinStarted(this, EventArgs.Empty);
+            OnJoinStarted?.Invoke(this, EventArgs.Empty);
             try
             {
                 joinedLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
@@ -207,14 +209,14 @@ namespace OtherScripts
             }
             catch (LobbyServiceException e)
             {
-                OnQuickJoinFailed(this, EventArgs.Empty);
+                OnQuickJoinFailed?.Invoke(this, EventArgs.Empty);
                 print(e);
             }
         }
 
         public async void JoinWithCode(string code)
         {
-            OnJoinStarted(this, EventArgs.Empty);
+            OnJoinStarted?.Invoke(this, EventArgs.Empty);
             try
             {
                 joinedLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(code);
@@ -227,14 +229,14 @@ namespace OtherScripts
             }
             catch (LobbyServiceException e)
             {
-                OnJoinFailed(this, EventArgs.Empty);
+                OnJoinFailed?.Invoke(this, EventArgs.Empty);
                 print(e);
             }
         }
 
         public async void JoinWithId(string id)
         {
-            OnJoinStarted(this, EventArgs.Empty);
+            OnJoinStarted?.Invoke(this, EventArgs.Empty);
             try
             {
                 joinedLobby = await LobbyService.Instance.JoinLobbyByIdAsync(id);
@@ -247,7 +249,7 @@ namespace OtherScripts
             }
             catch (LobbyServiceException e)
             {
-                OnJoinFailed(this, EventArgs.Empty);
+                OnJoinFailed?.Invoke(this, EventArgs.Empty);
                 print(e);
             }
         }

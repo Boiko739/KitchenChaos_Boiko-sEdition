@@ -33,7 +33,6 @@ namespace KitchenChaos
             CountdownTextUI.Instance.OnCountdownNumberChanged += GameStartCountdownUI_OnCountdownNumberChanged;
 
             Player.OnAnyPlayerPickedSomething += Player_OnAnyPickedSomething;
-            Player.LocalInstance.GetComponentInChildren<PlayerSounds>().OnWalking += Player_OnWalking;
         }
 
         public void PlayBurnWarningSound(StoveCounter stoveCounter)
