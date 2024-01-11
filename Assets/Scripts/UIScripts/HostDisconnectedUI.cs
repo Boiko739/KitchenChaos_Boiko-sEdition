@@ -1,4 +1,5 @@
 using KitchenChaos;
+using System;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -30,13 +31,20 @@ namespace MyUIs
             {
                 //Server shut down
                 gameObject.SetActive(true);
-                recipesDeliveredText.text = DeliveryManager.Instance.SuccessfulDeliveriesAmount.ToString();
+                recipesDeliveredText.text = DeliveryManager.Instance.SuccessfulDeliveriesAmount.ToString() ?? "0";
             }
         }
 
         private void OnDestroy()
         {
-            NetworkManager.Singleton.OnClientDisconnectCallback -= NetworkManager_OnClientDisconnectCallback;
+            try
+            {
+                NetworkManager.Singleton.OnClientDisconnectCallback -= NetworkManager_OnClientDisconnectCallback;
+            }
+            catch(Exception e)
+            {
+                print(e);
+            }
         }
     }
 }

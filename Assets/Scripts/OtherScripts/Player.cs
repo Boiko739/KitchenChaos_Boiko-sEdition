@@ -16,13 +16,13 @@ namespace KitchenChaos
 
         public static event EventHandler OnAnyPlayerPickedSomething;
 
-        public static event EventHandler OnWalking;
+        public static event EventHandler OnAnyPlayerWalking;
 
         public static void ResetStaticData()
         {
             OnAnyPlayerSpawned = null;
             OnAnyPlayerPickedSomething = null;
-            OnWalking = null;
+            OnAnyPlayerWalking = null;
         }
 
         public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
@@ -73,7 +73,7 @@ namespace KitchenChaos
                 LocalInstance = this;
             }
 
-            transform.position = spawnPositionList[KitchenGameMultiplayer.Instance.GetPlayerIndexFromClientId(OwnerClientId)];
+            transform.position = spawnPositionList[KitchenGameMultiplayer.Instance.GetPlayerDataIndexFromClientId(OwnerClientId)];
             OnAnyPlayerSpawned?.Invoke(this, EventArgs.Empty);
 
             if (IsServer)
@@ -194,20 +194,20 @@ namespace KitchenChaos
             }
 
             IsWalking = moveDir != Vector3.zero;
-            HandleWalkingSound(IsWalking);
             transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
+            if (IsWalking)
+            {
+                HandleWalkingSound();
+            }
         }
 
-        private void HandleWalkingSound(bool isWalking)
+        private void HandleWalkingSound()
         {
-            if (isWalking)
+            footstepTimer += Time.deltaTime;
+            if (footstepTimer >= footstepTimerMax)
             {
-                footstepTimer += Time.deltaTime;
-                if (footstepTimer >= footstepTimerMax)
-                {
-                    footstepTimer = 0f;
-                    OnWalking?.Invoke(LocalInstance, EventArgs.Empty);
-                }
+                footstepTimer = 0f;
+                OnAnyPlayerWalking?.Invoke(this, EventArgs.Empty);
             }
         }
 
