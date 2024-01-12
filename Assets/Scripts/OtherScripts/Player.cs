@@ -11,18 +11,14 @@ namespace KitchenChaos
     {
         public static Player LocalInstance { get; private set; }
 
-
         public static event EventHandler OnAnyPlayerSpawned;
 
         public static event EventHandler OnAnyPlayerPickedSomething;
-
-        public static event EventHandler OnAnyPlayerWalking;
 
         public static void ResetStaticData()
         {
             OnAnyPlayerSpawned = null;
             OnAnyPlayerPickedSomething = null;
-            OnAnyPlayerWalking = null;
         }
 
         public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
@@ -46,10 +42,7 @@ namespace KitchenChaos
         private readonly float rotateSpeed = 10f,
                                playerRadius = .7f,
                                interactDistance = 2f,
-                               moveSpeed = 7f,
-                               footstepTimerMax = .1f;
-
-        private float footstepTimer;
+                               moveSpeed = 7f;
 
         public bool IsWalking { get; private set; }
 
@@ -195,20 +188,6 @@ namespace KitchenChaos
 
             IsWalking = moveDir != Vector3.zero;
             transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
-            if (IsWalking)
-            {
-                HandleWalkingSound();
-            }
-        }
-
-        private void HandleWalkingSound()
-        {
-            footstepTimer += Time.deltaTime;
-            if (footstepTimer >= footstepTimerMax)
-            {
-                footstepTimer = 0f;
-                OnAnyPlayerWalking?.Invoke(this, EventArgs.Empty);
-            }
         }
 
         public Transform GetKitchenObjectFollowTransform()

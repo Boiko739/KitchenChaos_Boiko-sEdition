@@ -26,14 +26,14 @@ namespace KitchenChaos
         {
             BaseCounter.OnAnyObjectPlacedHere += BaseCounter_OnAnyobjectPlacedHere;
             TrashCounter.OnAnyTrashThrowen += TrashCounter_OnAnyTrashThrowen;
+            CuttingCounter.OnAnyCut += CuttingCounter_OnAnyCut;
+
             DeliveryManager.Instance.OnRecipeSuccess += DeliveryManagerInstance_OnRecipeSuccess;
             DeliveryManager.Instance.OnRecipeFailed += DeliveryManagerInstance_OnRecipeFailed;
-            CuttingCounter.OnAnyCut += CuttingCounter_OnAnyCut;
 
             CountdownTextUI.Instance.OnCountdownNumberChanged += GameStartCountdownUI_OnCountdownNumberChanged;
 
             Player.OnAnyPlayerPickedSomething += Player_OnAnyPlayerPickedSomething;
-            Player.OnAnyPlayerWalking += Player_OnAnyPlayerWalking;
         }
         public void PlayBurnWarningSound(StoveCounter stoveCounter)
         {
@@ -62,13 +62,6 @@ namespace KitchenChaos
             Player player = sender as Player;
             PlaySound(audioClipRefsSO.objectPickup, player.transform.position);
         }
-
-        private void Player_OnAnyPlayerWalking(object sender, EventArgs e)
-        {
-            Player player = sender as Player;
-            PlaySound(audioClipRefsSO.footsteps, player.transform.position);
-        }
-
 
         private void CuttingCounter_OnAnyCut(object sender, EventArgs e)
         {
