@@ -1,6 +1,6 @@
 using System;
 
-namespace KitchenChaos
+namespace OtherScripts
 {
     public interface IHasProgress
     {

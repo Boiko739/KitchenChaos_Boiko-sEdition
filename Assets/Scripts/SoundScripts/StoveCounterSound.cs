@@ -2,7 +2,7 @@ using Counters;
 using System;
 using UnityEngine;
 
-namespace KitchenChaos
+namespace OtherScripts
 {
     public class StoveCounterSound : MonoBehaviour
     {

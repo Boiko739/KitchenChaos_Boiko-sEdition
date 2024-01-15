@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace KitchenChaos
+namespace OtherScripts
 {
     public class TutorialUI : MonoBehaviour
     {

@@ -1,4 +1,3 @@
-using KitchenChaos;
 using OtherScripts;
 using TMPro;
 using Unity.Netcode;

@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
 
-namespace KitchenChaos
+namespace OtherScripts
 {
     public static class Loader
     {

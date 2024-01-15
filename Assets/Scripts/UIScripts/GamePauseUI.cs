@@ -1,4 +1,4 @@
-using KitchenChaos;
+using OtherScripts;
 using System;
 using Unity.Netcode;
 using UnityEngine;

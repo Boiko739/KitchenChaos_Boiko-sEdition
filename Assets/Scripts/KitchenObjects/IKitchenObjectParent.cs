@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-namespace KitchenChaos
+namespace OtherScripts
 {
     public interface IKitchenObjectParent
     {

@@ -1,7 +1,7 @@
 ﻿using Counters;
 using UnityEngine;
 
-namespace KitchenChaos
+namespace OtherScripts
 {
     public class ResetStaticDataManager : MonoBehaviour
     {

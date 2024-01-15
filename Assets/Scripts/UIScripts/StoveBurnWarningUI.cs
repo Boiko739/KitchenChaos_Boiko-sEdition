@@ -15,9 +15,10 @@ namespace MyUIs
             gameObject.SetActive(false);
         }
 
-        private void StoveCounter_OnProgressChanged(object sender, KitchenChaos.IHasProgress.OnProgressChangedEventArgs e)
+        private void StoveCounter_OnProgressChanged(object sender, OtherScripts.IHasProgress.OnProgressChangedEventArgs e)
         {
-            gameObject.SetActive(stoveCounter.CounterState.Value == StoveCounter.State.Fried && e.ProgressNormalized >= showWarningProgressAmount);
+            gameObject.SetActive(stoveCounter.CounterState.Value == StoveCounter.State.Fried 
+                              && e.ProgressNormalized >= showWarningProgressAmount);
         }
     }
 }

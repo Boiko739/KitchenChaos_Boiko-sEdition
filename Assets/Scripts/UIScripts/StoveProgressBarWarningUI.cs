@@ -22,10 +22,10 @@ namespace MyUIs
             animator.SetBool(IS_FLASHING, false);
         }
 
-        private void StoveCounter_OnProgressChanged(object sender, KitchenChaos.IHasProgress.OnProgressChangedEventArgs e)
+        private void StoveCounter_OnProgressChanged(object sender, OtherScripts.IHasProgress.OnProgressChangedEventArgs e)
         {
             animator.SetBool(IS_FLASHING, e.ProgressNormalized >= e.minWarningProgressAmount
-                                          && stoveCounter.CounterState.Value == StoveCounter.State.Fried);
+                                         && stoveCounter.CounterState.Value == StoveCounter.State.Fried);
         }
     }
 }

@@ -1,4 +1,4 @@
-using KitchenChaos;
+using OtherScripts;
 using OtherScripts;
 using System.Collections.Generic;
 using TMPro;
@@ -84,7 +84,6 @@ namespace MyUIs
         private void OnDestroy()
         {
             KitchenGameLobby.Instance.OnLobbyListChanged -= KitchenGameLobby_OnLobbyListChanged;
-
         }
     }
 }

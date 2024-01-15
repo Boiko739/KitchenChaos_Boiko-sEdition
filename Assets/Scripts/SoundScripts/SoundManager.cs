@@ -4,7 +4,7 @@ using MyUIs;
 using System;
 using UnityEngine;
 
-namespace KitchenChaos
+namespace OtherScripts
 {
     public class SoundManager : MonoBehaviour
     {

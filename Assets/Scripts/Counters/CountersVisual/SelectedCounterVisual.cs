@@ -1,4 +1,4 @@
-using KitchenChaos;
+using OtherScripts;
 using UnityEngine;
 
 namespace Counters

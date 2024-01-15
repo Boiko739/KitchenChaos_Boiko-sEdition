@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace KitchenChaos
+namespace OtherScripts
 {
     public class LookAtTheCamera : MonoBehaviour
     {

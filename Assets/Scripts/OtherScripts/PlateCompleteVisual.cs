@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace KitchenChaos
+namespace OtherScripts
 {
     public class PlateCompleteVisual : MonoBehaviour
     {

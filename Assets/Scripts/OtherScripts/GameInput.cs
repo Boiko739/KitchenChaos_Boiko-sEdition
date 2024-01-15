@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace KitchenChaos
+namespace OtherScripts
 {
     public class GameInput : MonoBehaviour
     {

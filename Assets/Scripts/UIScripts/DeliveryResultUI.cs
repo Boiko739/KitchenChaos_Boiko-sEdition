@@ -1,4 +1,4 @@
-using KitchenChaos;
+using OtherScripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
